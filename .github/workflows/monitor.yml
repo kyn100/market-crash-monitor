@@ -2,9 +2,11 @@ name: Update crash monitor
 
 on:
   schedule:
-    # 12:30 & 21:30 UTC = 8:30am & 5:30pm US Eastern (7:30/16:30 during winter time)
-    - cron: "30 12 * * *"
-    - cron: "30 21 * * *"
+    # 15:15 UTC: after the 8:30am and 10:00am ET data-release slots year-round
+    # 21:45 UTC: after the 4:00pm ET market close year-round (incl. winter time)
+    # Odd minutes chosen because GitHub delays jobs scheduled at :00/:30.
+    - cron: "15 15 * * *"
+    - cron: "45 21 * * *"
   workflow_dispatch:
 
 permissions:
