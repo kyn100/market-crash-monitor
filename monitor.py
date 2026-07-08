@@ -740,6 +740,138 @@ STATUS_COLORS = {"OK": "#1db954", "WATCH": "#e6c200", "ALERT": "#e53935",
                  "INFO": "#5b7a99", "N/A": "#666"}
 
 
+CAT_SHORT = {CAT_CURVE: "Curve", CAT_INFL: "Inflation", CAT_CREDIT: "Credit",
+             CAT_MONEY: "Money", CAT_LABOR: "Labor", CAT_GROWTH: "Growth",
+             CAT_HOUSING: "Housing", CAT_CONSUMER: "Consumer",
+             CAT_FISCAL: "Fiscal", CAT_MARKET: "Markets"}
+
+
+def svg_gauge(score, flag):
+    """Semicircular dial: green/yellow/orange/red zones, needle at score."""
+    cx, cy, r = 110, 108, 82
+
+    def pt(f, rad=r):
+        a = math.pi * f
+        return cx - rad * math.cos(a), cy - rad * math.sin(a)
+
+    def arc(f1, f2, color):
+        x1, y1 = pt(f1)
+        x2, y2 = pt(f2)
+        return (f'<path d="M {x1:.1f} {y1:.1f} A {r} {r} 0 0 1 {x2:.1f} {y2:.1f}" '
+                f'fill="none" stroke="{color}" stroke-width="17"/>')
+
+    zones = (arc(0.00, 0.20, FLAG_COLORS["GREEN"]) + arc(0.20, 0.40, FLAG_COLORS["YELLOW"])
+             + arc(0.40, 0.60, FLAG_COLORS["ORANGE"]) + arc(0.60, 1.00, FLAG_COLORS["RED"]))
+    nx, ny = pt(min(max(score, 0), 100) / 100.0, r - 22)
+    fc = FLAG_COLORS[flag]
+    ticks = ""
+    for v in (0, 20, 40, 60, 80, 100):
+        tx, ty = pt(v / 100.0, r + 14)
+        ticks += (f'<text x="{tx:.0f}" y="{ty:.0f}" font-size="9" fill="#8b97a6" '
+                  f'text-anchor="middle">{v}</text>')
+    return f'''<svg viewBox="0 0 220 132" width="220" height="132" xmlns="http://www.w3.org/2000/svg">
+{zones}{ticks}
+<line x1="{cx}" y1="{cy}" x2="{nx:.1f}" y2="{ny:.1f}" stroke="#dfe6ee" stroke-width="3.5" stroke-linecap="round"/>
+<circle cx="{cx}" cy="{cy}" r="6" fill="#dfe6ee"/>
+<text x="{cx}" y="{cy - 24}" font-size="26" font-weight="800" fill="{fc}" text-anchor="middle">{score:.0f}</text>
+<text x="{cx}" y="{cy + 20}" font-size="13" font-weight="700" fill="{fc}" text-anchor="middle" letter-spacing="2">{flag}</text>
+</svg>'''
+
+
+def svg_donut(n_on, total):
+    """Donut: share of pre-crash checklist signals currently on."""
+    cx = cy = 66
+    r = 48
+    c = 2 * math.pi * r
+    on_len = c * n_on / max(total, 1)
+    col = "#e53935" if n_on else "#1db954"
+    return f'''<svg viewBox="0 0 132 132" width="132" height="132" xmlns="http://www.w3.org/2000/svg">
+<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="#1db954" stroke-width="15" opacity="0.35"/>
+<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{col}" stroke-width="15"
+ stroke-dasharray="{on_len:.1f} {c:.1f}" transform="rotate(-90 {cx} {cy})" stroke-linecap="butt"/>
+<text x="{cx}" y="{cy - 2}" font-size="24" font-weight="800" fill="#dfe6ee" text-anchor="middle">{n_on}/{total}</text>
+<text x="{cx}" y="{cy + 18}" font-size="10" fill="#8b97a6" text-anchor="middle">signals on</text>
+</svg>'''
+
+
+def svg_radar(cat_scores, flag):
+    """Spider chart of risk by category (0-100 per axis)."""
+    cats = [c for c in CATEGORY_WEIGHTS if c in cat_scores]
+    n = len(cats)
+    if n < 3:
+        return ""
+    cx, cy, R = 135, 118, 78
+    fc = FLAG_COLORS[flag]
+
+    def pt(i, frac):
+        a = -math.pi / 2 + 2 * math.pi * i / n
+        return cx + R * frac * math.cos(a), cy + R * frac * math.sin(a)
+
+    rings = ""
+    for frac in (0.25, 0.5, 0.75, 1.0):
+        pts = " ".join(f"{x:.1f},{y:.1f}" for x, y in (pt(i, frac) for i in range(n)))
+        rings += f'<polygon points="{pts}" fill="none" stroke="#2a3140" stroke-width="1"/>'
+    axes, labels = "", ""
+    for i, cat in enumerate(cats):
+        x, y = pt(i, 1.0)
+        axes += f'<line x1="{cx}" y1="{cy}" x2="{x:.1f}" y2="{y:.1f}" stroke="#2a3140" stroke-width="1"/>'
+        lx, ly = pt(i, 1.0)
+        lx = cx + (lx - cx) * 1.22
+        ly = cy + (ly - cy) * 1.22 + 3
+        labels += (f'<text x="{lx:.1f}" y="{ly:.1f}" font-size="9.5" fill="#9fb0c3" '
+                   f'text-anchor="middle">{html.escape(CAT_SHORT.get(cat, cat))}</text>')
+    data_pts = " ".join(f"{x:.1f},{y:.1f}" for x, y in
+                        (pt(i, min(cat_scores[c], 100) / 100.0) for i, c in enumerate(cats)))
+    dots = "".join(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2.6" fill="{fc}"/>' for x, y in
+                   (pt(i, min(cat_scores[c], 100) / 100.0) for i, c in enumerate(cats)))
+    return f'''<svg viewBox="0 0 270 240" width="270" height="240" xmlns="http://www.w3.org/2000/svg">
+{rings}{axes}
+<polygon points="{data_pts}" fill="{fc}" fill-opacity="0.22" stroke="{fc}" stroke-width="2"/>
+{dots}{labels}
+</svg>'''
+
+
+def svg_trend(history):
+    """Composite score across recent runs, dots colored by flag."""
+    hs = history[-20:]
+    if not hs:
+        return ""
+    W, H = 330, 150
+    x0, x1, y0, y1 = 34, W - 14, 14, H - 30
+
+    def sx(i):
+        return x0 + (x1 - x0) * (i / max(len(hs) - 1, 1))
+
+    def sy(v):
+        return y1 - (y1 - y0) * (min(max(v, 0), 100) / 100.0)
+
+    grid = ""
+    for v, lbl in ((0, "0"), (20, "20"), (40, "40"), (60, "60"), (100, "100")):
+        gy = sy(v)
+        grid += (f'<line x1="{x0}" y1="{gy:.1f}" x2="{x1}" y2="{gy:.1f}" stroke="#2a3140" '
+                 f'stroke-width="1" stroke-dasharray="3 4"/>'
+                 f'<text x="{x0 - 6}" y="{gy + 3:.1f}" font-size="9" fill="#8b97a6" text-anchor="end">{lbl}</text>')
+    pts, dots = [], ""
+    for i, h in enumerate(hs):
+        try:
+            v = float(h.get("score", "") or 0)
+        except ValueError:
+            v = 0.0
+        x, y = sx(i), sy(v)
+        pts.append(f"{x:.1f},{y:.1f}")
+        col = FLAG_COLORS.get(h.get("flag", ""), "#8b97a6")
+        dots += f'<circle cx="{x:.1f}" cy="{y:.1f}" r="3.4" fill="{col}"><title>{html.escape(h.get("run_time",""))}: {v:g} ({html.escape(h.get("flag",""))})</title></circle>'
+    line = (f'<polyline points="{" ".join(pts)}" fill="none" stroke="#6ab7ff" stroke-width="2"/>'
+            if len(pts) > 1 else "")
+    lbl_a = html.escape((hs[0].get("run_time", "") or "")[:10])
+    lbl_b = html.escape((hs[-1].get("run_time", "") or "")[:16])
+    return f'''<svg viewBox="0 0 {W} {H}" width="{W}" height="{H}" xmlns="http://www.w3.org/2000/svg">
+{grid}{line}{dots}
+<text x="{x0}" y="{H - 8}" font-size="9" fill="#8b97a6">{lbl_a}</text>
+<text x="{x1}" y="{H - 8}" font-size="9" fill="#8b97a6" text-anchor="end">{lbl_b}</text>
+</svg>'''
+
+
 def fmt(v, unit=""):
     if v is None:
         return "-"
@@ -912,6 +1044,11 @@ def render_report(indicators, by_id, cat_scores, checklist, episodes, score, fla
   .now {{ background:#18222e; }}
   .sticky {{ position:sticky; left:0; background:#0e1117; }}
   .scrollx {{ overflow-x:auto; }}
+  .vizrow {{ display:flex; flex-wrap:wrap; gap:14px; margin:14px 0 16px; align-items:stretch; }}
+  .vizcard {{ background:#161c26; border:1px solid #232b39; border-radius:12px;
+             padding:12px 14px 8px; text-align:center; display:flex; flex-direction:column;
+             justify-content:space-between; }}
+  .vtitle {{ font-size:12px; color:#9fb0c3; margin-bottom:6px; }}
   .concl {{ background:#161c26; border:1px solid #232b39; border-left:4px solid {fc};
            border-radius:10px; padding:6px 20px; font-size:14.5px; line-height:1.65; }}
   details {{ margin:10px 0; }}
@@ -938,6 +1075,12 @@ def render_report(indicators, by_id, cat_scores, checklist, episodes, score, fla
 </div>
 
 <h2>Conclusions</h2>
+<div class="vizrow">
+  <div class="vizcard"><div class="vtitle">Composite risk gauge</div>{svg_gauge(score, flag)}</div>
+  <div class="vizcard"><div class="vtitle">Pre-crash checklist</div>{svg_donut(n_on, len(checklist))}</div>
+  <div class="vizcard"><div class="vtitle">Risk by category (0&ndash;100)</div>{svg_radar(cat_scores, flag)}</div>
+  <div class="vizcard"><div class="vtitle">Score trend, recent runs</div>{svg_trend(history)}</div>
+</div>
 <div class="concl">{concl_html}</div>
 
 <h2>Classic pre-crash checklist ({n_on}/{len(checklist)} present)</h2>
