@@ -36,6 +36,11 @@
   .now { background:#18222e; }
   .sticky { position:sticky; left:0; background:#0e1117; }
   .scrollx { overflow-x:auto; }
+  .vizrow { display:flex; flex-wrap:wrap; gap:14px; margin:14px 0 16px; align-items:stretch; }
+  .vizcard { background:#161c26; border:1px solid #232b39; border-radius:12px;
+             padding:12px 14px 8px; text-align:center; display:flex; flex-direction:column;
+             justify-content:space-between; }
+  .vtitle { font-size:12px; color:#9fb0c3; margin-bottom:6px; }
   .concl { background:#161c26; border:1px solid #232b39; border-left:4px solid #e6c200;
            border-radius:10px; padding:6px 20px; font-size:14.5px; line-height:1.65; }
   details { margin:10px 0; }
@@ -43,7 +48,7 @@
 </style></head><body>
 
 <h1>US Market Crash / Correction Monitor</h1>
-<div class="muted">Generated Wednesday, July 08 2026 at 21:44 &middot; 100 indicators tracked &middot; auto-refreshes hourly if left open</div>
+<div class="muted">Generated Wednesday, July 08 2026 at 22:02 &middot; 100 indicators tracked &middot; auto-refreshes hourly if left open</div>
 
 
 <div class="flagbox">
@@ -62,6 +67,32 @@
 </div>
 
 <h2>Conclusions</h2>
+<div class="vizrow">
+  <div class="vizcard"><div class="vtitle">Composite risk gauge</div><svg viewBox="0 0 220 132" width="220" height="132" xmlns="http://www.w3.org/2000/svg">
+<path d="M 28.0 108.0 A 82 82 0 0 1 43.7 59.8" fill="none" stroke="#1db954" stroke-width="17"/><path d="M 43.7 59.8 A 82 82 0 0 1 84.7 30.0" fill="none" stroke="#e6c200" stroke-width="17"/><path d="M 84.7 30.0 A 82 82 0 0 1 135.3 30.0" fill="none" stroke="#ff7a00" stroke-width="17"/><path d="M 135.3 30.0 A 82 82 0 0 1 192.0 108.0" fill="none" stroke="#e53935" stroke-width="17"/><text x="14" y="108" font-size="9" fill="#8b97a6" text-anchor="middle">0</text><text x="32" y="52" font-size="9" fill="#8b97a6" text-anchor="middle">20</text><text x="80" y="17" font-size="9" fill="#8b97a6" text-anchor="middle">40</text><text x="140" y="17" font-size="9" fill="#8b97a6" text-anchor="middle">60</text><text x="188" y="52" font-size="9" fill="#8b97a6" text-anchor="middle">80</text><text x="206" y="108" font-size="9" fill="#8b97a6" text-anchor="middle">100</text>
+<line x1="110" y1="108" x2="63.2" y2="70.5" stroke="#dfe6ee" stroke-width="3.5" stroke-linecap="round"/>
+<circle cx="110" cy="108" r="6" fill="#dfe6ee"/>
+<text x="110" y="84" font-size="26" font-weight="800" fill="#e6c200" text-anchor="middle">22</text>
+<text x="110" y="128" font-size="13" font-weight="700" fill="#e6c200" text-anchor="middle" letter-spacing="2">YELLOW</text>
+</svg></div>
+  <div class="vizcard"><div class="vtitle">Pre-crash checklist</div><svg viewBox="0 0 132 132" width="132" height="132" xmlns="http://www.w3.org/2000/svg">
+<circle cx="66" cy="66" r="48" fill="none" stroke="#1db954" stroke-width="15" opacity="0.35"/>
+<circle cx="66" cy="66" r="48" fill="none" stroke="#e53935" stroke-width="15"
+ stroke-dasharray="50.3 301.6" transform="rotate(-90 66 66)" stroke-linecap="butt"/>
+<text x="66" y="64" font-size="24" font-weight="800" fill="#dfe6ee" text-anchor="middle">2/12</text>
+<text x="66" y="84" font-size="10" fill="#8b97a6" text-anchor="middle">signals on</text>
+</svg></div>
+  <div class="vizcard"><div class="vtitle">Risk by category (0&ndash;100)</div><svg viewBox="0 0 270 240" width="270" height="240" xmlns="http://www.w3.org/2000/svg">
+<polygon points="135.0,98.5 146.5,102.2 153.5,112.0 153.5,124.0 146.5,133.8 135.0,137.5 123.5,133.8 116.5,124.0 116.5,112.0 123.5,102.2" fill="none" stroke="#2a3140" stroke-width="1"/><polygon points="135.0,79.0 157.9,86.4 172.1,105.9 172.1,130.1 157.9,149.6 135.0,157.0 112.1,149.6 97.9,130.1 97.9,105.9 112.1,86.4" fill="none" stroke="#2a3140" stroke-width="1"/><polygon points="135.0,59.5 169.4,70.7 190.6,99.9 190.6,136.1 169.4,165.3 135.0,176.5 100.6,165.3 79.4,136.1 79.4,99.9 100.6,70.7" fill="none" stroke="#2a3140" stroke-width="1"/><polygon points="135.0,40.0 180.8,54.9 209.2,93.9 209.2,142.1 180.8,181.1 135.0,196.0 89.2,181.1 60.8,142.1 60.8,93.9 89.2,54.9" fill="none" stroke="#2a3140" stroke-width="1"/><line x1="135" y1="118" x2="135.0" y2="40.0" stroke="#2a3140" stroke-width="1"/><line x1="135" y1="118" x2="180.8" y2="54.9" stroke="#2a3140" stroke-width="1"/><line x1="135" y1="118" x2="209.2" y2="93.9" stroke="#2a3140" stroke-width="1"/><line x1="135" y1="118" x2="209.2" y2="142.1" stroke="#2a3140" stroke-width="1"/><line x1="135" y1="118" x2="180.8" y2="181.1" stroke="#2a3140" stroke-width="1"/><line x1="135" y1="118" x2="135.0" y2="196.0" stroke="#2a3140" stroke-width="1"/><line x1="135" y1="118" x2="89.2" y2="181.1" stroke="#2a3140" stroke-width="1"/><line x1="135" y1="118" x2="60.8" y2="142.1" stroke="#2a3140" stroke-width="1"/><line x1="135" y1="118" x2="60.8" y2="93.9" stroke="#2a3140" stroke-width="1"/><line x1="135" y1="118" x2="89.2" y2="54.9" stroke="#2a3140" stroke-width="1"/>
+<polygon points="135.0,69.2 140.7,110.1 135.0,118.0 146.4,121.7 157.9,149.6 135.0,121.2 115.4,145.0 105.3,127.6 135.0,118.0 132.7,114.8" fill="#e6c200" fill-opacity="0.22" stroke="#e6c200" stroke-width="2"/>
+<circle cx="135.0" cy="69.2" r="2.6" fill="#e6c200"/><circle cx="140.7" cy="110.1" r="2.6" fill="#e6c200"/><circle cx="135.0" cy="118.0" r="2.6" fill="#e6c200"/><circle cx="146.4" cy="121.7" r="2.6" fill="#e6c200"/><circle cx="157.9" cy="149.6" r="2.6" fill="#e6c200"/><circle cx="135.0" cy="121.2" r="2.6" fill="#e6c200"/><circle cx="115.4" cy="145.0" r="2.6" fill="#e6c200"/><circle cx="105.3" cy="127.6" r="2.6" fill="#e6c200"/><circle cx="135.0" cy="118.0" r="2.6" fill="#e6c200"/><circle cx="132.7" cy="114.8" r="2.6" fill="#e6c200"/><text x="135.0" y="25.8" font-size="9.5" fill="#9fb0c3" text-anchor="middle">Curve</text><text x="190.9" y="44.0" font-size="9.5" fill="#9fb0c3" text-anchor="middle">Credit</text><text x="225.5" y="91.6" font-size="9.5" fill="#9fb0c3" text-anchor="middle">Money</text><text x="225.5" y="150.4" font-size="9.5" fill="#9fb0c3" text-anchor="middle">Labor</text><text x="190.9" y="198.0" font-size="9.5" fill="#9fb0c3" text-anchor="middle">Inflation</text><text x="135.0" y="216.2" font-size="9.5" fill="#9fb0c3" text-anchor="middle">Growth</text><text x="79.1" y="198.0" font-size="9.5" fill="#9fb0c3" text-anchor="middle">Housing</text><text x="44.5" y="150.4" font-size="9.5" fill="#9fb0c3" text-anchor="middle">Consumer</text><text x="44.5" y="91.6" font-size="9.5" fill="#9fb0c3" text-anchor="middle">Fiscal</text><text x="79.1" y="44.0" font-size="9.5" fill="#9fb0c3" text-anchor="middle">Markets</text>
+</svg></div>
+  <div class="vizcard"><div class="vtitle">Score trend, recent runs</div><svg viewBox="0 0 330 150" width="330" height="150" xmlns="http://www.w3.org/2000/svg">
+<line x1="34" y1="120.0" x2="316" y2="120.0" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="123.0" font-size="9" fill="#8b97a6" text-anchor="end">0</text><line x1="34" y1="98.8" x2="316" y2="98.8" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="101.8" font-size="9" fill="#8b97a6" text-anchor="end">20</text><line x1="34" y1="77.6" x2="316" y2="77.6" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="80.6" font-size="9" fill="#8b97a6" text-anchor="end">40</text><line x1="34" y1="56.4" x2="316" y2="56.4" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="59.4" font-size="9" fill="#8b97a6" text-anchor="end">60</text><line x1="34" y1="14.0" x2="316" y2="14.0" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="17.0" font-size="9" fill="#8b97a6" text-anchor="end">100</text><polyline points="34.0,120.0 81.0,120.0 128.0,120.0 175.0,97.2 222.0,97.2 269.0,97.2 316.0,97.2" fill="none" stroke="#6ab7ff" stroke-width="2"/><circle cx="34.0" cy="120.0" r="3.4" fill="#1db954"><title>2026-07-08 17:02: 0 (GREEN)</title></circle><circle cx="81.0" cy="120.0" r="3.4" fill="#1db954"><title>2026-07-08 17:25: 0 (GREEN)</title></circle><circle cx="128.0" cy="120.0" r="3.4" fill="#1db954"><title>2026-07-08 17:27: 0 (GREEN)</title></circle><circle cx="175.0" cy="97.2" r="3.4" fill="#e6c200"><title>2026-07-08 17:34: 21.5 (YELLOW)</title></circle><circle cx="222.0" cy="97.2" r="3.4" fill="#e6c200"><title>2026-07-08 21:44: 21.5 (YELLOW)</title></circle><circle cx="269.0" cy="97.2" r="3.4" fill="#e6c200"><title>2026-07-08 17:59: 21.5 (YELLOW)</title></circle><circle cx="316.0" cy="97.2" r="3.4" fill="#e6c200"><title>2026-07-08 22:02: 21.5 (YELLOW)</title></circle>
+<text x="34" y="142" font-size="9" fill="#8b97a6">2026-07-08</text>
+<text x="316" y="142" font-size="9" fill="#8b97a6" text-anchor="end">2026-07-08 22:02</text>
+</svg></div>
+</div>
 <div class="concl"><p>Composite crash-risk score is 21.5/100 (YELLOW). 2 of 12 classic pre-crash conditions are currently present.</p><p>Warning signs currently active: yield curve inverted / re-steepening (10y-3m = +0.69pp); consumer sentiment collapsed (UMich 44.8).</p><p>Notably absent: sahm rule triggered, unemployment rising off its low, jobless claims trending up, credit spreads widening, financial conditions tightening, equity market breaking down. Historically, major crashes (2000, 2007) were preceded by several of these turning on together, not in isolation.</p><p>Closest historical analog: Q4-2018 correction (market top 2018-09-20, eventual drawdown -20%). Today&#x27;s readings are at least as stressed as that top on 85% of 13 comparable indicators. A high match means conditions RESEMBLE that pre-crash moment; it is a similarity measure, not a prediction.</p><p>Most stressed areas right now: Yield Curve &amp; Rates (62/100), Inflation (50/100), Housing (43/100).</p><p>The strongest reassurance: the labor market has not crossed recession thresholds (Sahm rule off) and credit markets are not pricing distress. Since 1970 no major (&gt;30%) crash has unfolded with both of these calm.</p><p>Caveats: most warning signals produce false positives; corrections of 5-10% happen in most years regardless of conditions; exogenous shocks (1987 program trading, COVID) can strike without macro warning. This dashboard measures resemblance to past pre-crash conditions - it cannot time the market and is not investment advice.</p></div>
 
 <h2>Classic pre-crash checklist (2/12 present)</h2>
@@ -883,30 +914,30 @@
           <td><span class="chip" style="background:#1db954">OK</span>
               </td></tr><tr>
           <td>Gold (YoY)</td><td class="muted">Markets</td>
-          <td><b>23.96%</b></td>
+          <td><b>24.09%</b></td>
           <td>35.72%</td>
-          <td><span style='color:#8aa'>&#9660; 43.64</span></td><td>80</td>
+          <td><span style='color:#8aa'>&#9660; 43.51</span></td><td>80</td>
           <td class="muted">2026-07-08</td>
           <td><span class="chip" style="background:#5b7a99">INFO</span>
               </td></tr><tr>
           <td>Copper (YoY, growth proxy)</td><td class="muted">Markets</td>
-          <td><b>41.03%</b></td>
+          <td><b>41.27%</b></td>
           <td>4.10%</td>
-          <td><span style='color:#1db954'>&#9650; 2.67</span></td><td>94</td>
+          <td><span style='color:#1db954'>&#9650; 2.90</span></td><td>94</td>
           <td class="muted">2026-07-08</td>
           <td><span class="chip" style="background:#1db954">OK</span>
               </td></tr><tr>
           <td>Bitcoin (YoY, risk appetite)</td><td class="muted">Markets</td>
-          <td><b>-46.41%</b></td>
+          <td><b>-46.28%</b></td>
           <td>79.14%</td>
-          <td><span style='color:#8aa'>&#9660; 23.19</span></td><td>8</td>
+          <td><span style='color:#8aa'>&#9660; 23.05</span></td><td>8</td>
           <td class="muted">2026-07-08</td>
           <td><span class="chip" style="background:#5b7a99">INFO</span>
               </td></tr></table>
 
 <h2>Run history</h2>
 <table><tr><th>Run</th><th>Score</th><th>Flag</th><th>Alerts</th><th>Watches</th><th>S&amp;P drawdown</th></tr>
-<tr><td>2026-07-08 21:44</td><td>21.5</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>5</td><td>20</td><td>-1.3%</td></tr><tr><td>2026-07-08 17:34</td><td>21.5</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>5</td><td>20</td><td>-1.3%</td></tr><tr><td>2026-07-08 17:27</td><td>0.0</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>0</td><td>0</td><td>-1.3%</td></tr><tr><td>2026-07-08 17:25</td><td>0.0</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>0</td><td>0</td><td>-1.3%</td></tr><tr><td>2026-07-08 17:02</td><td>0.0</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>0</td><td>0</td><td>-1.3%</td></tr></table>
+<tr><td>2026-07-08 22:02</td><td>21.5</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>5</td><td>20</td><td>-1.3%</td></tr><tr><td>2026-07-08 17:59</td><td>21.5</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>5</td><td>20</td><td>-1.3%</td></tr><tr><td>2026-07-08 21:44</td><td>21.5</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>5</td><td>20</td><td>-1.3%</td></tr><tr><td>2026-07-08 17:34</td><td>21.5</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>5</td><td>20</td><td>-1.3%</td></tr><tr><td>2026-07-08 17:27</td><td>0.0</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>0</td><td>0</td><td>-1.3%</td></tr><tr><td>2026-07-08 17:25</td><td>0.0</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>0</td><td>0</td><td>-1.3%</td></tr><tr><td>2026-07-08 17:02</td><td>0.0</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>0</td><td>0</td><td>-1.3%</td></tr></table>
 
 
 <p class="muted" style="margin-top:28px">Sources: Federal Reserve Economic Data (FRED), Yahoo Finance.
