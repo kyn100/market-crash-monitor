@@ -1,0 +1,7 @@
+# Local secrets - never commit the API key
+config.json
+
+# Locally generated report (the published copy lives in docs/index.html)
+report.html
+
+__pycache__/
