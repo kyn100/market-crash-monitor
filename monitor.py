@@ -16,6 +16,7 @@ Data sources:
 NOT investment advice. Signals are probabilistic; most warnings do not end in crashes.
 """
 
+import bisect
 import concurrent.futures
 import csv
 import datetime as dt
@@ -359,19 +360,15 @@ class Indicator:
 
     def as_of(self, asof):
         """Re-evaluate this indicator using only observations up to `asof`,
-        applying the exact same percentile windows and special rules."""
+        applying the exact same percentile windows and special rules.
+        Metric arrays are sliced from the parent (all transforms are
+        backward-looking, so slicing is exact) to keep bulk screening fast."""
         snap = Indicator(self.sid, self.src, self.name, self.cat,
                          self.disp, self.unit, self.dir)
         if self.error or not self.dates:
             snap.error = self.error or "no data"
             return snap
-        lo, hi = 0, len(self.dates)
-        while lo < hi:
-            mid = (lo + hi) // 2
-            if self.dates[mid] <= asof:
-                lo = mid + 1
-            else:
-                hi = mid
+        lo = bisect.bisect_right(self.dates, asof)
         snap.dates = self.dates[:lo]
         snap.values = self.values[:lo]
         if not snap.dates:
@@ -380,8 +377,13 @@ class Indicator:
         if (asof - snap.dates[-1]).days > 550:
             snap.error = "no data near this date"
             return snap
+        if not self.mdates:
+            self.mdates, self.mvalues = build_metric(self.dates, self.values, self.disp)
+        ml = bisect.bisect_right(self.mdates, asof)
+        snap.mdates = self.mdates[:ml]
+        snap.mvalues = self.mvalues[:ml]
         try:
-            snap.compute()
+            snap._score()
         except Exception as ex:
             snap.error = f"compute failed: {type(ex).__name__}"
             snap.status = "N/A"
@@ -391,6 +393,9 @@ class Indicator:
         if self.error or not self.dates:
             return
         self.mdates, self.mvalues = build_metric(self.dates, self.values, self.disp)
+        self._score()
+
+    def _score(self):
         if not self.mdates:
             self.error = "no usable data"
             return
@@ -426,10 +431,11 @@ class Indicator:
         # trend: is the 6-month move in the risky direction and large vs history?
         if self.trend6m is not None:
             cutoff = self.current_date - dt.timedelta(days=int(15 * 365.25))
+            i0 = bisect.bisect_left(self.mdates, cutoff)
+            recent = list(zip(self.mdates[i0:], self.mvalues[i0:]))
+            step = max(1, len(recent) // 500)  # sample dense daily series
             moves = []
-            for d, v in zip(self.mdates, self.mvalues):
-                if d < cutoff:
-                    continue
+            for d, v in recent[::step]:
                 pv = self.metric_at(d - dt.timedelta(days=183))
                 if pv is not None:
                     moves.append(v - pv)
@@ -694,6 +700,107 @@ def episode_similarity(by_id):
     return rows
 
 
+def healthy_dates(sp):
+    """Control sample of certified 'healthy market' moments: two dates per year
+    since 1965, excluding anything within 1y before / 2y after a crash onset,
+    and excluding dates where the S&P fell >15% within the following year."""
+    out = []
+    last = sp.dates[-1] if sp and sp.dates else dt.date.today()
+    onsets = [dt.date.fromisoformat(ds) for ds, _, _ in EPISODES]
+    for y in range(1965, dt.date.today().year + 1):
+        for m in (3, 9):
+            d = dt.date(y, m, 1)
+            if d + dt.timedelta(days=365) > last:
+                continue  # too recent to certify as healthy
+            if any(o - dt.timedelta(days=365) <= d <= o + dt.timedelta(days=730)
+                   for o in onsets):
+                continue
+            if sp and sp.dates:
+                _, pv = last_on_or_before(sp.dates, sp.values, d)
+                if pv is None:
+                    continue
+                i0 = bisect.bisect_right(sp.dates, d)
+                i1 = bisect.bisect_right(sp.dates, d + dt.timedelta(days=365))
+                fwd = sp.values[i0:i1]
+                if not fwd or min(fwd) / pv - 1 < -0.15:
+                    continue
+            out.append(d)
+    return out
+
+
+def factor_analysis(indicators, by_id, checklist_today):
+    """Empirically find the factors that past crashes shared but healthy markets
+    lacked: evaluate every indicator condition (WATCH/ALERT) and checklist rule
+    at all crash tops AND at the healthy control dates, rank by separation,
+    then check which of the top factors are flashing today."""
+    sp = by_id.get("^GSPC")
+    bull_dates = healthy_dates(sp)
+    crash_dates = [dt.date.fromisoformat(ds) for ds, _, _ in EPISODES]
+
+    def states_at(d):
+        by_ep = {ind.sid: ind.as_of(d) for ind in indicators}
+        st = {}
+        for i in by_ep.values():
+            if i.dir != 0 and i.status in ("OK", "WATCH", "ALERT"):
+                st[("ind", i.sid)] = i.status in ("WATCH", "ALERT")
+        for c in build_checklist(by_ep):
+            if c["detail"] != "n/a":
+                st[("chk", c["name"])] = c["on"]
+        return st
+
+    crash_states = [states_at(d) for d in crash_dates]
+    bull_states = [states_at(d) for d in bull_dates]
+
+    today_states = {}
+    for i in indicators:
+        if i.dir != 0 and i.status in ("OK", "WATCH", "ALERT"):
+            today_states[("ind", i.sid)] = i.status in ("WATCH", "ALERT")
+    for c in checklist_today:
+        if c["detail"] != "n/a":
+            today_states[("chk", c["name"])] = c["on"]
+
+    keys = set()
+    for s in crash_states + bull_states:
+        keys.update(s)
+    factors = []
+    for k in keys:
+        cvals = [s[k] for s in crash_states if k in s]
+        bvals = [s[k] for s in bull_states if k in s]
+        if len(cvals) < 5 or len(bvals) < 10:
+            continue
+        crate = sum(cvals) / len(cvals)
+        brate = sum(bvals) / len(bvals)
+        if crate - brate <= 0.10:
+            continue  # keep only factors that genuinely discriminate
+        kind, key = k
+        name = by_id[key].name if kind == "ind" else key
+        factors.append({"kind": kind, "name": name,
+                        "crash_on": sum(cvals), "crash_n": len(cvals),
+                        "crash_rate": crate, "bull_rate": brate,
+                        "gap": crate - brate, "today": today_states.get(k)})
+    factors.sort(key=lambda f: (-f["gap"], f["kind"]))
+    # a checklist rule and its backing indicator produce identical stats -
+    # keep only one of each such pair
+    seen, deduped = set(), []
+    for f in factors:
+        sig = (f["crash_on"], f["crash_n"], round(f["bull_rate"], 4), f["today"])
+        if sig in seen:
+            continue
+        seen.add(sig)
+        deduped.append(f)
+    factors = deduped[:20]
+
+    known = [f for f in factors if f["today"] is not None]
+    today_pct = 100 * sum(1 for f in known if f["today"]) / len(known) if known else 0.0
+    crash_avg = 100 * statistics.fmean(f["crash_rate"] for f in factors) if factors else 0.0
+    bull_avg = 100 * statistics.fmean(f["bull_rate"] for f in factors) if factors else 0.0
+    span = max(crash_avg - bull_avg, 1e-9)
+    position = min(max((today_pct - bull_avg) / span, 0.0), 1.0)
+    return {"factors": factors, "n_bull": len(bull_dates), "n_crash": len(crash_dates),
+            "today_pct": today_pct, "crash_avg": crash_avg, "bull_avg": bull_avg,
+            "position": position}
+
+
 def episode_snapshots(indicators):
     """Run the full scoring engine as of each historical market top."""
     snaps = []
@@ -729,7 +836,7 @@ def overall_flag(cat_scores, checklist):
 
 
 def write_conclusions(score, flag, n_on, checklist, episodes, by_id, cat_scores,
-                      ep_snaps=None):
+                      ep_snaps=None, factor_summary=None):
     """Deterministic reasoning -> prose conclusions."""
     paras = []
     on_items = [c for c in checklist if c["on"]]
@@ -738,6 +845,26 @@ def write_conclusions(score, flag, n_on, checklist, episodes, by_id, cat_scores,
     p = (f"Composite crash-risk score is {score}/100 ({flag}). "
          f"{n_on} of {len(checklist)} classic pre-crash conditions are currently present.")
     paras.append(p)
+
+    if factor_summary and factor_summary["factors"]:
+        fs = factor_summary
+        pos = fs["position"]
+        if pos < 0.25:
+            verdict = "much closer to typical healthy-market conditions than to a pre-crash top"
+        elif pos < 0.5:
+            verdict = "closer to healthy-market conditions than to a pre-crash top, but drifting"
+        elif pos < 0.75:
+            verdict = "closer to typical pre-crash conditions than to a healthy market"
+        else:
+            verdict = "at levels typical of past pre-crash tops"
+        flashing = [f["name"] for f in fs["factors"] if f["today"]][:6]
+        p = (f"THE CRASH-SIGNATURE TEST (the most direct better-or-worse yardstick): of the "
+             f"{len(fs['factors'])} factors that best separate pre-crash tops from healthy bull markets, "
+             f"{fs['today_pct']:.0f}% are flashing today, versus {fs['crash_avg']:.0f}% at a typical pre-crash "
+             f"top and {fs['bull_avg']:.0f}% in a typical healthy market - {verdict}.")
+        if flashing:
+            p += " Signature factors flashing now: " + ", ".join(flashing) + "."
+        paras.append(p)
 
     if on_items:
         names = "; ".join(f"{c['name'].lower()} ({c['detail']})" for c in on_items[:6])
@@ -963,6 +1090,42 @@ def svg_trend(history):
 </svg>'''
 
 
+def svg_signature(crash_avg, today_pct, bull_avg, flag):
+    """Three bars: share of crash-signature factors flashing at a typical
+    pre-crash top, today, and in a typical healthy market."""
+    rows = [("Typical pre-crash top", crash_avg, "#e53935"),
+            ("TODAY", today_pct, FLAG_COLORS[flag]),
+            ("Typical healthy market", bull_avg, "#1db954")]
+    rh, x0, W = 34, 186, 600
+    xmax = W - 62
+    H = len(rows) * rh + 28
+
+    def sx(v):
+        return x0 + (xmax - x0) * min(max(v, 0), 100) / 100.0
+
+    grid = ""
+    for v in (25, 50, 75, 100):
+        gx = sx(v)
+        grid += (f'<line x1="{gx:.1f}" y1="8" x2="{gx:.1f}" y2="{H - 20}" '
+                 f'stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/>'
+                 f'<text x="{gx:.1f}" y="{H - 6}" font-size="9" fill="#8b97a6" '
+                 f'text-anchor="middle">{v}%</text>')
+    bars = ""
+    for i, (label, v, col) in enumerate(rows):
+        y = 10 + i * rh
+        w = "800" if label == "TODAY" else "400"
+        lc = "#ffffff" if label == "TODAY" else "#9fb0c3"
+        outline = ' stroke="#dfe6ee" stroke-width="1.6"' if label == "TODAY" else ""
+        bars += (f'<text x="{x0 - 8}" y="{y + 15}" font-size="11.5" fill="{lc}" '
+                 f'font-weight="{w}" text-anchor="end">{label}</text>'
+                 f'<rect x="{x0}" y="{y}" width="{max(sx(v) - x0, 2):.1f}" height="19" rx="4" '
+                 f'fill="{col}"{outline}/>'
+                 f'<text x="{sx(v) + 6:.1f}" y="{y + 14}" font-size="11.5" fill="#dfe6ee" '
+                 f'font-weight="{w}">{v:.0f}%</text>')
+    return (f'<svg viewBox="0 0 {W} {H}" width="{W}" height="{H}" '
+            f'xmlns="http://www.w3.org/2000/svg">{grid}{bars}</svg>')
+
+
 def svg_rank(ep_snaps, score, flag):
     """Horizontal bar ranking: TODAY among all historical pre-crash scores."""
     entries = ([{"label": "TODAY", "score": score, "flag": flag, "today": True}]
@@ -1047,7 +1210,7 @@ def render_episode_cards(ep_snaps, score, flag, n_on, n_chk, cat_scores, n_score
 
 def render_report(indicators, by_id, cat_scores, checklist, episodes, score, flag,
                   msg, n_on, conclusions, history, prev_score, fred_key_missing,
-                  failures, ep_snaps):
+                  failures, ep_snaps, factor_summary):
     e = html.escape
     now = dt.datetime.now().strftime("%A, %B %d %Y at %H:%M")
     fc = FLAG_COLORS[flag]
@@ -1087,6 +1250,46 @@ def render_report(indicators, by_id, cat_scores, checklist, episodes, score, fla
           <td class="{'on' if c['on'] else 'off'}">{state}</td>
           <td>{e(c['detail'])}</td>
           <td class="muted">{e(c['precedent'])}</td></tr>"""
+
+    # crash-signature factor table
+    factor_rows = ""
+    for f in (factor_summary["factors"] if factor_summary else []):
+        kind = "rule" if f["kind"] == "chk" else "indicator"
+        cp = 100 * f["crash_rate"]
+        bp = 100 * f["bull_rate"]
+        gp = 100 * f["gap"]
+        if f["today"] is None:
+            tchip = '<span class="chip" style="background:#666">n/a</span>'
+        elif f["today"]:
+            tchip = '<span class="chip" style="background:#e53935">FLASHING</span>'
+        else:
+            tchip = '<span class="chip" style="background:#1db954">clear</span>'
+        factor_rows += f"""<tr>
+          <td>{e(f['name'])} <span class="muted">({kind})</span></td>
+          <td><div class="bar"><div style="width:{cp:.0f}%;background:#e53935"></div></div>
+              {f['crash_on']}/{f['crash_n']} tops ({cp:.0f}%)</td>
+          <td><div class="bar"><div style="width:{bp:.0f}%;background:#1db954"></div></div> {bp:.0f}%</td>
+          <td><b>{gp:+.0f}pp</b></td>
+          <td>{tchip}</td></tr>"""
+
+    signature_html = ""
+    if factor_summary and factor_summary["factors"]:
+        fs = factor_summary
+        signature_html = f"""
+<h2>The crash signature: factors past crashes shared but healthy markets lacked</h2>
+<div class="muted" style="margin-bottom:8px">Each factor below was checked at all {fs['n_crash']} pre-crash market
+tops AND at {fs['n_bull']} certified healthy-market control dates (algorithmically chosen: at least 1 year from any
+crash, no &gt;15% drawdown in the following year). Only factors that flash much more often before crashes than in
+healthy markets make this list &mdash; ranked by that separation. The right column is the answer to "how are we
+doing now" on the evidence that actually discriminates.</div>
+<div class="vizcard" style="max-width:660px;margin-bottom:14px">
+  <div class="vtitle">Share of the {len(fs['factors'])} crash-signature factors currently flashing</div>
+  {svg_signature(fs['crash_avg'], fs['today_pct'], fs['bull_avg'], flag)}
+  <div class="muted" style="margin-top:4px">Today sits {fs['position'] * 100:.0f}% of the way from typical
+  healthy conditions to typical pre-crash conditions.</div>
+</div>
+<table><tr><th>Factor</th><th>Flashing before crashes</th><th>Flashing in healthy markets</th><th>Separation</th><th>TODAY</th></tr>
+{factor_rows}</table>"""
 
     # episode table: better / similar / worse today vs each market top
     verdict_style = {"better today": ("#1db954", "TODAY IS BETTER"),
@@ -1272,6 +1475,7 @@ def render_report(indicators, by_id, cat_scores, checklist, episodes, score, fla
   <div class="vizcard"><div class="vtitle">Score trend, recent runs</div>{svg_trend(history)}</div>
 </div>
 <div class="concl">{concl_html}</div>
+{signature_html}
 
 <h2>Classic pre-crash checklist ({n_on}/{len(checklist)} present)</h2>
 <table><tr><th>Condition</th><th>Status</th><th>Current reading</th><th>Historical precedent</th></tr>
@@ -1368,8 +1572,10 @@ def main():
     score, flag, msg, n_on = overall_flag(cat_scores, checklist)
     print("Re-running the rulebook at 10 historical market tops...")
     ep_snaps = episode_snapshots(indicators)
+    print("Screening factors against healthy-market control dates...")
+    factor_summary = factor_analysis(indicators, by_id, checklist)
     conclusions = write_conclusions(score, flag, n_on, checklist, episodes, by_id,
-                                    cat_scores, ep_snaps)
+                                    cat_scores, ep_snaps, factor_summary)
 
     history = read_history()
     prev_score = None
@@ -1392,7 +1598,12 @@ def main():
     failures = [f"{i.sid} - {i.error}" for i in indicators if i.error]
     render_report(indicators, by_id, cat_scores, checklist, episodes, score, flag,
                   msg, n_on, conclusions, history, prev_score, fred_key_missing,
-                  failures, ep_snaps)
+                  failures, ep_snaps, factor_summary)
+    if factor_summary and factor_summary["factors"]:
+        fs = factor_summary
+        print(f"Crash signature: {fs['today_pct']:.0f}% of {len(fs['factors'])} factors flashing "
+              f"(healthy avg {fs['bull_avg']:.0f}%, pre-crash avg {fs['crash_avg']:.0f}%, "
+              f"position {fs['position'] * 100:.0f}%)")
 
     print(f"FLAG: {flag}  (score {score}/100, {n_alert} alerts, {n_watch} watches, "
           f"{len(failures)} unavailable)")

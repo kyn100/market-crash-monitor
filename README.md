@@ -46,6 +46,12 @@ To activate everything:
 - The full rulebook is also re-run **as of each historical market top** (using only
   data that existed on that date), and each crash gets the same gauge / checklist
   donut / category radar shown side-by-side with today for direct comparison.
+- **The crash signature**: every factor is also evaluated at ~40 certified
+  healthy-market control dates (algorithmically chosen bull moments). Factors that
+  flash before crashes but not in healthy markets are ranked by that separation,
+  and today's conditions are scored against that empirically-derived list —
+  "X% of crash-signature factors flashing, vs Y% at a typical pre-crash top and
+  Z% in a typical healthy market."
 
 **Not investment advice.** Most warning signals produce false positives, and
 shock-driven crashes (1987, 2020) can arrive without macro warning.
