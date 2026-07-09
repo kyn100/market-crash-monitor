@@ -1,0 +1,3 @@
+# history.csv is append-only from two writers (local PC + GitHub Actions);
+# union merge keeps both sides' rows instead of conflicting.
+history.csv merge=union

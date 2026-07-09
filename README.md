@@ -43,6 +43,9 @@ To activate everything:
   average, VIX regime, permits contraction, sentiment extremes, CFNAI -0.70.
 - A 12-item "classic pre-crash checklist" and a similarity match against ten
   historical market tops feed the composite score (0–100).
+- The full rulebook is also re-run **as of each historical market top** (using only
+  data that existed on that date), and each crash gets the same gauge / checklist
+  donut / category radar shown side-by-side with today for direct comparison.
 
 **Not investment advice.** Most warning signals produce false positives, and
 shock-driven crashes (1987, 2020) can arrive without macro warning.

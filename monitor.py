@@ -357,6 +357,36 @@ class Indicator:
             return None
         return v
 
+    def as_of(self, asof):
+        """Re-evaluate this indicator using only observations up to `asof`,
+        applying the exact same percentile windows and special rules."""
+        snap = Indicator(self.sid, self.src, self.name, self.cat,
+                         self.disp, self.unit, self.dir)
+        if self.error or not self.dates:
+            snap.error = self.error or "no data"
+            return snap
+        lo, hi = 0, len(self.dates)
+        while lo < hi:
+            mid = (lo + hi) // 2
+            if self.dates[mid] <= asof:
+                lo = mid + 1
+            else:
+                hi = mid
+        snap.dates = self.dates[:lo]
+        snap.values = self.values[:lo]
+        if not snap.dates:
+            snap.error = "series did not exist yet"
+            return snap
+        if (asof - snap.dates[-1]).days > 550:
+            snap.error = "no data near this date"
+            return snap
+        try:
+            snap.compute()
+        except Exception as ex:
+            snap.error = f"compute failed: {type(ex).__name__}"
+            snap.status = "N/A"
+        return snap
+
     def compute(self):
         if self.error or not self.dates:
             return
@@ -643,6 +673,22 @@ def episode_similarity(by_id):
     return rows
 
 
+def episode_snapshots(indicators):
+    """Run the full scoring engine as of each historical market top."""
+    snaps = []
+    for date_s, label, dd in EPISODES:
+        asof = dt.date.fromisoformat(date_s)
+        by_ep = {ind.sid: ind.as_of(asof) for ind in indicators}
+        cs = category_scores(by_ep.values())
+        chk = build_checklist(by_ep)
+        sc, fl, _msg, non = overall_flag(cs, chk)
+        n_scored = sum(1 for i in by_ep.values() if i.status in STATUS_SCORE)
+        snaps.append({"label": label, "date": asof, "dd": dd, "score": sc,
+                      "flag": fl, "n_on": non, "n_chk": len(chk),
+                      "cat_scores": cs, "n_scored": n_scored})
+    return snaps
+
+
 def overall_flag(cat_scores, checklist):
     total_w = sum(CATEGORY_WEIGHTS.get(c, 5) for c in cat_scores)
     cat_part = (sum(cat_scores[c] * CATEGORY_WEIGHTS.get(c, 5) for c in cat_scores) / total_w
@@ -661,7 +707,8 @@ def overall_flag(cat_scores, checklist):
     return round(score, 1), flag, msg, n_on
 
 
-def write_conclusions(score, flag, n_on, checklist, episodes, by_id, cat_scores):
+def write_conclusions(score, flag, n_on, checklist, episodes, by_id, cat_scores,
+                      ep_snaps=None):
     """Deterministic reasoning -> prose conclusions."""
     paras = []
     on_items = [c for c in checklist if c["on"]]
@@ -687,6 +734,20 @@ def write_conclusions(score, flag, n_on, checklist, episodes, by_id, cat_scores)
             f"Closest historical analog: {best['label']} (market top {best['date']}, eventual drawdown {best['dd']}). "
             f"Today's readings are at least as stressed as that top on {best['pct']}% of {best['n']} comparable indicators. "
             "A high match means conditions RESEMBLE that pre-crash moment; it is a similarity measure, not a prediction.")
+
+    reliable = [s for s in (ep_snaps or []) if s["n_scored"] >= 15]
+    if reliable:
+        ep_scores = sorted(s["score"] for s in reliable)
+        med = ep_scores[len(ep_scores) // 2]
+        higher = sum(1 for s in reliable if s["score"] > score)
+        paras.append(
+            f"Running today's exact rulebook at {len(reliable)} past market tops: the median pre-crash "
+            f"score was {med:.0f}/100 (range {ep_scores[0]:.0f}-{ep_scores[-1]:.0f}). Today's {score} is "
+            f"lower than {higher} of {len(reliable)} pre-crash readings"
+            + (" - current conditions score below what this framework showed on the eve of most historical crashes."
+               if higher >= len(reliable) * 0.6 else
+               " - current conditions score in the same range this framework showed on the eve of past crashes, which argues for caution.")
+        )
 
     worst_cats = sorted(cat_scores.items(), key=lambda kv: -kv[1])[:3]
     if worst_cats and worst_cats[0][1] > 0:
@@ -746,9 +807,10 @@ CAT_SHORT = {CAT_CURVE: "Curve", CAT_INFL: "Inflation", CAT_CREDIT: "Credit",
              CAT_FISCAL: "Fiscal", CAT_MARKET: "Markets"}
 
 
-def svg_gauge(score, flag):
+def svg_gauge(score, flag, w=220):
     """Semicircular dial: green/yellow/orange/red zones, needle at score."""
     cx, cy, r = 110, 108, 82
+    h = round(w * 132 / 220)
 
     def pt(f, rad=r):
         a = math.pi * f
@@ -769,7 +831,7 @@ def svg_gauge(score, flag):
         tx, ty = pt(v / 100.0, r + 14)
         ticks += (f'<text x="{tx:.0f}" y="{ty:.0f}" font-size="9" fill="#8b97a6" '
                   f'text-anchor="middle">{v}</text>')
-    return f'''<svg viewBox="0 0 220 132" width="220" height="132" xmlns="http://www.w3.org/2000/svg">
+    return f'''<svg viewBox="0 0 220 132" width="{w}" height="{h}" xmlns="http://www.w3.org/2000/svg">
 {zones}{ticks}
 <line x1="{cx}" y1="{cy}" x2="{nx:.1f}" y2="{ny:.1f}" stroke="#dfe6ee" stroke-width="3.5" stroke-linecap="round"/>
 <circle cx="{cx}" cy="{cy}" r="6" fill="#dfe6ee"/>
@@ -778,14 +840,14 @@ def svg_gauge(score, flag):
 </svg>'''
 
 
-def svg_donut(n_on, total):
+def svg_donut(n_on, total, w=132):
     """Donut: share of pre-crash checklist signals currently on."""
     cx = cy = 66
     r = 48
     c = 2 * math.pi * r
     on_len = c * n_on / max(total, 1)
     col = "#e53935" if n_on else "#1db954"
-    return f'''<svg viewBox="0 0 132 132" width="132" height="132" xmlns="http://www.w3.org/2000/svg">
+    return f'''<svg viewBox="0 0 132 132" width="{w}" height="{w}" xmlns="http://www.w3.org/2000/svg">
 <circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="#1db954" stroke-width="15" opacity="0.35"/>
 <circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{col}" stroke-width="15"
  stroke-dasharray="{on_len:.1f} {c:.1f}" transform="rotate(-90 {cx} {cy})" stroke-linecap="butt"/>
@@ -794,13 +856,14 @@ def svg_donut(n_on, total):
 </svg>'''
 
 
-def svg_radar(cat_scores, flag):
+def svg_radar(cat_scores, flag, w=270):
     """Spider chart of risk by category (0-100 per axis)."""
     cats = [c for c in CATEGORY_WEIGHTS if c in cat_scores]
     n = len(cats)
     if n < 3:
         return ""
     cx, cy, R = 135, 118, 78
+    h = round(w * 240 / 270)
     fc = FLAG_COLORS[flag]
 
     def pt(i, frac):
@@ -824,7 +887,7 @@ def svg_radar(cat_scores, flag):
                         (pt(i, min(cat_scores[c], 100) / 100.0) for i, c in enumerate(cats)))
     dots = "".join(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2.6" fill="{fc}"/>' for x, y in
                    (pt(i, min(cat_scores[c], 100) / 100.0) for i, c in enumerate(cats)))
-    return f'''<svg viewBox="0 0 270 240" width="270" height="240" xmlns="http://www.w3.org/2000/svg">
+    return f'''<svg viewBox="0 0 270 240" width="{w}" height="{h}" xmlns="http://www.w3.org/2000/svg">
 {rings}{axes}
 <polygon points="{data_pts}" fill="{fc}" fill-opacity="0.22" stroke="{fc}" stroke-width="2"/>
 {dots}{labels}
@@ -884,8 +947,42 @@ def fmt(v, unit=""):
     return s + (" " + unit if unit and unit not in ("%", "pp") else unit if unit else "")
 
 
+def render_episode_cards(ep_snaps, score, flag, n_on, n_chk, cat_scores, n_scored_today):
+    """Side-by-side cards: TODAY plus every historical market top, same visuals."""
+    e = html.escape
+
+    def card(title, sub, dd, sc, fl, on, chk, cs, n_scored, highlight=False):
+        fc = FLAG_COLORS[fl]
+        border = f"border:2px solid {fc};" if highlight else ""
+        badge = (f'<span class="chip" style="background:{fc}">{fl}</span>')
+        ddtxt = f'<span class="epdd">{e(dd)}</span>' if dd else ""
+        radar = svg_radar(cs, fl, w=196) or '<div class="muted" style="padding:30px 0">too few categories</div>'
+        return f"""<div class="epcard" style="{border}">
+          <div class="ephead"><b>{e(title)}</b> {badge}</div>
+          <div class="epmeta">{e(sub)} {ddtxt}</div>
+          {svg_gauge(sc, fl, w=176)}
+          <div class="eprow">{svg_donut(on, chk, w=84)}
+            <div class="epstats">score <b>{sc:g}</b>/100<br>{on}/{chk} signals on<br>
+            <span class="muted">{n_scored} indicators scored</span></div></div>
+          {radar}
+        </div>"""
+
+    cards = ""
+    today = {"label": "TODAY", "date": dt.date.today(), "dd": "", "score": score,
+             "flag": flag, "n_on": n_on, "n_chk": n_chk, "cat_scores": cat_scores,
+             "n_scored": n_scored_today}
+    for i, s in enumerate([today] + ep_snaps):
+        n_sc = s["n_scored"] if s["n_scored"] is not None else "-"
+        cards += card(s["label"],
+                      f"market top {s['date']}" if i else str(s["date"]),
+                      s["dd"], s["score"], s["flag"], s["n_on"], s["n_chk"],
+                      s["cat_scores"], n_sc, highlight=(i == 0))
+    return cards
+
+
 def render_report(indicators, by_id, cat_scores, checklist, episodes, score, flag,
-                  msg, n_on, conclusions, history, prev_score, fred_key_missing, failures):
+                  msg, n_on, conclusions, history, prev_score, fred_key_missing,
+                  failures, ep_snaps):
     e = html.escape
     now = dt.datetime.now().strftime("%A, %B %d %Y at %H:%M")
     fc = FLAG_COLORS[flag]
@@ -1049,6 +1146,14 @@ def render_report(indicators, by_id, cat_scores, checklist, episodes, score, fla
              padding:12px 14px 8px; text-align:center; display:flex; flex-direction:column;
              justify-content:space-between; }}
   .vtitle {{ font-size:12px; color:#9fb0c3; margin-bottom:6px; }}
+  .epgrid {{ display:grid; grid-template-columns:repeat(auto-fill,minmax(228px,1fr)); gap:13px; }}
+  .epcard {{ background:#161c26; border:1px solid #232b39; border-radius:12px;
+            padding:12px 12px 6px; text-align:center; }}
+  .ephead {{ font-size:14px; margin-bottom:2px; }}
+  .epmeta {{ font-size:11.5px; color:#8b97a6; margin-bottom:6px; }}
+  .epdd {{ color:#e57373; font-weight:700; }}
+  .eprow {{ display:flex; align-items:center; justify-content:center; gap:10px; margin:2px 0 4px; }}
+  .epstats {{ text-align:left; font-size:12px; line-height:1.5; }}
   .concl {{ background:#161c26; border:1px solid #232b39; border-left:4px solid {fc};
            border-radius:10px; padding:6px 20px; font-size:14.5px; line-height:1.65; }}
   details {{ margin:10px 0; }}
@@ -1086,6 +1191,14 @@ def render_report(indicators, by_id, cat_scores, checklist, episodes, score, fla
 <h2>Classic pre-crash checklist ({n_on}/{len(checklist)} present)</h2>
 <table><tr><th>Condition</th><th>Status</th><th>Current reading</th><th>Historical precedent</th></tr>
 {chk_rows}</table>
+
+<h2>The same criteria applied at every major market top</h2>
+<div class="muted" style="margin-bottom:8px">Each card re-runs today's full rulebook (percentile scoring,
+thresholds, checklist, weights) using only the data that existed on the eve of that crash.
+Pre-1990 tops have fewer available series (no VIX, credit-spread or JOLTS data yet), so compare their
+scores with that in mind.</div>
+<div class="epgrid">{render_episode_cards(ep_snaps, score, flag, n_on, len(checklist), cat_scores,
+                                       sum(1 for i in indicators if i.status in STATUS_SCORE))}</div>
 
 <h2>Similarity to past pre-crash moments</h2>
 <div class="muted" style="margin-bottom:8px">Share of comparable headline indicators that look at least as stressed today as at each historical market top.</div>
@@ -1162,7 +1275,10 @@ def main():
     checklist = build_checklist(by_id)
     episodes = episode_similarity(by_id)
     score, flag, msg, n_on = overall_flag(cat_scores, checklist)
-    conclusions = write_conclusions(score, flag, n_on, checklist, episodes, by_id, cat_scores)
+    print("Re-running the rulebook at 10 historical market tops...")
+    ep_snaps = episode_snapshots(indicators)
+    conclusions = write_conclusions(score, flag, n_on, checklist, episodes, by_id,
+                                    cat_scores, ep_snaps)
 
     history = read_history()
     prev_score = None
@@ -1184,7 +1300,8 @@ def main():
 
     failures = [f"{i.sid} - {i.error}" for i in indicators if i.error]
     render_report(indicators, by_id, cat_scores, checklist, episodes, score, flag,
-                  msg, n_on, conclusions, history, prev_score, fred_key_missing, failures)
+                  msg, n_on, conclusions, history, prev_score, fred_key_missing,
+                  failures, ep_snaps)
 
     print(f"FLAG: {flag}  (score {score}/100, {n_alert} alerts, {n_watch} watches, "
           f"{len(failures)} unavailable)")
