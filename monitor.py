@@ -647,29 +647,50 @@ def build_checklist(by_id):
 
 
 def episode_similarity(by_id):
-    """Compare current headline readings vs each pre-crash market top."""
+    """Apples-to-apples pairwise comparison: for every scoreable indicator that
+    existed at each market top, is today's reading better, similar, or worse
+    (direction-adjusted, 5%-of-historical-range tolerance band)?"""
     rows = []
     for date_s, label, dd in EPISODES:
         onset = dt.date.fromisoformat(date_s)
-        comps, worse = [], 0
-        for sid in HEADLINE_IDS:
-            ind = by_id.get(sid)
-            if not ind or ind.current is None or ind.dir == 0:
+        better = similar = worse = 0
+        drivers = []
+        for ind in by_id.values():
+            if ind.dir == 0 or ind.current is None or ind.error:
                 continue
             then = ind.metric_at(onset)
             if then is None:
                 continue
             cutoff = onset - dt.timedelta(days=int(15 * 365.25))
-            window = sorted(v for d, v in zip(ind.mdates, ind.mvalues) if cutoff <= d <= onset)
+            window = sorted(v for d, v in zip(ind.mdates, ind.mvalues)
+                            if cutoff <= d <= onset)
             spread = (window[-1] - window[0]) if len(window) > 10 else None
-            tol = 0.05 * spread if spread else 0.0
-            is_worse = (ind.dir * (ind.current - then)) >= -tol
-            if is_worse:
+            tol = 0.05 * spread if spread else max(abs(then) * 0.10, 1e-9)
+            diff = ind.dir * (ind.current - then)
+            if diff > tol:
                 worse += 1
-            comps.append((sid, ind.name, then, ind.current, is_worse))
-        pct = round(100 * worse / len(comps)) if comps else None
-        rows.append({"date": onset, "label": label, "dd": dd, "pct": pct,
-                     "n": len(comps), "comps": comps})
+                drivers.append((diff / tol, ind.name))
+            elif diff < -tol:
+                better += 1
+            else:
+                similar += 1
+        n = better + similar + worse
+        if n:
+            net = (worse - better) / n
+            if net > 0.15:
+                verdict = "worse today"
+            elif net < -0.15:
+                verdict = "better today"
+            else:
+                verdict = "about the same"
+            pct = round(100 * (worse + similar) / n)
+        else:
+            verdict, pct, net = "insufficient data", None, 0.0
+        drivers.sort(reverse=True)
+        rows.append({"date": onset, "label": label, "dd": dd, "n": n,
+                     "better": better, "similar": similar, "worse": worse,
+                     "net": net, "verdict": verdict, "pct": pct,
+                     "drivers": [name for _, name in drivers[:3]]})
     return rows
 
 
@@ -727,8 +748,15 @@ def write_conclusions(score, flag, n_on, checklist, episodes, by_id, cat_scores,
                      ". Historically, major crashes (2000, 2007) were preceded by several of these "
                      "turning on together, not in isolation.")
 
-    scored = [e for e in episodes if e["pct"] is not None and e["n"] >= 5]
+    scored = [e for e in episodes if e["pct"] is not None and e["n"] >= 8]
     if scored:
+        b = sum(1 for e in scored if e["verdict"] == "better today")
+        w = sum(1 for e in scored if e["verdict"] == "worse today")
+        s = len(scored) - b - w
+        paras.append(
+            f"Better or worse than the bad moments? Comparing only the indicators that existed at each top: "
+            f"today's conditions are HEALTHIER than {b}, ABOUT THE SAME as {s}, and WORSE than {w} of the "
+            f"{len(scored)} pre-crash moments (majority vote of shared indicators; see the verdict table).")
         best = max(scored, key=lambda e: e["pct"])
         paras.append(
             f"Closest historical analog: {best['label']} (market top {best['date']}, eventual drawdown {best['dd']}). "
@@ -935,6 +963,43 @@ def svg_trend(history):
 </svg>'''
 
 
+def svg_rank(ep_snaps, score, flag):
+    """Horizontal bar ranking: TODAY among all historical pre-crash scores."""
+    entries = ([{"label": "TODAY", "score": score, "flag": flag, "today": True}]
+               + [{"label": s["label"], "score": s["score"], "flag": s["flag"],
+                   "today": False} for s in ep_snaps])
+    entries.sort(key=lambda x: -x["score"])
+    rh, x0, W = 24, 168, 620
+    xmax = W - 52
+    H = len(entries) * rh + 34
+
+    def sx(v):
+        return x0 + (xmax - x0) * min(max(v, 0), 100) / 100.0
+
+    grid = ""
+    for v in (20, 40, 60, 80, 100):
+        gx = sx(v)
+        grid += (f'<line x1="{gx:.1f}" y1="10" x2="{gx:.1f}" y2="{H - 24}" '
+                 f'stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/>'
+                 f'<text x="{gx:.1f}" y="{H - 10}" font-size="9" fill="#8b97a6" '
+                 f'text-anchor="middle">{v}</text>')
+    bars = ""
+    for i, en in enumerate(entries):
+        y = 12 + i * rh
+        col = FLAG_COLORS[en["flag"]]
+        outline = ' stroke="#dfe6ee" stroke-width="1.6"' if en["today"] else ""
+        weight = "800" if en["today"] else "400"
+        lab_col = "#ffffff" if en["today"] else "#9fb0c3"
+        bars += (f'<text x="{x0 - 8}" y="{y + 13}" font-size="11" fill="{lab_col}" '
+                 f'font-weight="{weight}" text-anchor="end">{html.escape(en["label"])}</text>'
+                 f'<rect x="{x0}" y="{y}" width="{max(sx(en["score"]) - x0, 2):.1f}" height="16" '
+                 f'rx="4" fill="{col}"{outline}/>'
+                 f'<text x="{sx(en["score"]) + 6:.1f}" y="{y + 13}" font-size="11" '
+                 f'fill="#dfe6ee" font-weight="{weight}">{en["score"]:g}</text>')
+    return (f'<svg viewBox="0 0 {W} {H}" width="{W}" height="{H}" '
+            f'xmlns="http://www.w3.org/2000/svg">{grid}{bars}</svg>')
+
+
 def fmt(v, unit=""):
     if v is None:
         return "-"
@@ -1023,15 +1088,32 @@ def render_report(indicators, by_id, cat_scores, checklist, episodes, score, fla
           <td>{e(c['detail'])}</td>
           <td class="muted">{e(c['precedent'])}</td></tr>"""
 
-    # episode table
+    # episode table: better / similar / worse today vs each market top
+    verdict_style = {"better today": ("#1db954", "TODAY IS BETTER"),
+                     "about the same": ("#e6c200", "ABOUT THE SAME"),
+                     "worse today": ("#e53935", "TODAY IS WORSE"),
+                     "insufficient data": ("#666", "N/A")}
     ep_rows = ""
     for ep in episodes:
-        pct = f"{ep['pct']}%" if ep["pct"] is not None else "-"
-        bar_w = ep["pct"] or 0
-        bcol = "#e53935" if (ep["pct"] or 0) >= 70 else ("#e6c200" if (ep["pct"] or 0) >= 45 else "#1db954")
+        n = max(ep["n"], 1)
+        wb = 100 * ep["better"] / n
+        ws = 100 * ep["similar"] / n
+        ww = 100 * ep["worse"] / n
+        vcol, vtxt = verdict_style[ep["verdict"]]
+        drv = ""
+        if ep["drivers"] and ep["verdict"] != "better today":
+            drv = ("<div class='note'>worst gaps today: "
+                   + e(", ".join(ep["drivers"])) + "</div>")
         ep_rows += f"""<tr><td>{e(ep['label'])}</td><td>{ep['date']}</td><td>{e(ep['dd'])}</td>
           <td>{ep['n']}</td>
-          <td><div class="bar"><div style="width:{bar_w}%;background:{bcol}"></div></div> {pct}</td></tr>"""
+          <td><div class="stack">
+                <div style="width:{wb:.0f}%;background:#1db954" title="better today: {ep['better']}"></div>
+                <div style="width:{ws:.0f}%;background:#5b7a99" title="similar: {ep['similar']}"></div>
+                <div style="width:{ww:.0f}%;background:#e53935" title="worse today: {ep['worse']}"></div>
+              </div>
+              <span class="muted">{ep['better']} better &middot; {ep['similar']} similar &middot; {ep['worse']} worse</span>
+              {drv}</td>
+          <td><span class="chip" style="background:{vcol}">{vtxt}</span></td></tr>"""
 
     # then-vs-now detail for headline indicators
     then_head = "".join(f"<th>{e(lbl)}</th>" for _, lbl, _ in EPISODES)
@@ -1154,6 +1236,9 @@ def render_report(indicators, by_id, cat_scores, checklist, episodes, score, fla
   .epdd {{ color:#e57373; font-weight:700; }}
   .eprow {{ display:flex; align-items:center; justify-content:center; gap:10px; margin:2px 0 4px; }}
   .epstats {{ text-align:left; font-size:12px; line-height:1.5; }}
+  .stack {{ display:flex; width:190px; height:11px; border-radius:6px; overflow:hidden;
+           background:#232b39; margin-bottom:3px; }}
+  .stack div {{ height:100%; }}
   .concl {{ background:#161c26; border:1px solid #232b39; border-left:4px solid {fc};
            border-radius:10px; padding:6px 20px; font-size:14.5px; line-height:1.65; }}
   details {{ margin:10px 0; }}
@@ -1197,12 +1282,18 @@ def render_report(indicators, by_id, cat_scores, checklist, episodes, score, fla
 thresholds, checklist, weights) using only the data that existed on the eve of that crash.
 Pre-1990 tops have fewer available series (no VIX, credit-spread or JOLTS data yet), so compare their
 scores with that in mind.</div>
+<div class="vizcard" style="margin-bottom:14px;max-width:680px">
+  <div class="vtitle">Where TODAY ranks among the pre-crash scores</div>
+  {svg_rank(ep_snaps, score, flag)}
+</div>
 <div class="epgrid">{render_episode_cards(ep_snaps, score, flag, n_on, len(checklist), cat_scores,
                                        sum(1 for i in indicators if i.status in STATUS_SCORE))}</div>
 
-<h2>Similarity to past pre-crash moments</h2>
-<div class="muted" style="margin-bottom:8px">Share of comparable headline indicators that look at least as stressed today as at each historical market top.</div>
-<table><tr><th>Episode</th><th>Market top</th><th>Drawdown</th><th># compared</th><th>Similarity</th></tr>
+<h2>Better or worse than at past market tops?</h2>
+<div class="muted" style="margin-bottom:8px">Apples-to-apples: each row compares today against that market top using
+ONLY the indicators that existed at both dates (direction-adjusted, small differences count as "similar").
+This is the fairest way to compare across eras, because older tops had fewer data series.</div>
+<table><tr><th>Episode</th><th>Market top</th><th>Drawdown</th><th># compared</th><th>Today vs that moment</th><th>Verdict</th></tr>
 {ep_rows}</table>
 
 <h2>Then vs now: headline indicators at past market tops</h2>
