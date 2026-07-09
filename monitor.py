@@ -1186,6 +1186,34 @@ def svg_signature(crash_avg, today_pct, bull_avg, flag, w=None):
             f'xmlns="http://www.w3.org/2000/svg">{grid}{bars}</svg>')
 
 
+def svg_meter(position, w=340):
+    """Distance meter: how far today's conditions have travelled from typical
+    healthy-market conditions (0%) toward conditions typical on the eve of
+    this type of crash (100%)."""
+    W, H = 360, 78
+    x0, x1, y, bh = 16, W - 16, 38, 13
+    pos = min(max(position, 0.0), 1.0)
+    px = x0 + (x1 - x0) * pos
+    zones = ""
+    for f0, f1, col in ((0.00, 0.25, FLAG_COLORS["GREEN"]),
+                        (0.25, 0.50, FLAG_COLORS["YELLOW"]),
+                        (0.50, 0.75, FLAG_COLORS["ORANGE"]),
+                        (0.75, 1.00, FLAG_COLORS["RED"])):
+        zx = x0 + (x1 - x0) * f0
+        zw = (x1 - x0) * (f1 - f0)
+        zones += f'<rect x="{zx:.1f}" y="{y}" width="{zw:.1f}" height="{bh}" fill="{col}" opacity="0.85"/>'
+    marker = (f'<polygon points="{px:.1f},{y - 3} {px - 7:.1f},{y - 15} {px + 7:.1f},{y - 15}" fill="#ffffff"/>'
+              f'<line x1="{px:.1f}" y1="{y - 2}" x2="{px:.1f}" y2="{y + bh + 2}" stroke="#ffffff" stroke-width="2"/>'
+              f'<text x="{min(max(px, x0 + 18), x1 - 18):.1f}" y="{y - 20}" font-size="15" font-weight="800" '
+              f'fill="#ffffff" text-anchor="middle">{pos * 100:.0f}%</text>')
+    labels = (f'<text x="{x0}" y="{y + bh + 16}" font-size="9.5" fill="#8b97a6">typical healthy market</text>'
+              f'<text x="{x1}" y="{y + bh + 16}" font-size="9.5" fill="#8b97a6" '
+              f'text-anchor="end">eve of this type of crash</text>')
+    return (f'<svg viewBox="0 0 {W} {H}" width="{w}" height="{round(w * H / W)}" '
+            f'xmlns="http://www.w3.org/2000/svg"><rect x="{x0}" y="{y}" width="{x1 - x0}" '
+            f'height="{bh}" rx="6" fill="#232b39"/>{zones}{marker}{labels}</svg>')
+
+
 def svg_rank(ep_snaps, score, flag):
     """Horizontal bar ranking: TODAY among all historical pre-crash scores."""
     entries = ([{"label": "TODAY", "score": score, "flag": flag, "today": True}]
@@ -1353,8 +1381,13 @@ doing now" on the evidence that actually discriminates.</div>
 <table><tr><th>Factor</th><th>Flashing before crashes</th><th>Flashing in healthy markets</th><th>Separation</th><th>TODAY</th></tr>
 {factor_rows}</table>"""
 
-        # one flag per type of bad market
+    # THE headline section: distance to each type of bad market
+    types_html = ""
+    type_line = ""
+    if factor_summary and factor_summary.get("types"):
+        fs = factor_summary
         type_cards = ""
+        line_bits = []
         for t in fs.get("types", []):
             fc2 = FLAG_COLORS.get(t["flag"], "#666")
             chip = (f'<span class="chip" style="background:{fc2}">{t["flag"] or "NOT FLAGGABLE"}</span>')
@@ -1369,9 +1402,12 @@ doing now" on the evidence that actually discriminates.</div>
                 chips += (f'<span class="fchip" style="border-color:{c2}">'
                           f'<span style="color:{c2}">{mark}</span> {e(f2["name"])}</span> ')
             if t["flag"]:
-                body = f"""{svg_signature(t['crash_avg'], t['today_pct'], t['bull_avg'], t['flag'], w=300)}
-                <div class="muted" style="margin:4px 0 6px">{t['today_pct']:.0f}% of this type's signature flashing
-                (typical top of this type: {t['crash_avg']:.0f}%, healthy: {t['bull_avg']:.0f}%)</div>"""
+                line_bits.append(f'<span><b style="color:{fc2}">{e(t["name"])}</b>: '
+                                 f'{t["position"] * 100:.0f}% of the way</span>')
+                body = f"""{svg_meter(t['position'], w=330)}
+                <div class="muted" style="margin:2px 0 6px">{t['today_pct']:.0f}% of this type's signature is
+                flashing today (typical top of this type: {t['crash_avg']:.0f}%, typical healthy market:
+                {t['bull_avg']:.0f}%)</div>"""
             else:
                 body = ('<div class="muted" style="padding:14px 0">No reliable early-warning signature - '
                         'episodes of this type struck without shared macro precursors. '
@@ -1382,13 +1418,16 @@ doing now" on the evidence that actually discriminates.</div>
               {body}
               <div style="margin-top:4px">{chips}</div>
             </div>"""
-        signature_html += f"""
-<h2>Risk flags by type of bad market</h2>
+        if line_bits:
+            type_line = ('<div class="typeline">How far along toward each type of bad market: '
+                         + " &nbsp;&middot;&nbsp; ".join(line_bits) + "</div>")
+        types_html = f"""
+<h2>How far are we from each type of bad market?</h2>
 <div class="muted" style="margin-bottom:8px">Different bad markets have different causes, so each type gets its own
-signature (factors flashing at &gt;=60% of that type's tops but rarely in healthy markets) and its own flag based on
-how much of that signature is flashing today: GREEN &lt;25% of the way from healthy to that type's pre-crash typical,
-YELLOW &lt;50%, ORANGE &lt;75%, RED above.</div>
-<div class="epgrid" style="grid-template-columns:repeat(auto-fill,minmax(330px,1fr))">{type_cards}</div>"""
+signature (factors flashing at &gt;=60% of that type's historical tops but rarely at {fs['n_bull']} healthy-market
+control dates) and its own meter: 0% = conditions of a typical healthy market, 100% = conditions on the eve of that
+type of crash. Flags: GREEN &lt;25% of the way, YELLOW &lt;50%, ORANGE &lt;75%, RED above.</div>
+<div class="epgrid" style="grid-template-columns:repeat(auto-fill,minmax(350px,1fr))">{type_cards}</div>"""
 
     # episode table: better / similar / worse today vs each market top
     verdict_style = {"better today": ("#1db954", "TODAY IS BETTER"),
@@ -1506,6 +1545,8 @@ YELLOW &lt;50%, ORANGE &lt;75%, RED above.</div>
   .score {{ font-size:30px; font-weight:700; }}
   .delta {{ color:#8b97a6; font-size:14px; }}
   .counts span {{ margin-right:14px; font-size:14px; }}
+  .typeline {{ margin-top:10px; font-size:14px; color:#c6d0da; }}
+  .typeline span {{ margin-right:6px; }}
   .banner {{ background:#3b2f13; border:1px solid #e6c200; border-radius:10px; padding:14px 18px; margin:14px 0; }}
   table {{ border-collapse:collapse; width:100%; font-size:13.5px; }}
   th {{ text-align:left; color:#9fb0c3; font-weight:600; padding:7px 10px; border-bottom:2px solid #2a3140;
@@ -1565,16 +1606,12 @@ YELLOW &lt;50%, ORANGE &lt;75%, RED above.</div>
       <span>&#9679; {n_info} informational</span>
       <span>&#9679; {n_na} unavailable</span>
     </div>
+    {type_line}
   </div>
 </div>
+{types_html}
 
 <h2>Conclusions</h2>
-<div class="vizrow">
-  <div class="vizcard"><div class="vtitle">Composite risk gauge</div>{svg_gauge(score, flag)}</div>
-  <div class="vizcard"><div class="vtitle">Pre-crash checklist</div>{svg_donut(n_on, len(checklist))}</div>
-  <div class="vizcard"><div class="vtitle">Risk by category (0&ndash;100)</div>{svg_radar(cat_scores, flag)}</div>
-  <div class="vizcard"><div class="vtitle">Score trend, recent runs</div>{svg_trend(history)}</div>
-</div>
 <div class="concl">{concl_html}</div>
 {signature_html}
 
@@ -1615,6 +1652,8 @@ This is the fairest way to compare across eras, because older tops had fewer dat
 {ind_rows}</table>
 
 <h2>Run history</h2>
+<div class="vizcard" style="max-width:380px;margin-bottom:12px">
+  <div class="vtitle">Composite score, recent runs</div>{svg_trend(history)}</div>
 <table><tr><th>Run</th><th>Score</th><th>Flag</th><th>Alerts</th><th>Watches</th><th>S&amp;P drawdown</th></tr>
 {hist_rows}</table>
 
