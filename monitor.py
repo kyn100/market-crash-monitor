@@ -1865,18 +1865,6 @@ type of crash. Flags: GREEN &lt;25% of the way, YELLOW &lt;50%, ORANGE &lt;75%, 
 <table><tr><th>Condition</th><th>Status</th><th>Current reading</th><th>Historical precedent</th></tr>
 {chk_rows}</table>
 
-<h2>The same criteria applied at every major market top</h2>
-<div class="muted" style="margin-bottom:8px">Each card re-runs today's full rulebook (percentile scoring,
-thresholds, checklist, weights) using only the data that existed on the eve of that crash.
-Pre-1990 tops have fewer available series (no VIX, credit-spread or JOLTS data yet), so compare their
-scores with that in mind.</div>
-<div class="vizcard" style="margin-bottom:14px;max-width:680px">
-  <div class="vtitle">Where TODAY ranks among the pre-crash scores</div>
-  {svg_rank(ep_snaps, score, flag)}
-</div>
-<div class="epgrid">{render_episode_cards(ep_snaps, score, flag, n_on, len(checklist), cat_scores,
-                                       sum(1 for i in indicators if i.status in STATUS_SCORE))}</div>
-
 <h2>Better or worse than at past market tops?</h2>
 <div class="muted" style="margin-bottom:8px">Apples-to-apples: each row compares today against that market top using
 ONLY the indicators that existed at both dates (direction-adjusted, small differences count as "similar").
