@@ -1670,6 +1670,81 @@ type of crash. Flags: GREEN &lt;25% of the way, YELLOW &lt;50%, ORANGE &lt;75%, 
                       f"<td>{e(h.get('sp500_drawdown_pct',''))}%</td></tr>")
 
     concl_html = "".join(f"<p>{e(p)}</p>" for p in conclusions)
+
+    # --- visual conclusions -------------------------------------------------
+    flashing = [f["name"] for f in factor_summary["factors"] if f["today"]] if factor_summary else []
+    calm = []
+
+    def _calm(sid, text):
+        i2 = by_id.get(sid)
+        if i2 is not None and i2.status == "OK":
+            calm.append(text)
+
+    _calm("SAHMREALTIME", "Sahm rule off - unemployment not signalling recession")
+    _calm("BAMLH0A0HYM2", "Credit spreads calm - markets pricing no distress")
+    _calm("NFCI", "Financial conditions still loose")
+    _calm("DRTSCILM", "Banks not tightening lending (SLOOS)")
+    _calm("IC4WSA", "Jobless claims not trending up")
+    _calm("TEMPHELPS", "Temp-help employment holding (a leading signal)")
+    _calm("PERMIT", "Building permits still holding up")
+
+    verdict_rows = [x for x in episodes if x.get("pct") is not None and x["n"] >= 8]
+    vb = sum(1 for x in verdict_rows if x["verdict"] == "better today")
+    vw = sum(1 for x in verdict_rows if x["verdict"] == "worse today")
+    vs_ = len(verdict_rows) - vb - vw
+    best_analog = max(verdict_rows, key=lambda x: x["pct"]) if verdict_rows else None
+
+    worst_type = None
+    if factor_summary:
+        flagged_types = [t for t in factor_summary.get("types", []) if t["flag"]]
+        if flagged_types:
+            worst_type = max(flagged_types, key=lambda t: t["position"])
+
+    bl_parts = []
+    if worst_type:
+        bl_parts.append(f"Nearest threat: {worst_type['name']} - "
+                        f"{worst_type['position'] * 100:.0f}% of the way from healthy conditions "
+                        f"to how those episodes began.")
+    red_subs = [s for s in (subcards or []) if s["flag"] == "RED"]
+    if red_subs:
+        s0 = red_subs[0]
+        bl_parts.append(f"Sub-watch RED: {s0['name']} ({s0['n_on']}/{s0['n_known']} tripwires).")
+    sahm_ok = by_id.get("SAHMREALTIME") is not None and by_id["SAHMREALTIME"].status == "OK"
+    hy_ok = by_id.get("BAMLH0A0HYM2") is not None and by_id["BAMLH0A0HYM2"].status == "OK"
+    if sahm_ok and hy_ok:
+        bl_parts.append("The labor + credit confirmation stage that turns slowdowns into crashes has NOT begun.")
+    else:
+        bl_parts.append("Caution: the labor/credit confirmation signals are turning.")
+    bottom_line = " ".join(bl_parts) or msg
+
+    sig_pos_txt, sig_pos_col = "-", "#8b97a6"
+    if factor_summary:
+        p100 = factor_summary["position"] * 100
+        sig_pos_txt = f"{p100:.0f}%"
+        sig_pos_col = ("#1db954" if p100 < 25 else "#e6c200" if p100 < 50
+                       else "#ff7a00" if p100 < 75 else "#e53935")
+    tiles = f"""
+      <div class="tile"><div class="tnum" style="color:{fc}">{score:g}</div>
+        <div class="tlab">composite risk / 100<br><span class="chip" style="background:{fc}">{flag}</span></div></div>
+      <div class="tile"><div class="tnum" style="color:{sig_pos_col}">{sig_pos_txt}</div>
+        <div class="tlab">of the way from healthy to typical pre-crash conditions</div></div>
+      <div class="tile"><div class="tnum">{n_on}/{len(checklist)}</div>
+        <div class="tlab">classic pre-crash signals on</div></div>"""
+    if best_analog:
+        tiles += f"""
+      <div class="tile"><div class="tnum" style="font-size:19px;line-height:1.35;padding-top:9px">{e(best_analog['label'])}</div>
+        <div class="tlab">closest historical analog</div></div>"""
+    tiles += f"""
+      <div class="tile"><div class="tnum"><span style="color:#1db954">{vb}</span><span class="muted">&middot;</span><span style="color:#8b97a6">{vs_}</span><span class="muted">&middot;</span><span style="color:#e53935">{vw}</span></div>
+        <div class="tlab">vs {len(verdict_rows)} past tops:<br>healthier &middot; same &middot; worse</div></div>"""
+
+    fl_items = "".join(f"<li>{e(x)}</li>" for x in flashing[:7]) or "<li class='muted'>none</li>"
+    calm_items = "".join(f"<li>{e(x)}</li>" for x in calm[:7]) or "<li class='muted'>none</li>"
+    twocol = f"""<div class="twocol">
+      <div class="wbox"><div class="wtitle" style="color:#e57373">&#9888;&#65039; Flashing now</div><ul class="rlist">{fl_items}</ul></div>
+      <div class="wbox"><div class="wtitle" style="color:#1db954">&#10003; Still calm</div><ul class="glist">{calm_items}</ul></div>
+    </div>"""
+
     fail_html = ""
     if failures:
         fail_html = ("<details><summary class='muted'>Data issues this run (" + str(len(failures))
@@ -1736,6 +1811,23 @@ type of crash. Flags: GREEN &lt;25% of the way, YELLOW &lt;50%, ORANGE &lt;75%, 
            font-size:11px; color:#c6d0da; margin:2px 0; }}
   .concl {{ background:#161c26; border:1px solid #232b39; border-left:4px solid {fc};
            border-radius:10px; padding:6px 20px; font-size:14.5px; line-height:1.65; }}
+  .verdictline {{ background:{fc}18; border:1px solid {fc}66; border-left:5px solid {fc};
+                 border-radius:10px; padding:14px 18px; font-size:16.5px; line-height:1.55;
+                 font-weight:600; margin-bottom:14px; }}
+  .tiles {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+           gap:12px; margin-bottom:14px; }}
+  .tile {{ background:#161c26; border:1px solid #232b39; border-radius:12px;
+          padding:14px 12px 10px; text-align:center; }}
+  .tnum {{ font-size:32px; font-weight:800; }}
+  .tlab {{ font-size:11.5px; color:#8b97a6; margin-top:4px; line-height:1.45; }}
+  .twocol {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+            gap:12px; margin-bottom:6px; }}
+  .wbox {{ background:#161c26; border:1px solid #232b39; border-radius:12px; padding:12px 16px 8px; }}
+  .wtitle {{ font-weight:700; font-size:13.5px; margin-bottom:6px; }}
+  .wbox ul {{ margin:0 0 8px; padding-left:20px; }}
+  .wbox li {{ font-size:13px; line-height:1.7; }}
+  .rlist li::marker {{ color:#e57373; }}
+  .glist li::marker {{ color:#1db954; }}
   details {{ margin:10px 0; }}
   .na td {{ opacity:.55; }}
 </style></head><body>
@@ -1762,7 +1854,11 @@ type of crash. Flags: GREEN &lt;25% of the way, YELLOW &lt;50%, ORANGE &lt;75%, 
 {types_html}
 
 <h2>Conclusions</h2>
-<div class="concl">{concl_html}</div>
+<div class="verdictline">{e(bottom_line)}</div>
+<div class="tiles">{tiles}</div>
+{twocol}
+<details><summary class="muted">Full written analysis</summary>
+<div class="concl">{concl_html}</div></details>
 {signature_html}
 
 <h2>Classic pre-crash checklist ({n_on}/{len(checklist)} present)</h2>
