@@ -194,18 +194,36 @@ CATEGORY_WEIGHTS = {
     CAT_MARKET: 10,
 }
 
-# Market tops that preceded major crashes / corrections (onset date, label, drawdown)
+# Types of bad markets: each has a distinct causal mechanism, hence distinct precursors
+# name, description, member episodes, flaggable (shocks have no common causal
+# mechanism, so "shared factors" across them are coincidence - never flagged)
+CRASH_TYPES = {
+    "tightening": ("Inflation & Fed-Tightening Bears",
+                   "Inflation (or policy normalization) forces the Fed to tighten until growth cracks",
+                   "1973-74, 1980-82, 1990, Q4-2018, 2022", True),
+    "credit": ("Credit / Banking Crisis",
+               "Leverage and lending excesses unwind - the 2008 pattern",
+               "2007-09", True),
+    "bubble": ("Valuation Bubble Bust",
+               "Extreme valuations in a hot sector collapse - the 2000 pattern",
+               "2000-02", True),
+    "shock": ("Exogenous Shocks",
+              "External events (war, pandemic, market structure) with little macro warning",
+              "1987, 2011, 2020", False),
+}
+
+# Market tops preceding major crashes / corrections (onset, label, drawdown, type)
 EPISODES = [
-    ("1973-01-11", "1973-74 bear", "-48%"),
-    ("1980-11-28", "1980-82 bear", "-27%"),
-    ("1987-08-25", "1987 Black Monday", "-34%"),
-    ("1990-07-16", "1990 bear", "-20%"),
-    ("2000-03-24", "Dot-com crash", "-49%"),
-    ("2007-10-09", "Financial Crisis", "-57%"),
-    ("2011-04-29", "2011 correction", "-19%"),
-    ("2018-09-20", "Q4-2018 correction", "-20%"),
-    ("2020-02-19", "COVID crash", "-34%"),
-    ("2022-01-03", "2022 bear", "-25%"),
+    ("1973-01-11", "1973-74 bear", "-48%", "tightening"),
+    ("1980-11-28", "1980-82 bear", "-27%", "tightening"),
+    ("1987-08-25", "1987 Black Monday", "-34%", "shock"),
+    ("1990-07-16", "1990 bear", "-20%", "tightening"),
+    ("2000-03-24", "Dot-com crash", "-49%", "bubble"),
+    ("2007-10-09", "Financial Crisis", "-57%", "credit"),
+    ("2011-04-29", "2011 correction", "-19%", "shock"),
+    ("2018-09-20", "Q4-2018 correction", "-20%", "tightening"),
+    ("2020-02-19", "COVID crash", "-34%", "shock"),
+    ("2022-01-03", "2022 bear", "-25%", "tightening"),
 ]
 
 # Indicators used for the "then vs now" historical comparison table
@@ -657,7 +675,7 @@ def episode_similarity(by_id):
     existed at each market top, is today's reading better, similar, or worse
     (direction-adjusted, 5%-of-historical-range tolerance band)?"""
     rows = []
-    for date_s, label, dd in EPISODES:
+    for date_s, label, dd, _etype in EPISODES:
         onset = dt.date.fromisoformat(date_s)
         better = similar = worse = 0
         drivers = []
@@ -706,7 +724,7 @@ def healthy_dates(sp):
     and excluding dates where the S&P fell >15% within the following year."""
     out = []
     last = sp.dates[-1] if sp and sp.dates else dt.date.today()
-    onsets = [dt.date.fromisoformat(ds) for ds, _, _ in EPISODES]
+    onsets = [dt.date.fromisoformat(ds) for ds, *_ in EPISODES]
     for y in range(1965, dt.date.today().year + 1):
         for m in (3, 9):
             d = dt.date(y, m, 1)
@@ -735,7 +753,6 @@ def factor_analysis(indicators, by_id, checklist_today):
     then check which of the top factors are flashing today."""
     sp = by_id.get("^GSPC")
     bull_dates = healthy_dates(sp)
-    crash_dates = [dt.date.fromisoformat(ds) for ds, _, _ in EPISODES]
 
     def states_at(d):
         by_ep = {ind.sid: ind.as_of(d) for ind in indicators}
@@ -748,7 +765,8 @@ def factor_analysis(indicators, by_id, checklist_today):
                 st[("chk", c["name"])] = c["on"]
         return st
 
-    crash_states = [states_at(d) for d in crash_dates]
+    crash_states = [(etype, states_at(dt.date.fromisoformat(ds)))
+                    for ds, _lbl, _dd, etype in EPISODES]
     bull_states = [states_at(d) for d in bull_dates]
 
     today_states = {}
@@ -760,59 +778,91 @@ def factor_analysis(indicators, by_id, checklist_today):
             today_states[("chk", c["name"])] = c["on"]
 
     keys = set()
-    for s in crash_states + bull_states:
+    for _t, s in crash_states:
         keys.update(s)
-    factors = []
-    for k in keys:
-        cvals = [s[k] for s in crash_states if k in s]
-        bvals = [s[k] for s in bull_states if k in s]
-        if len(cvals) < 5 or len(bvals) < 10:
-            continue
-        crate = sum(cvals) / len(cvals)
-        brate = sum(bvals) / len(bvals)
-        if crate - brate <= 0.10:
-            continue  # keep only factors that genuinely discriminate
-        kind, key = k
-        name = by_id[key].name if kind == "ind" else key
-        factors.append({"kind": kind, "name": name,
+    for s in bull_states:
+        keys.update(s)
+
+    def screen(states, min_crash_n, min_gap):
+        """Rank factors by separation between the given crash states and healthy dates."""
+        out = []
+        for k in keys:
+            cvals = [s[k] for s in states if k in s]
+            bvals = [s[k] for s in bull_states if k in s]
+            if len(cvals) < min_crash_n or len(bvals) < 10:
+                continue
+            crate = sum(cvals) / len(cvals)
+            brate = sum(bvals) / len(bvals)
+            if crate - brate <= min_gap:
+                continue
+            kind, key = k
+            name = by_id[key].name if kind == "ind" else key
+            out.append({"kind": kind, "name": name,
                         "crash_on": sum(cvals), "crash_n": len(cvals),
                         "crash_rate": crate, "bull_rate": brate,
                         "gap": crate - brate, "today": today_states.get(k)})
-    factors.sort(key=lambda f: (-f["gap"], f["kind"]))
-    # a checklist rule and its backing indicator produce identical stats -
-    # keep only one of each such pair
-    seen, deduped = set(), []
-    for f in factors:
-        sig = (f["crash_on"], f["crash_n"], round(f["bull_rate"], 4), f["today"])
-        if sig in seen:
-            continue
-        seen.add(sig)
-        deduped.append(f)
-    factors = deduped[:20]
+        out.sort(key=lambda f: (-f["gap"], f["kind"]))
+        # a checklist rule and its backing indicator produce identical stats -
+        # keep only one of each such pair
+        seen, deduped = set(), []
+        for f in out:
+            sig = (f["crash_on"], f["crash_n"], round(f["bull_rate"], 4), f["today"])
+            if sig in seen:
+                continue
+            seen.add(sig)
+            deduped.append(f)
+        return deduped
 
-    known = [f for f in factors if f["today"] is not None]
-    today_pct = 100 * sum(1 for f in known if f["today"]) / len(known) if known else 0.0
-    crash_avg = 100 * statistics.fmean(f["crash_rate"] for f in factors) if factors else 0.0
-    bull_avg = 100 * statistics.fmean(f["bull_rate"] for f in factors) if factors else 0.0
-    span = max(crash_avg - bull_avg, 1e-9)
-    position = min(max((today_pct - bull_avg) / span, 0.0), 1.0)
-    return {"factors": factors, "n_bull": len(bull_dates), "n_crash": len(crash_dates),
+    def summarize(factors):
+        known = [f for f in factors if f["today"] is not None]
+        today_pct = (100 * sum(1 for f in known if f["today"]) / len(known)) if known else 0.0
+        crash_avg = 100 * statistics.fmean(f["crash_rate"] for f in factors) if factors else 0.0
+        bull_avg = 100 * statistics.fmean(f["bull_rate"] for f in factors) if factors else 0.0
+        span = max(crash_avg - bull_avg, 1e-9)
+        position = min(max((today_pct - bull_avg) / span, 0.0), 1.0)
+        return today_pct, crash_avg, bull_avg, position
+
+    # overall signature (all crash types blended)
+    factors = screen([s for _t, s in crash_states], min_crash_n=5, min_gap=0.10)[:20]
+    today_pct, crash_avg, bull_avg, position = summarize(factors)
+
+    # one signature + flag per crash type
+    pos_flags = ((0.25, "GREEN"), (0.50, "YELLOW"), (0.75, "ORANGE"), (9.9, "RED"))
+    types = []
+    for tkey, (tname, tdesc, teps, flaggable) in CRASH_TYPES.items():
+        tstates = [s for et, s in crash_states if et == tkey]
+        # factor must have flashed at >=60% of this type's tops and rarely in bulls
+        tf = screen(tstates, min_crash_n=max(1, (len(tstates) + 1) // 2),
+                    min_gap=0.25) if flaggable else []
+        tf = [f for f in tf if f["crash_rate"] >= 0.60][:10]
+        entry = {"key": tkey, "name": tname, "desc": tdesc, "episodes": teps,
+                 "n_eps": len(tstates), "factors": tf, "flag": None,
+                 "today_pct": None, "crash_avg": None, "bull_avg": None,
+                 "position": None}
+        if flaggable and len(tf) >= 3:
+            tp, ca, ba, pos = summarize(tf)
+            entry.update({"today_pct": tp, "crash_avg": ca, "bull_avg": ba,
+                          "position": pos,
+                          "flag": next(fl for th, fl in pos_flags if pos < th)})
+        types.append(entry)
+
+    return {"factors": factors, "n_bull": len(bull_dates), "n_crash": len(crash_states),
             "today_pct": today_pct, "crash_avg": crash_avg, "bull_avg": bull_avg,
-            "position": position}
+            "position": position, "types": types}
 
 
 def episode_snapshots(indicators):
     """Run the full scoring engine as of each historical market top."""
     snaps = []
-    for date_s, label, dd in EPISODES:
+    for date_s, label, dd, etype in EPISODES:
         asof = dt.date.fromisoformat(date_s)
         by_ep = {ind.sid: ind.as_of(asof) for ind in indicators}
         cs = category_scores(by_ep.values())
         chk = build_checklist(by_ep)
         sc, fl, _msg, non = overall_flag(cs, chk)
         n_scored = sum(1 for i in by_ep.values() if i.status in STATUS_SCORE)
-        snaps.append({"label": label, "date": asof, "dd": dd, "score": sc,
-                      "flag": fl, "n_on": non, "n_chk": len(chk),
+        snaps.append({"label": label, "date": asof, "dd": dd, "etype": etype,
+                      "score": sc, "flag": fl, "n_on": non, "n_chk": len(chk),
                       "cat_scores": cs, "n_scored": n_scored})
     return snaps
 
@@ -865,6 +915,15 @@ def write_conclusions(score, flag, n_on, checklist, episodes, by_id, cat_scores,
         if flashing:
             p += " Signature factors flashing now: " + ", ".join(flashing) + "."
         paras.append(p)
+        typed = [t for t in fs.get("types", [])]
+        if typed:
+            bits = []
+            for t in typed:
+                if t["flag"]:
+                    bits.append(f"{t['name']}: {t['flag']} ({t['today_pct']:.0f}% of its signature flashing)")
+                else:
+                    bits.append(f"{t['name']}: no early-warning signature exists - not flaggable in advance")
+            paras.append("Flags by type of bad market - " + "; ".join(bits) + ".")
 
     if on_items:
         names = "; ".join(f"{c['name'].lower()} ({c['detail']})" for c in on_items[:6])
@@ -1090,13 +1149,14 @@ def svg_trend(history):
 </svg>'''
 
 
-def svg_signature(crash_avg, today_pct, bull_avg, flag):
+def svg_signature(crash_avg, today_pct, bull_avg, flag, w=None):
     """Three bars: share of crash-signature factors flashing at a typical
     pre-crash top, today, and in a typical healthy market."""
     rows = [("Typical pre-crash top", crash_avg, "#e53935"),
             ("TODAY", today_pct, FLAG_COLORS[flag]),
             ("Typical healthy market", bull_avg, "#1db954")]
     rh, x0, W = 34, 186, 600
+    w = w or W
     xmax = W - 62
     H = len(rows) * rh + 28
 
@@ -1113,16 +1173,16 @@ def svg_signature(crash_avg, today_pct, bull_avg, flag):
     bars = ""
     for i, (label, v, col) in enumerate(rows):
         y = 10 + i * rh
-        w = "800" if label == "TODAY" else "400"
+        fw = "800" if label == "TODAY" else "400"
         lc = "#ffffff" if label == "TODAY" else "#9fb0c3"
         outline = ' stroke="#dfe6ee" stroke-width="1.6"' if label == "TODAY" else ""
         bars += (f'<text x="{x0 - 8}" y="{y + 15}" font-size="11.5" fill="{lc}" '
-                 f'font-weight="{w}" text-anchor="end">{label}</text>'
+                 f'font-weight="{fw}" text-anchor="end">{label}</text>'
                  f'<rect x="{x0}" y="{y}" width="{max(sx(v) - x0, 2):.1f}" height="19" rx="4" '
                  f'fill="{col}"{outline}/>'
                  f'<text x="{sx(v) + 6:.1f}" y="{y + 14}" font-size="11.5" fill="#dfe6ee" '
-                 f'font-weight="{w}">{v:.0f}%</text>')
-    return (f'<svg viewBox="0 0 {W} {H}" width="{W}" height="{H}" '
+                 f'font-weight="{fw}">{v:.0f}%</text>')
+    return (f'<svg viewBox="0 0 {W} {H}" width="{w}" height="{round(w * H / W)}" '
             f'xmlns="http://www.w3.org/2000/svg">{grid}{bars}</svg>')
 
 
@@ -1198,11 +1258,13 @@ def render_episode_cards(ep_snaps, score, flag, n_on, n_chk, cat_scores, n_score
     cards = ""
     today = {"label": "TODAY", "date": dt.date.today(), "dd": "", "score": score,
              "flag": flag, "n_on": n_on, "n_chk": n_chk, "cat_scores": cat_scores,
-             "n_scored": n_scored_today}
+             "n_scored": n_scored_today, "etype": None}
     for i, s in enumerate([today] + ep_snaps):
         n_sc = s["n_scored"] if s["n_scored"] is not None else "-"
-        cards += card(s["label"],
-                      f"market top {s['date']}" if i else str(s["date"]),
+        sub = f"market top {s['date']}" if i else str(s["date"])
+        if s.get("etype"):
+            sub += f" · {CRASH_TYPES[s['etype']][0]}"
+        cards += card(s["label"], sub,
                       s["dd"], s["score"], s["flag"], s["n_on"], s["n_chk"],
                       s["cat_scores"], n_sc, highlight=(i == 0))
     return cards
@@ -1291,6 +1353,43 @@ doing now" on the evidence that actually discriminates.</div>
 <table><tr><th>Factor</th><th>Flashing before crashes</th><th>Flashing in healthy markets</th><th>Separation</th><th>TODAY</th></tr>
 {factor_rows}</table>"""
 
+        # one flag per type of bad market
+        type_cards = ""
+        for t in fs.get("types", []):
+            fc2 = FLAG_COLORS.get(t["flag"], "#666")
+            chip = (f'<span class="chip" style="background:{fc2}">{t["flag"] or "NOT FLAGGABLE"}</span>')
+            chips = ""
+            for f2 in t["factors"]:
+                if f2["today"] is None:
+                    c2, mark = "#666", "?"
+                elif f2["today"]:
+                    c2, mark = "#e53935", "&#9679;"
+                else:
+                    c2, mark = "#1db954", "&#9679;"
+                chips += (f'<span class="fchip" style="border-color:{c2}">'
+                          f'<span style="color:{c2}">{mark}</span> {e(f2["name"])}</span> ')
+            if t["flag"]:
+                body = f"""{svg_signature(t['crash_avg'], t['today_pct'], t['bull_avg'], t['flag'], w=300)}
+                <div class="muted" style="margin:4px 0 6px">{t['today_pct']:.0f}% of this type's signature flashing
+                (typical top of this type: {t['crash_avg']:.0f}%, healthy: {t['bull_avg']:.0f}%)</div>"""
+            else:
+                body = ('<div class="muted" style="padding:14px 0">No reliable early-warning signature - '
+                        'episodes of this type struck without shared macro precursors. '
+                        'This risk cannot be flagged in advance; it is why diversification exists.</div>')
+            type_cards += f"""<div class="epcard" style="text-align:left">
+              <div class="ephead"><b>{e(t['name'])}</b> {chip}</div>
+              <div class="epmeta">{e(t['desc'])}<br>Historical episodes: {e(t['episodes'])} ({t['n_eps']} of 10 tops)</div>
+              {body}
+              <div style="margin-top:4px">{chips}</div>
+            </div>"""
+        signature_html += f"""
+<h2>Risk flags by type of bad market</h2>
+<div class="muted" style="margin-bottom:8px">Different bad markets have different causes, so each type gets its own
+signature (factors flashing at &gt;=60% of that type's tops but rarely in healthy markets) and its own flag based on
+how much of that signature is flashing today: GREEN &lt;25% of the way from healthy to that type's pre-crash typical,
+YELLOW &lt;50%, ORANGE &lt;75%, RED above.</div>
+<div class="epgrid" style="grid-template-columns:repeat(auto-fill,minmax(330px,1fr))">{type_cards}</div>"""
+
     # episode table: better / similar / worse today vs each market top
     verdict_style = {"better today": ("#1db954", "TODAY IS BETTER"),
                      "about the same": ("#e6c200", "ABOUT THE SAME"),
@@ -1319,14 +1418,14 @@ doing now" on the evidence that actually discriminates.</div>
           <td><span class="chip" style="background:{vcol}">{vtxt}</span></td></tr>"""
 
     # then-vs-now detail for headline indicators
-    then_head = "".join(f"<th>{e(lbl)}</th>" for _, lbl, _ in EPISODES)
+    then_head = "".join(f"<th>{e(lbl)}</th>" for _, lbl, *_ in EPISODES)
     then_rows = ""
     for sid in HEADLINE_IDS:
         ind = by_id.get(sid)
         if not ind or ind.current is None:
             continue
         cells = ""
-        for date_s, _, _ in EPISODES:
+        for date_s, *_ in EPISODES:
             v = ind.metric_at(dt.date.fromisoformat(date_s))
             cells += f"<td>{fmt(v, ind.unit)}</td>"
         then_rows += (f"<tr><td class='sticky'>{e(ind.name)}</td>"
@@ -1442,6 +1541,8 @@ doing now" on the evidence that actually discriminates.</div>
   .stack {{ display:flex; width:190px; height:11px; border-radius:6px; overflow:hidden;
            background:#232b39; margin-bottom:3px; }}
   .stack div {{ height:100%; }}
+  .fchip {{ display:inline-block; border:1px solid; border-radius:14px; padding:1px 8px;
+           font-size:11px; color:#c6d0da; margin:2px 0; }}
   .concl {{ background:#161c26; border:1px solid #232b39; border-left:4px solid {fc};
            border-radius:10px; padding:6px 20px; font-size:14.5px; line-height:1.65; }}
   details {{ margin:10px 0; }}
@@ -1604,6 +1705,11 @@ def main():
         print(f"Crash signature: {fs['today_pct']:.0f}% of {len(fs['factors'])} factors flashing "
               f"(healthy avg {fs['bull_avg']:.0f}%, pre-crash avg {fs['crash_avg']:.0f}%, "
               f"position {fs['position'] * 100:.0f}%)")
+        for t in fs.get("types", []):
+            if t["flag"]:
+                print(f"  {t['name']}: {t['flag']} ({t['today_pct']:.0f}% of its signature flashing)")
+            else:
+                print(f"  {t['name']}: not flaggable in advance")
 
     print(f"FLAG: {flag}  (score {score}/100, {n_alert} alerts, {n_watch} watches, "
           f"{len(failures)} unavailable)")
