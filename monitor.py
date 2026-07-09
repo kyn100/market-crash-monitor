@@ -212,6 +212,72 @@ CRASH_TYPES = {
               "1987, 2011, 2020", False),
 }
 
+# Sub-category threat watches: the top-10 critical threats that are not
+# themselves a major category. Each tripwire is (series_id, label, test):
+#   "status"    -> the indicator's own WATCH/ALERT scoring
+#   "pct_hi:90" -> current reading at/above that 15-year percentile
+#   "pct_lo:10" -> current reading at/below that 15-year percentile
+# parent None = unprecedented risk with no parent category (threshold watch only).
+SUBCARDS = [
+    ("oil_shock", "tightening", "Oil / Energy Shock Watch",
+     "A supply-driven oil spike lands on the inflation squeeze (1973, 1979, 1990 pattern)",
+     [("DCOILWTICO", "oil up sharply YoY", "status"),
+      ("DCOILWTICO", "oil at 15-year extreme", "pct_hi:90"),
+      ("PPIACO", "producer prices hot", "status"),
+      ("MICH", "inflation expectations elevated", "status")]),
+    ("labor_cascade", "tightening", "Labor-Market Cascade",
+     "The self-reinforcing layoff spiral that turns slowdowns into recessions - the confirmation stage",
+     [("SAHMREALTIME", "Sahm rule", "status"),
+      ("IC4WSA", "jobless claims trending up", "status"),
+      ("UNRATE", "unemployment off its low", "status"),
+      ("TEMPHELPS", "temp-help employment falling", "status"),
+      ("JTSQUR", "quits rate depressed", "status"),
+      ("PAYEMS", "payroll growth weak", "status")]),
+    ("housing_bust", "credit", "Housing Bust Watch",
+     "Affordability breaks, prices fall, construction stops - the 2006-09 on-ramp",
+     [("MSACSR", "months' supply elevated", "status"),
+      ("CSUSHPINSA", "home-price growth stalling", "status"),
+      ("PERMIT", "permits contracting", "status"),
+      ("HOUST", "starts contracting", "status"),
+      ("HSN1F", "new-home sales falling", "status"),
+      ("DRSFRMACBS", "mortgage delinquencies rising", "status"),
+      ("MORTGAGE30US", "mortgage rates punitive", "status")]),
+    ("ai_bubble", "bubble", "AI / Tech-Concentration Watch",
+     "Mega-cap concentration + the AI capex cycle unwinding, 2000-style. Valuation and "
+     "concentration data are not in the indicator set - this watch tracks momentum breaks "
+     "in the leadership complex",
+     [("^IXIC", "Nasdaq momentum breaking", "status"),
+      ("^SOX", "semiconductors breaking", "status"),
+      ("^GSPC", "S&P drawdown / below 200-day", "status"),
+      ("^VIX", "volatility regime shift", "status"),
+      ("BTC-USD", "risk appetite collapsing (Bitcoin)", "pct_lo:15")]),
+    ("sovereign", None, "Sovereign Debt / Fiscal Stress Watch",
+     "A bond-market revolt against US debt. NO US PRECEDENT - no historical signature is "
+     "possible; this is a raw threshold watch on the ingredients",
+     [("A091RC1Q027SBEA", "interest burden accelerating", "status"),
+      ("GFDEBTN", "debt growth extreme", "pct_hi:85"),
+      ("MTSDS133FMS", "deficits at 15-year extremes", "pct_lo:10"),
+      ("DGS30", "30-year yield at 15-year extreme", "pct_hi:90"),
+      ("T10YIE", "inflation compensation demanded", "pct_hi:90"),
+      ("GC=F", "gold spike (confidence hedge)", "pct_hi:90")]),
+    ("dollar", None, "Dollar-Confidence Watch",
+     "Disorderly flight from the dollar / reserve-status erosion. NO US PRECEDENT - "
+     "raw threshold watch only",
+     [("DTWEXBGS", "dollar falling sharply", "pct_lo:10"),
+      ("GC=F", "gold spike", "pct_hi:90"),
+      ("T10YIE", "inflation compensation extreme", "pct_hi:85"),
+      ("DGS30", "long yields spiking", "pct_hi:90")]),
+    ("geopolitical", "shock", "Geopolitical Rupture (Taiwan, war)",
+     "A Taiwan blockade would sever advanced-semiconductor supply overnight - plausibly a "
+     "bigger real-economy shock than any oil embargo. Would show first in semiconductors, "
+     "VIX and gold as reactions, not warnings",
+     []),
+    ("cyber", "shock", "Cyber / Pandemic / Infrastructure",
+     "An attack on payments, clearing or the grid - or a new pandemic. Instant stop with "
+     "no macro warning (COVID 2020 precedent)",
+     []),
+]
+
 # Market tops preceding major crashes / corrections (onset, label, drawdown, type)
 EPISODES = [
     ("1973-01-11", "1973-74 bear", "-48%", "tightening"),
@@ -851,6 +917,37 @@ def factor_analysis(indicators, by_id, checklist_today):
             "position": position, "types": types}
 
 
+def build_subcards(by_id):
+    """Evaluate the sub-category threat watches against today's indicators."""
+    pos_flags = ((0.25, "GREEN"), (0.50, "YELLOW"), (0.75, "ORANGE"), (9.9, "RED"))
+    out = []
+    for key, parent, name, desc, wires in SUBCARDS:
+        trips = []
+        for sid, label, test in wires:
+            ind = by_id.get(sid)
+            on = None
+            if ind is not None and not ind.error and ind.current is not None:
+                if test == "status":
+                    if ind.status in ("OK", "WATCH", "ALERT"):
+                        on = ind.status in ("WATCH", "ALERT")
+                elif test.startswith("pct_hi:"):
+                    if ind.pctile is not None:
+                        on = ind.pctile >= float(test.split(":")[1])
+                elif test.startswith("pct_lo:"):
+                    if ind.pctile is not None:
+                        on = ind.pctile <= float(test.split(":")[1])
+            trips.append({"label": label, "on": on})
+        known = [t for t in trips if t["on"] is not None]
+        entry = {"key": key, "parent": parent, "name": name, "desc": desc,
+                 "trips": trips, "n_on": sum(1 for t in known if t["on"]),
+                 "n_known": len(known), "position": None, "flag": None}
+        if wires and len(known) >= max(2, len(wires) // 2):
+            entry["position"] = entry["n_on"] / len(known)
+            entry["flag"] = next(fl for th, fl in pos_flags if entry["position"] < th)
+        out.append(entry)
+    return out
+
+
 def episode_snapshots(indicators):
     """Run the full scoring engine as of each historical market top."""
     snaps = []
@@ -886,7 +983,7 @@ def overall_flag(cat_scores, checklist):
 
 
 def write_conclusions(score, flag, n_on, checklist, episodes, by_id, cat_scores,
-                      ep_snaps=None, factor_summary=None):
+                      ep_snaps=None, factor_summary=None, subcards=None):
     """Deterministic reasoning -> prose conclusions."""
     paras = []
     on_items = [c for c in checklist if c["on"]]
@@ -924,6 +1021,13 @@ def write_conclusions(score, flag, n_on, checklist, episodes, by_id, cat_scores,
                 else:
                     bits.append(f"{t['name']}: no early-warning signature exists - not flaggable in advance")
             paras.append("Flags by type of bad market - " + "; ".join(bits) + ".")
+        if subcards:
+            sbits = []
+            for s in subcards:
+                if s["flag"]:
+                    sbits.append(f"{s['name']}: {s['flag']} ({s['n_on']}/{s['n_known']} tripwires)")
+            if sbits:
+                paras.append("Sub-category threat watches - " + "; ".join(sbits) + ".")
 
     if on_items:
         names = "; ".join(f"{c['name'].lower()} ({c['detail']})" for c in on_items[:6])
@@ -1186,7 +1290,8 @@ def svg_signature(crash_avg, today_pct, bull_avg, flag, w=None):
             f'xmlns="http://www.w3.org/2000/svg">{grid}{bars}</svg>')
 
 
-def svg_meter(position, w=340):
+def svg_meter(position, w=340, left_label="typical healthy market",
+              right_label="eve of this type of crash"):
     """Distance meter: how far today's conditions have travelled from typical
     healthy-market conditions (0%) toward conditions typical on the eve of
     this type of crash (100%)."""
@@ -1206,9 +1311,9 @@ def svg_meter(position, w=340):
               f'<line x1="{px:.1f}" y1="{y - 2}" x2="{px:.1f}" y2="{y + bh + 2}" stroke="#ffffff" stroke-width="2"/>'
               f'<text x="{min(max(px, x0 + 18), x1 - 18):.1f}" y="{y - 20}" font-size="15" font-weight="800" '
               f'fill="#ffffff" text-anchor="middle">{pos * 100:.0f}%</text>')
-    labels = (f'<text x="{x0}" y="{y + bh + 16}" font-size="9.5" fill="#8b97a6">typical healthy market</text>'
+    labels = (f'<text x="{x0}" y="{y + bh + 16}" font-size="9.5" fill="#8b97a6">{html.escape(left_label)}</text>'
               f'<text x="{x1}" y="{y + bh + 16}" font-size="9.5" fill="#8b97a6" '
-              f'text-anchor="end">eve of this type of crash</text>')
+              f'text-anchor="end">{html.escape(right_label)}</text>')
     return (f'<svg viewBox="0 0 {W} {H}" width="{w}" height="{round(w * H / W)}" '
             f'xmlns="http://www.w3.org/2000/svg"><rect x="{x0}" y="{y}" width="{x1 - x0}" '
             f'height="{bh}" rx="6" fill="#232b39"/>{zones}{marker}{labels}</svg>')
@@ -1300,7 +1405,7 @@ def render_episode_cards(ep_snaps, score, flag, n_on, n_chk, cat_scores, n_score
 
 def render_report(indicators, by_id, cat_scores, checklist, episodes, score, flag,
                   msg, n_on, conclusions, history, prev_score, fred_key_missing,
-                  failures, ep_snaps, factor_summary):
+                  failures, ep_snaps, factor_summary, subcards):
     e = html.escape
     now = dt.datetime.now().strftime("%A, %B %d %Y at %H:%M")
     fc = FLAG_COLORS[flag]
@@ -1421,13 +1526,58 @@ doing now" on the evidence that actually discriminates.</div>
         if line_bits:
             type_line = ('<div class="typeline">How far along toward each type of bad market: '
                          + " &nbsp;&middot;&nbsp; ".join(line_bits) + "</div>")
+        sub_cards = ""
+        for s in subcards or []:
+            if s["parent"]:
+                ptag = "sub-category of " + CRASH_TYPES[s["parent"]][0]
+            else:
+                ptag = "new category watch - no US precedent"
+            fc3 = FLAG_COLORS.get(s["flag"], "#666")
+            if s["flag"]:
+                chip = f'<span class="chip" style="background:{fc3}">{s["flag"]}</span>'
+                body = f"""{svg_meter(s['position'], w=300, left_label="no tripwires",
+                                      right_label="all tripwires triggered")}
+                <div class="muted" style="margin:2px 0 6px">{s['n_on']} of {s['n_known']} tripwires triggered.
+                Threshold watch - not calibrated against historical tops.</div>"""
+            elif s["trips"]:
+                chip = '<span class="chip" style="background:#666">INSUFFICIENT DATA</span>'
+                body = ""
+            else:
+                chip = '<span class="chip" style="background:#666">NOT FLAGGABLE</span>'
+                body = ""
+            tchips = ""
+            for t in s["trips"]:
+                if t["on"] is None:
+                    c3, mark = "#666", "?"
+                elif t["on"]:
+                    c3, mark = "#e53935", "&#9679;"
+                else:
+                    c3, mark = "#1db954", "&#9679;"
+                tchips += (f'<span class="fchip" style="border-color:{c3}">'
+                           f'<span style="color:{c3}">{mark}</span> {e(t["label"])}</span> ')
+            sub_cards += f"""<div class="epcard" style="text-align:left">
+              <div class="ephead"><b>{e(s['name'])}</b> {chip}</div>
+              <div class="epmeta">{e(ptag)}<br>{e(s['desc'])}</div>
+              {body}
+              <div style="margin-top:4px">{tchips}</div>
+            </div>"""
+        subs_html = ""
+        if sub_cards:
+            subs_html = f"""
+<h2>Sub-category threat watches</h2>
+<div class="muted" style="margin-bottom:8px">The ten most critical macro threats, mapped to the categories above.
+Threats that ARE a major category (the inflation squeeze, a banking crisis) live in the cards above; the rest get
+tripwire watches here. Unlike the meters above, these are raw tripwire counts - honest but uncalibrated, because
+some of these risks (sovereign debt, dollar confidence) have never happened in US history.</div>
+<div class="epgrid" style="grid-template-columns:repeat(auto-fill,minmax(350px,1fr))">{sub_cards}</div>"""
         types_html = f"""
 <h2>How far are we from each type of bad market?</h2>
 <div class="muted" style="margin-bottom:8px">Different bad markets have different causes, so each type gets its own
 signature (factors flashing at &gt;=60% of that type's historical tops but rarely at {fs['n_bull']} healthy-market
 control dates) and its own meter: 0% = conditions of a typical healthy market, 100% = conditions on the eve of that
 type of crash. Flags: GREEN &lt;25% of the way, YELLOW &lt;50%, ORANGE &lt;75%, RED above.</div>
-<div class="epgrid" style="grid-template-columns:repeat(auto-fill,minmax(350px,1fr))">{type_cards}</div>"""
+<div class="epgrid" style="grid-template-columns:repeat(auto-fill,minmax(350px,1fr))">{type_cards}</div>
+{subs_html}"""
 
     # episode table: better / similar / worse today vs each market top
     verdict_style = {"better today": ("#1db954", "TODAY IS BETTER"),
@@ -1714,8 +1864,9 @@ def main():
     ep_snaps = episode_snapshots(indicators)
     print("Screening factors against healthy-market control dates...")
     factor_summary = factor_analysis(indicators, by_id, checklist)
+    subcards = build_subcards(by_id)
     conclusions = write_conclusions(score, flag, n_on, checklist, episodes, by_id,
-                                    cat_scores, ep_snaps, factor_summary)
+                                    cat_scores, ep_snaps, factor_summary, subcards)
 
     history = read_history()
     prev_score = None
@@ -1738,7 +1889,7 @@ def main():
     failures = [f"{i.sid} - {i.error}" for i in indicators if i.error]
     render_report(indicators, by_id, cat_scores, checklist, episodes, score, flag,
                   msg, n_on, conclusions, history, prev_score, fred_key_missing,
-                  failures, ep_snaps, factor_summary)
+                  failures, ep_snaps, factor_summary, subcards)
     if factor_summary and factor_summary["factors"]:
         fs = factor_summary
         print(f"Crash signature: {fs['today_pct']:.0f}% of {len(fs['factors'])} factors flashing "
@@ -1749,6 +1900,9 @@ def main():
                 print(f"  {t['name']}: {t['flag']} ({t['today_pct']:.0f}% of its signature flashing)")
             else:
                 print(f"  {t['name']}: not flaggable in advance")
+        for s in subcards:
+            if s["flag"]:
+                print(f"    sub-watch {s['name']}: {s['flag']} ({s['n_on']}/{s['n_known']} tripwires)")
 
     print(f"FLAG: {flag}  (score {score}/100, {n_alert} alerts, {n_watch} watches, "
           f"{len(failures)} unavailable)")
