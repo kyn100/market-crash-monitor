@@ -2,7 +2,7 @@
 <html lang="en"><head>
 <meta charset="utf-8">
 <meta http-equiv="refresh" content="3600">
-<title>Market Crash Monitor - GREEN (14.1/100)</title>
+<title>Market Crash Monitor - YELLOW (23.0/100)</title>
 <style>
   :root { color-scheme: dark; }
   body { background:#0e1117; color:#dfe6ee; font-family:'Segoe UI',system-ui,sans-serif;
@@ -11,9 +11,9 @@
   h2 { font-size:19px; margin:34px 0 10px; border-bottom:1px solid #2a3140; padding-bottom:6px; }
   a { color:#6ab7ff; }
   .muted { color:#8b97a6; font-size:12.5px; }
-  .flagbox { margin:18px 0; padding:22px 26px; border-radius:14px; background:#1db95422;
-             border:2px solid #1db954; display:flex; align-items:center; gap:26px; flex-wrap:wrap; }
-  .flag { font-size:44px; font-weight:800; color:#1db954; letter-spacing:2px; }
+  .flagbox { margin:18px 0; padding:22px 26px; border-radius:14px; background:#e6c20022;
+             border:2px solid #e6c200; display:flex; align-items:center; gap:26px; flex-wrap:wrap; }
+  .flag { font-size:44px; font-weight:800; color:#e6c200; letter-spacing:2px; }
   .score { font-size:30px; font-weight:700; }
   .delta { color:#8b97a6; font-size:14px; }
   .counts span { margin-right:14px; font-size:14px; }
@@ -56,9 +56,9 @@
   .stack div { height:100%; }
   .fchip { display:inline-block; border:1px solid; border-radius:14px; padding:1px 8px;
            font-size:11px; color:#c6d0da; margin:2px 0; }
-  .concl { background:#161c26; border:1px solid #232b39; border-left:4px solid #1db954;
+  .concl { background:#161c26; border:1px solid #232b39; border-left:4px solid #e6c200;
            border-radius:10px; padding:6px 20px; font-size:14.5px; line-height:1.65; }
-  .verdictline { background:#1db95418; border:1px solid #1db95466; border-left:5px solid #1db954;
+  .verdictline { background:#e6c20018; border:1px solid #e6c20066; border-left:5px solid #e6c200;
                  border-radius:10px; padding:14px 18px; font-size:16.5px; line-height:1.55;
                  font-weight:600; margin-bottom:14px; }
   .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
@@ -80,22 +80,22 @@
 </style></head><body>
 
 <h1>US Market Crash / Correction Monitor</h1>
-<div class="muted">Generated Thursday, October 22 2026 at 00:11 &middot; 100 indicators tracked &middot; auto-refreshes hourly if left open</div>
+<div class="muted">Generated Thursday, October 22 2026 at 19:11 &middot; 100 indicators tracked &middot; auto-refreshes hourly if left open</div>
 
 
 <div class="flagbox">
-  <div class="flag">&#9873; GREEN</div>
+  <div class="flag">&#9873; YELLOW</div>
   <div>
-    <div class="score">14.1 / 100 <span class="delta">&#9654; +0.0 vs previous run (14.1)</span></div>
-    <div>No crash signature detected</div>
+    <div class="score">23.0 / 100 <span class="delta">&#9650; +8.9 vs previous run (14.1)</span></div>
+    <div>Some classic warning signs present - stay vigilant</div>
     <div class="counts muted">
-      <span style="color:#e53935">&#9679; 0 alert</span>
-      <span style="color:#e6c200">&#9679; 3 watch</span>
-      <span style="color:#1db954">&#9679; 5 ok</span>
-      <span>&#9679; 2 informational</span>
-      <span>&#9679; 90 unavailable</span>
+      <span style="color:#e53935">&#9679; 7 alert</span>
+      <span style="color:#e6c200">&#9679; 14 watch</span>
+      <span style="color:#1db954">&#9679; 57 ok</span>
+      <span>&#9679; 22 informational</span>
+      <span>&#9679; 0 unavailable</span>
     </div>
-    
+    <div class="typeline">How far along toward each type of bad market: <span><b style="color:#e53935">Inflation &amp; Fed-Tightening Bears</b>: 100% of the way</span> &nbsp;&middot;&nbsp; <span><b style="color:#e6c200">Credit / Banking Crisis</b>: 33% of the way</span> &nbsp;&middot;&nbsp; <span><b style="color:#1db954">Valuation Bubble Bust</b>: 19% of the way</span></div>
   </div>
 </div>
 
@@ -105,20 +105,29 @@ signature (factors flashing at &gt;=60% of that type's historical tops but rarel
 control dates) and its own meter: 0% = conditions of a typical healthy market, 100% = conditions on the eve of that
 type of crash. Flags: GREEN &lt;25% of the way, YELLOW &lt;50%, ORANGE &lt;75%, RED above.</div>
 <div class="epgrid" style="grid-template-columns:repeat(auto-fill,minmax(350px,1fr))"><div class="epcard" style="text-align:left">
-              <div class="ephead"><b>Inflation &amp; Fed-Tightening Bears</b> <span class="chip" style="background:#666">NOT FLAGGABLE</span></div>
+              <div class="ephead"><b>Inflation &amp; Fed-Tightening Bears</b> <span class="chip" style="background:#e53935">RED</span></div>
               <div class="epmeta">Inflation (or policy normalization) forces the Fed to tighten until growth cracks<br>Historical episodes: 1973-74, 1980-82, 1990, Q4-2018, 2022 (5 of 10 tops)</div>
-              <div class="muted" style="padding:14px 0">No reliable early-warning signature - episodes of this type struck without shared macro precursors. This risk cannot be flagged in advance; it is why diversification exists.</div>
-              <div style="margin-top:4px"><span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Nasdaq Composite (YoY)</span> </div>
+              <svg viewBox="0 0 360 78" width="330" height="72" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="38" width="328" height="13" rx="6" fill="#232b39"/><rect x="16.0" y="38" width="82.0" height="13" fill="#1db954" opacity="0.85"/><rect x="98.0" y="38" width="82.0" height="13" fill="#e6c200" opacity="0.85"/><rect x="180.0" y="38" width="82.0" height="13" fill="#ff7a00" opacity="0.85"/><rect x="262.0" y="38" width="82.0" height="13" fill="#e53935" opacity="0.85"/><polygon points="344.0,35 337.0,23 351.0,23" fill="#ffffff"/><line x1="344.0" y1="36" x2="344.0" y2="53" stroke="#ffffff" stroke-width="2"/><text x="326.0" y="18" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">100%</text><text x="16" y="67" font-size="9.5" fill="#8b97a6">typical healthy market</text><text x="344" y="67" font-size="9.5" fill="#8b97a6" text-anchor="end">eve of this type of crash</text></svg>
+                <div class="muted" style="margin:2px 0 6px">86% of this type's signature is
+                flashing today (typical top of this type: 70%, typical healthy market:
+                24%)</div>
+              <div style="margin-top:4px"><span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Months&#x27; Supply of New Homes</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Yield curve inverted / re-steepening</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Nasdaq Composite (YoY)</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> WTI Crude Oil (YoY)</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Payroll Growth (3m avg, k/month)</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Producer Prices (YoY)</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Real M2 Money Supply (YoY)</span> </div>
             </div><div class="epcard" style="text-align:left">
-              <div class="ephead"><b>Credit / Banking Crisis</b> <span class="chip" style="background:#666">NOT FLAGGABLE</span></div>
+              <div class="ephead"><b>Credit / Banking Crisis</b> <span class="chip" style="background:#e6c200">YELLOW</span></div>
               <div class="epmeta">Leverage and lending excesses unwind - the 2008 pattern<br>Historical episodes: 2007-09 (1 of 10 tops)</div>
-              <div class="muted" style="padding:14px 0">No reliable early-warning signature - episodes of this type struck without shared macro precursors. This risk cannot be flagged in advance; it is why diversification exists.</div>
-              <div style="margin-top:4px"><span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Russell 2000 Small Caps (YoY)</span> </div>
+              <svg viewBox="0 0 360 78" width="330" height="72" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="38" width="328" height="13" rx="6" fill="#232b39"/><rect x="16.0" y="38" width="82.0" height="13" fill="#1db954" opacity="0.85"/><rect x="98.0" y="38" width="82.0" height="13" fill="#e6c200" opacity="0.85"/><rect x="180.0" y="38" width="82.0" height="13" fill="#ff7a00" opacity="0.85"/><rect x="262.0" y="38" width="82.0" height="13" fill="#e53935" opacity="0.85"/><polygon points="123.1,35 116.1,23 130.1,23" fill="#ffffff"/><line x1="123.1" y1="36" x2="123.1" y2="53" stroke="#ffffff" stroke-width="2"/><text x="123.1" y="18" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">33%</text><text x="16" y="67" font-size="9.5" fill="#8b97a6">typical healthy market</text><text x="344" y="67" font-size="9.5" fill="#8b97a6" text-anchor="end">eve of this type of crash</text></svg>
+                <div class="muted" style="margin:2px 0 6px">40% of this type's signature is
+                flashing today (typical top of this type: 100%, typical healthy market:
+                11%)</div>
+              <div style="margin-top:4px"><span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Financial conditions tightening</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Real GDP (YoY)</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Mortgage Delinquency Rate</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Banks Tightening C&amp;I Loans (large firms, SLOOS)</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Credit Card Delinquency Rate</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Housing rolling over</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Russell 2000 Small Caps (YoY)</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Payroll Growth (3m avg, k/month)</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Case-Shiller Home Prices (YoY)</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> New Home Sales (YoY)</span> </div>
             </div><div class="epcard" style="text-align:left">
-              <div class="ephead"><b>Valuation Bubble Bust</b> <span class="chip" style="background:#666">NOT FLAGGABLE</span></div>
+              <div class="ephead"><b>Valuation Bubble Bust</b> <span class="chip" style="background:#1db954">GREEN</span></div>
               <div class="epmeta">Extreme valuations in a hot sector collapse - the 2000 pattern<br>Historical episodes: 2000-02 (1 of 10 tops)</div>
-              <div class="muted" style="padding:14px 0">No reliable early-warning signature - episodes of this type struck without shared macro precursors. This risk cannot be flagged in advance; it is why diversification exists.</div>
-              <div style="margin-top:4px"><span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Dow Jones Industrial (YoY)</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Volatility regime shift</span> </div>
+              <svg viewBox="0 0 360 78" width="330" height="72" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="38" width="328" height="13" rx="6" fill="#232b39"/><rect x="16.0" y="38" width="82.0" height="13" fill="#1db954" opacity="0.85"/><rect x="98.0" y="38" width="82.0" height="13" fill="#e6c200" opacity="0.85"/><rect x="180.0" y="38" width="82.0" height="13" fill="#ff7a00" opacity="0.85"/><rect x="262.0" y="38" width="82.0" height="13" fill="#e53935" opacity="0.85"/><polygon points="78.7,35 71.7,23 85.7,23" fill="#ffffff"/><line x1="78.7" y1="36" x2="78.7" y2="53" stroke="#ffffff" stroke-width="2"/><text x="78.7" y="18" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">19%</text><text x="16" y="67" font-size="9.5" fill="#8b97a6">typical healthy market</text><text x="344" y="67" font-size="9.5" fill="#8b97a6" text-anchor="end">eve of this type of crash</text></svg>
+                <div class="muted" style="margin:2px 0 6px">30% of this type's signature is
+                flashing today (typical top of this type: 100%, typical healthy market:
+                13%)</div>
+              <div style="margin-top:4px"><span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Adjusted Financial Conditions Index</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Real Manufacturing &amp; Trade Sales (YoY)</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Banks Tightening C&amp;I Loans (large firms, SLOOS)</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Core CPI Inflation (YoY)</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Banks Tightening C&amp;I Loans (small firms, SLOOS)</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Core PCE Inflation (YoY)</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Dow Jones Industrial (YoY)</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> WTI Crude Oil (YoY)</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> PCE Inflation (YoY)</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Producer Prices (YoY)</span> </div>
             </div><div class="epcard" style="text-align:left">
               <div class="ephead"><b>Exogenous Shocks</b> <span class="chip" style="background:#666">NOT FLAGGABLE</span></div>
               <div class="epmeta">External events (war, pandemic, market structure) with little macro warning<br>Historical episodes: 1987, 2011, 2020 (3 of 10 tops)</div>
@@ -132,20 +141,26 @@ Threats that ARE a major category (the inflation squeeze, a banking crisis) live
 tripwire watches here. Unlike the meters above, these are raw tripwire counts - honest but uncalibrated, because
 some of these risks (sovereign debt, dollar confidence) have never happened in US history.</div>
 <div class="epgrid" style="grid-template-columns:repeat(auto-fill,minmax(350px,1fr))"><div class="epcard" style="text-align:left">
-              <div class="ephead"><b>Oil / Energy Shock Watch</b> <span class="chip" style="background:#666">INSUFFICIENT DATA</span></div>
+              <div class="ephead"><b>Oil / Energy Shock Watch</b> <span class="chip" style="background:#e53935">RED</span></div>
               <div class="epmeta">sub-category of Inflation &amp; Fed-Tightening Bears<br>A supply-driven oil spike lands on the inflation squeeze (1973, 1979, 1990 pattern)</div>
-              
-              <div style="margin-top:4px"><span class="fchip" style="border-color:#666"><span style="color:#666">?</span> oil up sharply YoY</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> oil at 15-year extreme</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> producer prices hot</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> inflation expectations elevated</span> </div>
+              <svg viewBox="0 0 360 78" width="300" height="65" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="38" width="328" height="13" rx="6" fill="#232b39"/><rect x="16.0" y="38" width="82.0" height="13" fill="#1db954" opacity="0.85"/><rect x="98.0" y="38" width="82.0" height="13" fill="#e6c200" opacity="0.85"/><rect x="180.0" y="38" width="82.0" height="13" fill="#ff7a00" opacity="0.85"/><rect x="262.0" y="38" width="82.0" height="13" fill="#e53935" opacity="0.85"/><polygon points="262.0,35 255.0,23 269.0,23" fill="#ffffff"/><line x1="262.0" y1="36" x2="262.0" y2="53" stroke="#ffffff" stroke-width="2"/><text x="262.0" y="18" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">75%</text><text x="16" y="67" font-size="9.5" fill="#8b97a6">no tripwires</text><text x="344" y="67" font-size="9.5" fill="#8b97a6" text-anchor="end">all tripwires triggered</text></svg>
+                <div class="muted" style="margin:2px 0 6px">3 of 4 tripwires triggered.
+                Threshold watch - not calibrated against historical tops.</div>
+              <div style="margin-top:4px"><span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> oil up sharply YoY</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> oil at 15-year extreme</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> producer prices hot</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> inflation expectations elevated</span> </div>
             </div><div class="epcard" style="text-align:left">
-              <div class="ephead"><b>Labor-Market Cascade</b> <span class="chip" style="background:#666">INSUFFICIENT DATA</span></div>
+              <div class="ephead"><b>Labor-Market Cascade</b> <span class="chip" style="background:#1db954">GREEN</span></div>
               <div class="epmeta">sub-category of Inflation &amp; Fed-Tightening Bears<br>The self-reinforcing layoff spiral that turns slowdowns into recessions - the confirmation stage</div>
-              
-              <div style="margin-top:4px"><span class="fchip" style="border-color:#666"><span style="color:#666">?</span> Sahm rule</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> jobless claims trending up</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> unemployment off its low</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> temp-help employment falling</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> quits rate depressed</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> payroll growth weak</span> </div>
+              <svg viewBox="0 0 360 78" width="300" height="65" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="38" width="328" height="13" rx="6" fill="#232b39"/><rect x="16.0" y="38" width="82.0" height="13" fill="#1db954" opacity="0.85"/><rect x="98.0" y="38" width="82.0" height="13" fill="#e6c200" opacity="0.85"/><rect x="180.0" y="38" width="82.0" height="13" fill="#ff7a00" opacity="0.85"/><rect x="262.0" y="38" width="82.0" height="13" fill="#e53935" opacity="0.85"/><polygon points="70.7,35 63.7,23 77.7,23" fill="#ffffff"/><line x1="70.7" y1="36" x2="70.7" y2="53" stroke="#ffffff" stroke-width="2"/><text x="70.7" y="18" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">17%</text><text x="16" y="67" font-size="9.5" fill="#8b97a6">no tripwires</text><text x="344" y="67" font-size="9.5" fill="#8b97a6" text-anchor="end">all tripwires triggered</text></svg>
+                <div class="muted" style="margin:2px 0 6px">1 of 6 tripwires triggered.
+                Threshold watch - not calibrated against historical tops.</div>
+              <div style="margin-top:4px"><span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> Sahm rule</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> jobless claims trending up</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> unemployment off its low</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> temp-help employment falling</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> quits rate depressed</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> payroll growth weak</span> </div>
             </div><div class="epcard" style="text-align:left">
-              <div class="ephead"><b>Housing Bust Watch</b> <span class="chip" style="background:#666">INSUFFICIENT DATA</span></div>
+              <div class="ephead"><b>Housing Bust Watch</b> <span class="chip" style="background:#ff7a00">ORANGE</span></div>
               <div class="epmeta">sub-category of Credit / Banking Crisis<br>Affordability breaks, prices fall, construction stops - the 2006-09 on-ramp</div>
-              
-              <div style="margin-top:4px"><span class="fchip" style="border-color:#666"><span style="color:#666">?</span> months&#x27; supply elevated</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> home-price growth stalling</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> permits contracting</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> starts contracting</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> new-home sales falling</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> mortgage delinquencies rising</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> mortgage rates punitive</span> </div>
+              <svg viewBox="0 0 360 78" width="300" height="65" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="38" width="328" height="13" rx="6" fill="#232b39"/><rect x="16.0" y="38" width="82.0" height="13" fill="#1db954" opacity="0.85"/><rect x="98.0" y="38" width="82.0" height="13" fill="#e6c200" opacity="0.85"/><rect x="180.0" y="38" width="82.0" height="13" fill="#ff7a00" opacity="0.85"/><rect x="262.0" y="38" width="82.0" height="13" fill="#e53935" opacity="0.85"/><polygon points="250.3,35 243.3,23 257.3,23" fill="#ffffff"/><line x1="250.3" y1="36" x2="250.3" y2="53" stroke="#ffffff" stroke-width="2"/><text x="250.3" y="18" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">71%</text><text x="16" y="67" font-size="9.5" fill="#8b97a6">no tripwires</text><text x="344" y="67" font-size="9.5" fill="#8b97a6" text-anchor="end">all tripwires triggered</text></svg>
+                <div class="muted" style="margin:2px 0 6px">5 of 7 tripwires triggered.
+                Threshold watch - not calibrated against historical tops.</div>
+              <div style="margin-top:4px"><span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> months&#x27; supply elevated</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> home-price growth stalling</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> permits contracting</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> starts contracting</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> new-home sales falling</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> mortgage delinquencies rising</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> mortgage rates punitive</span> </div>
             </div><div class="epcard" style="text-align:left">
               <div class="ephead"><b>AI / Tech-Concentration Watch</b> <span class="chip" style="background:#e6c200">YELLOW</span></div>
               <div class="epmeta">sub-category of Valuation Bubble Bust<br>Mega-cap concentration + the AI capex cycle unwinding, 2000-style. Valuation and concentration data are not in the indicator set - this watch tracks momentum breaks in the leadership complex</div>
@@ -154,15 +169,19 @@ some of these risks (sovereign debt, dollar confidence) have never happened in U
                 Threshold watch - not calibrated against historical tops.</div>
               <div style="margin-top:4px"><span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> Nasdaq momentum breaking</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> semiconductors breaking</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> S&amp;P drawdown / below 200-day</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> volatility regime shift</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> risk appetite collapsing (Bitcoin)</span> </div>
             </div><div class="epcard" style="text-align:left">
-              <div class="ephead"><b>Sovereign Debt / Fiscal Stress Watch</b> <span class="chip" style="background:#666">INSUFFICIENT DATA</span></div>
+              <div class="ephead"><b>Sovereign Debt / Fiscal Stress Watch</b> <span class="chip" style="background:#e6c200">YELLOW</span></div>
               <div class="epmeta">new category watch - no US precedent<br>A bond-market revolt against US debt. NO US PRECEDENT - no historical signature is possible; this is a raw threshold watch on the ingredients</div>
-              
-              <div style="margin-top:4px"><span class="fchip" style="border-color:#666"><span style="color:#666">?</span> interest burden accelerating</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> debt growth extreme</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> deficits at 15-year extremes</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> 30-year yield at 15-year extreme</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> inflation compensation demanded</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> gold spike (confidence hedge)</span> </div>
+              <svg viewBox="0 0 360 78" width="300" height="65" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="38" width="328" height="13" rx="6" fill="#232b39"/><rect x="16.0" y="38" width="82.0" height="13" fill="#1db954" opacity="0.85"/><rect x="98.0" y="38" width="82.0" height="13" fill="#e6c200" opacity="0.85"/><rect x="180.0" y="38" width="82.0" height="13" fill="#ff7a00" opacity="0.85"/><rect x="262.0" y="38" width="82.0" height="13" fill="#e53935" opacity="0.85"/><polygon points="125.3,35 118.3,23 132.3,23" fill="#ffffff"/><line x1="125.3" y1="36" x2="125.3" y2="53" stroke="#ffffff" stroke-width="2"/><text x="125.3" y="18" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">33%</text><text x="16" y="67" font-size="9.5" fill="#8b97a6">no tripwires</text><text x="344" y="67" font-size="9.5" fill="#8b97a6" text-anchor="end">all tripwires triggered</text></svg>
+                <div class="muted" style="margin:2px 0 6px">2 of 6 tripwires triggered.
+                Threshold watch - not calibrated against historical tops.</div>
+              <div style="margin-top:4px"><span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> interest burden accelerating</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> debt growth extreme</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> deficits at 15-year extremes</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> 30-year yield at 15-year extreme</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> inflation compensation demanded</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> gold spike (confidence hedge)</span> </div>
             </div><div class="epcard" style="text-align:left">
-              <div class="ephead"><b>Dollar-Confidence Watch</b> <span class="chip" style="background:#666">INSUFFICIENT DATA</span></div>
+              <div class="ephead"><b>Dollar-Confidence Watch</b> <span class="chip" style="background:#e6c200">YELLOW</span></div>
               <div class="epmeta">new category watch - no US precedent<br>Disorderly flight from the dollar / reserve-status erosion. NO US PRECEDENT - raw threshold watch only</div>
-              
-              <div style="margin-top:4px"><span class="fchip" style="border-color:#666"><span style="color:#666">?</span> dollar falling sharply</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> gold spike</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> inflation compensation extreme</span> <span class="fchip" style="border-color:#666"><span style="color:#666">?</span> long yields spiking</span> </div>
+              <svg viewBox="0 0 360 78" width="300" height="65" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="38" width="328" height="13" rx="6" fill="#232b39"/><rect x="16.0" y="38" width="82.0" height="13" fill="#1db954" opacity="0.85"/><rect x="98.0" y="38" width="82.0" height="13" fill="#e6c200" opacity="0.85"/><rect x="180.0" y="38" width="82.0" height="13" fill="#ff7a00" opacity="0.85"/><rect x="262.0" y="38" width="82.0" height="13" fill="#e53935" opacity="0.85"/><polygon points="98.0,35 91.0,23 105.0,23" fill="#ffffff"/><line x1="98.0" y1="36" x2="98.0" y2="53" stroke="#ffffff" stroke-width="2"/><text x="98.0" y="18" font-size="15" font-weight="800" fill="#ffffff" text-anchor="middle">25%</text><text x="16" y="67" font-size="9.5" fill="#8b97a6">no tripwires</text><text x="344" y="67" font-size="9.5" fill="#8b97a6" text-anchor="end">all tripwires triggered</text></svg>
+                <div class="muted" style="margin:2px 0 6px">1 of 4 tripwires triggered.
+                Threshold watch - not calibrated against historical tops.</div>
+              <div style="margin-top:4px"><span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> dollar falling sharply</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> gold spike</span> <span class="fchip" style="border-color:#1db954"><span style="color:#1db954">&#9679;</span> inflation compensation extreme</span> <span class="fchip" style="border-color:#e53935"><span style="color:#e53935">&#9679;</span> long yields spiking</span> </div>
             </div><div class="epcard" style="text-align:left">
               <div class="ephead"><b>Geopolitical Rupture (Taiwan, war)</b> <span class="chip" style="background:#666">NOT FLAGGABLE</span></div>
               <div class="epmeta">sub-category of Exogenous Shocks<br>A Taiwan blockade would sever advanced-semiconductor supply overnight - plausibly a bigger real-economy shock than any oil embargo. Would show first in semiconductors, VIX and gold as reactions, not warnings</div>
@@ -176,24 +195,24 @@ some of these risks (sovereign debt, dollar confidence) have never happened in U
             </div></div>
 
 <h2>Conclusions</h2>
-<div class="verdictline">Caution: the labor/credit confirmation signals are turning.</div>
+<div class="verdictline">Nearest threat: Inflation &amp; Fed-Tightening Bears - 100% of the way from healthy conditions to how those episodes began. Sub-watch RED: Oil / Energy Shock Watch (3/4 tripwires). Caution: the labor/credit confirmation signals are turning.</div>
 <div class="tiles">
-      <div class="tile"><div class="tnum" style="color:#1db954">14.1</div>
-        <div class="tlab">composite risk / 100<br><span class="chip" style="background:#1db954">GREEN</span></div></div>
-      <div class="tile"><div class="tnum" style="color:#e53935">100%</div>
+      <div class="tile"><div class="tnum" style="color:#e6c200">23</div>
+        <div class="tlab">composite risk / 100<br><span class="chip" style="background:#e6c200">YELLOW</span></div></div>
+      <div class="tile"><div class="tnum" style="color:#e53935">78%</div>
         <div class="tlab">of the way from healthy to typical pre-crash conditions</div></div>
-      <div class="tile"><div class="tnum">0/12</div>
+      <div class="tile"><div class="tnum">3/12</div>
         <div class="tlab">classic pre-crash signals on</div></div>
-      <div class="tile"><div class="tnum" style="font-size:19px;line-height:1.35;padding-top:9px">2011 correction</div>
+      <div class="tile"><div class="tnum" style="font-size:19px;line-height:1.35;padding-top:9px">1973-74 bear</div>
         <div class="tlab">closest historical analog</div></div>
-      <div class="tile"><div class="tnum"><span style="color:#1db954">3</span><span class="muted">&middot;</span><span style="color:#8b97a6">1</span><span class="muted">&middot;</span><span style="color:#e53935">1</span></div>
-        <div class="tlab">vs 5 past tops:<br>healthier &middot; same &middot; worse</div></div></div>
+      <div class="tile"><div class="tnum"><span style="color:#1db954">2</span><span class="muted">&middot;</span><span style="color:#8b97a6">5</span><span class="muted">&middot;</span><span style="color:#e53935">3</span></div>
+        <div class="tlab">vs 10 past tops:<br>healthier &middot; same &middot; worse</div></div></div>
 <div class="twocol">
-      <div class="wbox"><div class="wtitle" style="color:#e57373">&#9888;&#65039; Flashing now</div><ul class="rlist"><li>Russell 2000 Small Caps (YoY)</li><li>Nasdaq Composite (YoY)</li></ul></div>
-      <div class="wbox"><div class="wtitle" style="color:#1db954">&#10003; Still calm</div><ul class="glist"><li class='muted'>none</li></ul></div>
+      <div class="wbox"><div class="wtitle" style="color:#e57373">&#9888;&#65039; Flashing now</div><ul class="rlist"><li>Producer Prices (YoY)</li><li>PCE Inflation (YoY)</li><li>WTI Crude Oil (YoY)</li><li>Yield curve inverted / re-steepening</li><li>Months&#x27; Supply of New Homes</li><li>Case-Shiller Home Prices (YoY)</li><li>Mortgage Delinquency Rate</li></ul></div>
+      <div class="wbox"><div class="wtitle" style="color:#1db954">&#10003; Still calm</div><ul class="glist"><li>Sahm rule off - unemployment not signalling recession</li><li>Financial conditions still loose</li><li>Banks not tightening lending (SLOOS)</li><li>Jobless claims not trending up</li><li>Temp-help employment holding (a leading signal)</li><li>Building permits still holding up</li></ul></div>
     </div>
 <details><summary class="muted">Full written analysis</summary>
-<div class="concl"><p>Composite crash-risk score is 14.1/100 (GREEN). 0 of 12 classic pre-crash conditions are currently present.</p><p>THE CRASH-SIGNATURE TEST (the most direct better-or-worse yardstick): of the 3 factors that best separate pre-crash tops from healthy bull markets, 67% are flashing today, versus 29% at a typical pre-crash top and 14% in a typical healthy market - at levels typical of past pre-crash tops. Signature factors flashing now: Russell 2000 Small Caps (YoY), Nasdaq Composite (YoY).</p><p>Flags by type of bad market - Inflation &amp; Fed-Tightening Bears: no early-warning signature exists - not flaggable in advance; Credit / Banking Crisis: no early-warning signature exists - not flaggable in advance; Valuation Bubble Bust: no early-warning signature exists - not flaggable in advance; Exogenous Shocks: no early-warning signature exists - not flaggable in advance.</p><p>Sub-category threat watches - AI / Tech-Concentration Watch: YELLOW (2/5 tripwires).</p><p>Notably absent: sahm rule triggered, unemployment rising off its low, jobless claims trending up, yield curve inverted / re-steepening, credit spreads widening, financial conditions tightening. Historically, major crashes (2000, 2007) were preceded by several of these turning on together, not in isolation.</p><p>Better or worse than the bad moments? Comparing only the indicators that existed at each top: today&#x27;s conditions are HEALTHIER than 3, ABOUT THE SAME as 1, and WORSE than 1 of the 5 pre-crash moments (majority vote of shared indicators; see the verdict table).</p><p>Closest historical analog: 2011 correction (market top 2011-04-29, eventual drawdown -19%). Today&#x27;s readings are at least as stressed as that top on 88% of 8 comparable indicators. A high match means conditions RESEMBLE that pre-crash moment; it is a similarity measure, not a prediction.</p><p>Most stressed areas right now: Markets (19/100).</p><p>Caveats: most warning signals produce false positives; corrections of 5-10% happen in most years regardless of conditions; exogenous shocks (1987 program trading, COVID) can strike without macro warning. This dashboard measures resemblance to past pre-crash conditions - it cannot time the market and is not investment advice.</p></div></details>
+<div class="concl"><p>Composite crash-risk score is 23.0/100 (YELLOW). 3 of 12 classic pre-crash conditions are currently present.</p><p>THE CRASH-SIGNATURE TEST (the most direct better-or-worse yardstick): of the 20 factors that best separate pre-crash tops from healthy bull markets, 40% are flashing today, versus 47% at a typical pre-crash top and 17% in a typical healthy market - at levels typical of past pre-crash tops. Signature factors flashing now: Producer Prices (YoY), PCE Inflation (YoY), WTI Crude Oil (YoY), Yield curve inverted / re-steepening, Months&#x27; Supply of New Homes, Case-Shiller Home Prices (YoY).</p><p>Flags by type of bad market - Inflation &amp; Fed-Tightening Bears: RED (86% of its signature flashing); Credit / Banking Crisis: YELLOW (40% of its signature flashing); Valuation Bubble Bust: GREEN (30% of its signature flashing); Exogenous Shocks: no early-warning signature exists - not flaggable in advance.</p><p>Sub-category threat watches - Oil / Energy Shock Watch: RED (3/4 tripwires); Labor-Market Cascade: GREEN (1/6 tripwires); Housing Bust Watch: ORANGE (5/7 tripwires); AI / Tech-Concentration Watch: YELLOW (2/5 tripwires); Sovereign Debt / Fiscal Stress Watch: YELLOW (2/6 tripwires); Dollar-Confidence Watch: YELLOW (1/4 tripwires).</p><p>Warning signs currently active: yield curve inverted / re-steepening (10y-3m = +0.88pp); credit spreads widening (HY OAS 3.27pp); consumer sentiment collapsed (UMich 51.7).</p><p>Notably absent: sahm rule triggered, unemployment rising off its low, jobless claims trending up, financial conditions tightening, equity market breaking down, volatility regime shift. Historically, major crashes (2000, 2007) were preceded by several of these turning on together, not in isolation.</p><p>Better or worse than the bad moments? Comparing only the indicators that existed at each top: today&#x27;s conditions are HEALTHIER than 2, ABOUT THE SAME as 5, and WORSE than 3 of the 10 pre-crash moments (majority vote of shared indicators; see the verdict table).</p><p>Closest historical analog: 1973-74 bear (market top 1973-01-11, eventual drawdown -48%). Today&#x27;s readings are at least as stressed as that top on 77% of 39 comparable indicators. A high match means conditions RESEMBLE that pre-crash moment; it is a similarity measure, not a prediction.</p><p>Running today&#x27;s exact rulebook at 10 past market tops: the median pre-crash score was 18/100 (range 2-52). Today&#x27;s 23.0 is lower than 2 of 10 pre-crash readings - current conditions score in the same range this framework showed on the eve of past crashes, which argues for caution.</p><p>Most stressed areas right now: Yield Curve &amp; Rates (75/100), Inflation (33/100), Housing (29/100).</p><p>The strongest reassurance: the labor market has not crossed recession thresholds (Sahm rule off). Since 1970 no major (&gt;30%) crash has unfolded with both of these calm.</p><p>Caveats: most warning signals produce false positives; corrections of 5-10% happen in most years regardless of conditions; exogenous shocks (1987 program trading, COVID) can strike without macro warning. This dashboard measures resemblance to past pre-crash conditions - it cannot time the market and is not investment advice.</p></div></details>
 
 <h2>The crash signature: factors past crashes shared but healthy markets lacked</h2>
 <div class="muted" style="margin-bottom:8px">Each factor below was checked at all 10 pre-crash market
@@ -202,82 +221,184 @@ crash, no &gt;15% drawdown in the following year). Only factors that flash much 
 healthy markets make this list &mdash; ranked by that separation. The right column is the answer to "how are we
 doing now" on the evidence that actually discriminates.</div>
 <div class="vizcard" style="max-width:660px;margin-bottom:14px">
-  <div class="vtitle">Share of the 3 crash-signature factors currently flashing</div>
-  <svg viewBox="0 0 600 130" width="600" height="130" xmlns="http://www.w3.org/2000/svg"><line x1="274.0" y1="8" x2="274.0" y2="110" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="274.0" y="124" font-size="9" fill="#8b97a6" text-anchor="middle">25%</text><line x1="362.0" y1="8" x2="362.0" y2="110" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="362.0" y="124" font-size="9" fill="#8b97a6" text-anchor="middle">50%</text><line x1="450.0" y1="8" x2="450.0" y2="110" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="450.0" y="124" font-size="9" fill="#8b97a6" text-anchor="middle">75%</text><line x1="538.0" y1="8" x2="538.0" y2="110" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="538.0" y="124" font-size="9" fill="#8b97a6" text-anchor="middle">100%</text><text x="178" y="25" font-size="11.5" fill="#9fb0c3" font-weight="400" text-anchor="end">Typical pre-crash top</text><rect x="186" y="10" width="102.0" height="19" rx="4" fill="#e53935"/><text x="294.0" y="24" font-size="11.5" fill="#dfe6ee" font-weight="400">29%</text><text x="178" y="59" font-size="11.5" fill="#ffffff" font-weight="800" text-anchor="end">TODAY</text><rect x="186" y="44" width="234.7" height="19" rx="4" fill="#1db954" stroke="#dfe6ee" stroke-width="1.6"/><text x="426.7" y="58" font-size="11.5" fill="#dfe6ee" font-weight="800">67%</text><text x="178" y="93" font-size="11.5" fill="#9fb0c3" font-weight="400" text-anchor="end">Typical healthy market</text><rect x="186" y="78" width="50.9" height="19" rx="4" fill="#1db954"/><text x="242.9" y="92" font-size="11.5" fill="#dfe6ee" font-weight="400">14%</text></svg>
-  <div class="muted" style="margin-top:4px">Today sits 100% of the way from typical
+  <div class="vtitle">Share of the 20 crash-signature factors currently flashing</div>
+  <svg viewBox="0 0 600 130" width="600" height="130" xmlns="http://www.w3.org/2000/svg"><line x1="274.0" y1="8" x2="274.0" y2="110" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="274.0" y="124" font-size="9" fill="#8b97a6" text-anchor="middle">25%</text><line x1="362.0" y1="8" x2="362.0" y2="110" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="362.0" y="124" font-size="9" fill="#8b97a6" text-anchor="middle">50%</text><line x1="450.0" y1="8" x2="450.0" y2="110" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="450.0" y="124" font-size="9" fill="#8b97a6" text-anchor="middle">75%</text><line x1="538.0" y1="8" x2="538.0" y2="110" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="538.0" y="124" font-size="9" fill="#8b97a6" text-anchor="middle">100%</text><text x="178" y="25" font-size="11.5" fill="#9fb0c3" font-weight="400" text-anchor="end">Typical pre-crash top</text><rect x="186" y="10" width="164.6" height="19" rx="4" fill="#e53935"/><text x="356.6" y="24" font-size="11.5" fill="#dfe6ee" font-weight="400">47%</text><text x="178" y="59" font-size="11.5" fill="#ffffff" font-weight="800" text-anchor="end">TODAY</text><rect x="186" y="44" width="140.8" height="19" rx="4" fill="#e6c200" stroke="#dfe6ee" stroke-width="1.6"/><text x="332.8" y="58" font-size="11.5" fill="#dfe6ee" font-weight="800">40%</text><text x="178" y="93" font-size="11.5" fill="#9fb0c3" font-weight="400" text-anchor="end">Typical healthy market</text><rect x="186" y="78" width="58.4" height="19" rx="4" fill="#1db954"/><text x="250.4" y="92" font-size="11.5" fill="#dfe6ee" font-weight="400">17%</text></svg>
+  <div class="muted" style="margin-top:4px">Today sits 78% of the way from typical
   healthy conditions to typical pre-crash conditions.</div>
 </div>
 <table><tr><th>Factor</th><th>Flashing before crashes</th><th>Flashing in healthy markets</th><th>Separation</th><th>TODAY</th></tr>
 <tr>
-          <td>Dow Jones Industrial (YoY) <span class="muted">(indicator)</span></td>
+          <td>Producer Prices (YoY) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:70%;background:#e53935"></div></div>
+              7/10 tops (70%)</td>
+          <td><div class="bar"><div style="width:22%;background:#1db954"></div></div> 22%</td>
+          <td><b>+48pp</b></td>
+          <td><span class="chip" style="background:#e53935">FLASHING</span></td></tr><tr>
+          <td>Temp-Help Employment (YoY, leading) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:67%;background:#e53935"></div></div>
+              4/6 tops (67%)</td>
+          <td><div class="bar"><div style="width:22%;background:#1db954"></div></div> 22%</td>
+          <td><b>+45pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
+          <td>PCE Inflation (YoY) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:60%;background:#e53935"></div></div>
+              6/10 tops (60%)</td>
+          <td><div class="bar"><div style="width:20%;background:#1db954"></div></div> 20%</td>
+          <td><b>+40pp</b></td>
+          <td><span class="chip" style="background:#e53935">FLASHING</span></td></tr><tr>
+          <td>Adjusted Financial Conditions Index <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:40%;background:#e53935"></div></div>
+              4/10 tops (40%)</td>
+          <td><div class="bar"><div style="width:2%;background:#1db954"></div></div> 2%</td>
+          <td><b>+38pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
+          <td>Core CPI Inflation (YoY) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:50%;background:#e53935"></div></div>
+              5/10 tops (50%)</td>
+          <td><div class="bar"><div style="width:12%;background:#1db954"></div></div> 12%</td>
+          <td><b>+38pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
+          <td>Real GDP (YoY) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:40%;background:#e53935"></div></div>
+              4/10 tops (40%)</td>
+          <td><div class="bar"><div style="width:5%;background:#1db954"></div></div> 5%</td>
+          <td><b>+35pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
+          <td>Banks Tightening C&amp;I Loans (large firms, SLOOS) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:43%;background:#e53935"></div></div>
+              3/7 tops (43%)</td>
+          <td><div class="bar"><div style="width:8%;background:#1db954"></div></div> 8%</td>
+          <td><b>+35pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
+          <td>WTI Crude Oil (YoY) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:50%;background:#e53935"></div></div>
+              4/8 tops (50%)</td>
+          <td><div class="bar"><div style="width:19%;background:#1db954"></div></div> 19%</td>
+          <td><b>+31pp</b></td>
+          <td><span class="chip" style="background:#e53935">FLASHING</span></td></tr><tr>
+          <td>Yield curve inverted / re-steepening <span class="muted">(rule)</span></td>
+          <td><div class="bar"><div style="width:75%;background:#e53935"></div></div>
+              6/8 tops (75%)</td>
+          <td><div class="bar"><div style="width:45%;background:#1db954"></div></div> 45%</td>
+          <td><b>+30pp</b></td>
+          <td><span class="chip" style="background:#e53935">FLASHING</span></td></tr><tr>
+          <td>Housing rolling over <span class="muted">(rule)</span></td>
+          <td><div class="bar"><div style="width:40%;background:#e53935"></div></div>
+              4/10 tops (40%)</td>
+          <td><div class="bar"><div style="width:12%;background:#1db954"></div></div> 12%</td>
+          <td><b>+28pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
+          <td>Corporate Profits After Tax (YoY) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:50%;background:#e53935"></div></div>
+              5/10 tops (50%)</td>
+          <td><div class="bar"><div style="width:22%;background:#1db954"></div></div> 22%</td>
+          <td><b>+28pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
+          <td>Months&#x27; Supply of New Homes <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:50%;background:#e53935"></div></div>
+              5/10 tops (50%)</td>
+          <td><div class="bar"><div style="width:22%;background:#1db954"></div></div> 22%</td>
+          <td><b>+28pp</b></td>
+          <td><span class="chip" style="background:#e53935">FLASHING</span></td></tr><tr>
+          <td>Case-Shiller Home Prices (YoY) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:43%;background:#e53935"></div></div>
+              3/7 tops (43%)</td>
+          <td><div class="bar"><div style="width:16%;background:#1db954"></div></div> 16%</td>
+          <td><b>+27pp</b></td>
+          <td><span class="chip" style="background:#e53935">FLASHING</span></td></tr><tr>
+          <td>Mortgage Delinquency Rate <span class="muted">(indicator)</span></td>
           <td><div class="bar"><div style="width:33%;background:#e53935"></div></div>
               2/6 tops (33%)</td>
-          <td><div class="bar"><div style="width:17%;background:#1db954"></div></div> 17%</td>
-          <td><b>+17pp</b></td>
-          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
-          <td>Russell 2000 Small Caps (YoY) <span class="muted">(indicator)</span></td>
-          <td><div class="bar"><div style="width:29%;background:#e53935"></div></div>
-              2/7 tops (29%)</td>
-          <td><div class="bar"><div style="width:14%;background:#1db954"></div></div> 14%</td>
-          <td><b>+15pp</b></td>
+          <td><div class="bar"><div style="width:8%;background:#1db954"></div></div> 8%</td>
+          <td><b>+25pp</b></td>
           <td><span class="chip" style="background:#e53935">FLASHING</span></td></tr><tr>
-          <td>Nasdaq Composite (YoY) <span class="muted">(indicator)</span></td>
-          <td><div class="bar"><div style="width:25%;background:#e53935"></div></div>
-              2/8 tops (25%)</td>
-          <td><div class="bar"><div style="width:13%;background:#1db954"></div></div> 13%</td>
-          <td><b>+12pp</b></td>
-          <td><span class="chip" style="background:#e53935">FLASHING</span></td></tr></table>
+          <td>Real Manufacturing &amp; Trade Sales (YoY) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:30%;background:#e53935"></div></div>
+              3/10 tops (30%)</td>
+          <td><div class="bar"><div style="width:5%;background:#1db954"></div></div> 5%</td>
+          <td><b>+25pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
+          <td>Payroll Growth (3m avg, k/month) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:40%;background:#e53935"></div></div>
+              4/10 tops (40%)</td>
+          <td><div class="bar"><div style="width:15%;background:#1db954"></div></div> 15%</td>
+          <td><b>+25pp</b></td>
+          <td><span class="chip" style="background:#e53935">FLASHING</span></td></tr><tr>
+          <td>Real M2 Money Supply (YoY) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:50%;background:#e53935"></div></div>
+              5/10 tops (50%)</td>
+          <td><div class="bar"><div style="width:28%;background:#1db954"></div></div> 28%</td>
+          <td><b>+22pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
+          <td>Consumer 1y Inflation Expectations (UMich) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:44%;background:#e53935"></div></div>
+              4/9 tops (44%)</td>
+          <td><div class="bar"><div style="width:22%;background:#1db954"></div></div> 22%</td>
+          <td><b>+22pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
+          <td>Broad US Dollar Index (YoY) <span class="muted">(indicator)</span></td>
+          <td><div class="bar"><div style="width:40%;background:#e53935"></div></div>
+              2/5 tops (40%)</td>
+          <td><div class="bar"><div style="width:21%;background:#1db954"></div></div> 21%</td>
+          <td><b>+19pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr><tr>
+          <td>Financial conditions tightening <span class="muted">(rule)</span></td>
+          <td><div class="bar"><div style="width:20%;background:#e53935"></div></div>
+              2/10 tops (20%)</td>
+          <td><div class="bar"><div style="width:2%;background:#1db954"></div></div> 2%</td>
+          <td><b>+18pp</b></td>
+          <td><span class="chip" style="background:#1db954">clear</span></td></tr></table>
 
-<h2>Classic pre-crash checklist (0/12 present)</h2>
+<h2>Classic pre-crash checklist (3/12 present)</h2>
 <table><tr><th>Condition</th><th>Status</th><th>Current reading</th><th>Historical precedent</th></tr>
 <tr>
           <td><span style="color:#1db954">&#9679;</span> Sahm rule triggered</td>
           <td class="off">absent</td>
-          <td>n/a</td>
+          <td>Sahm rule not triggered (trigger at 0.50)</td>
           <td class="muted">Marked the start of every recession since 1970</td></tr><tr>
           <td><span style="color:#1db954">&#9679;</span> Unemployment rising off its low</td>
           <td class="off">absent</td>
-          <td>n/a</td>
+          <td>Now 4.2%</td>
           <td class="muted">Rose ahead of 2001, 2008, 2020 bear markets</td></tr><tr>
           <td><span style="color:#1db954">&#9679;</span> Jobless claims trending up</td>
           <td class="off">absent</td>
-          <td>n/a</td>
+          <td>4-wk avg 197,750</td>
           <td class="muted">Claims turned up months before 1990, 2001, 2008 recessions</td></tr><tr>
-          <td><span style="color:#1db954">&#9679;</span> Yield curve inverted / re-steepening</td>
-          <td class="off">absent</td>
-          <td>n/a</td>
+          <td><span style="color:#e53935">&#9679;</span> Yield curve inverted / re-steepening</td>
+          <td class="on">PRESENT</td>
+          <td>10y-3m = +0.88pp</td>
           <td class="muted">Inverted before 1990, 2001, 2008, 2020; the crash usually comes on re-steepening</td></tr><tr>
-          <td><span style="color:#1db954">&#9679;</span> Credit spreads widening</td>
-          <td class="off">absent</td>
-          <td>n/a</td>
+          <td><span style="color:#e53935">&#9679;</span> Credit spreads widening</td>
+          <td class="on">PRESENT</td>
+          <td>HY OAS 3.27pp</td>
           <td class="muted">Spreads blew out ahead of the worst of 2000-02 and 2008</td></tr><tr>
           <td><span style="color:#1db954">&#9679;</span> Financial conditions tightening</td>
           <td class="off">absent</td>
-          <td>n/a</td>
+          <td>NFCI -0.50</td>
           <td class="muted">Positive NFCI accompanied 1990, 2008, 2020 stress</td></tr><tr>
           <td><span style="color:#1db954">&#9679;</span> Equity market breaking down</td>
           <td class="off">absent</td>
-          <td>Drawdown from all-time high: 0.0%; price above 200-day average</td>
+          <td>Drawdown from all-time high: -1.5%; price above 200-day average</td>
           <td class="muted">A &gt;10% drawdown below the 200-day average began most bear markets</td></tr><tr>
           <td><span style="color:#1db954">&#9679;</span> Volatility regime shift</td>
           <td class="off">absent</td>
-          <td>VIX 16.7</td>
+          <td>VIX 20.0</td>
           <td class="muted">VIX &gt;25 persisted through 2000-02, 2008-09, 2020, 2022</td></tr><tr>
           <td><span style="color:#1db954">&#9679;</span> Housing rolling over</td>
           <td class="off">absent</td>
-          <td>n/a</td>
+          <td>Permits -3.0% YoY</td>
           <td class="muted">Housing peaked ~2 years before the 2007 top; led 1973, 1980, 1990</td></tr><tr>
-          <td><span style="color:#1db954">&#9679;</span> Consumer sentiment collapsed</td>
-          <td class="off">absent</td>
-          <td>n/a</td>
+          <td><span style="color:#e53935">&#9679;</span> Consumer sentiment collapsed</td>
+          <td class="on">PRESENT</td>
+          <td>UMich 51.7</td>
           <td class="muted">Sub-65 readings clustered around 1980, 2008, 2022 lows</td></tr><tr>
           <td><span style="color:#1db954">&#9679;</span> Industrial production contracting</td>
           <td class="off">absent</td>
-          <td>n/a</td>
+          <td>+2.2% YoY</td>
           <td class="muted">Negative YoY IP accompanied every recession since 1950</td></tr><tr>
           <td><span style="color:#1db954">&#9679;</span> Fed tightening cycle underway</td>
           <td class="off">absent</td>
-          <td>n/a</td>
+          <td>Fed funds 3.88% (-0.45pp over 18m)</td>
           <td class="muted">Aggressive hiking preceded 1973, 1980, 1987, 2000, 2007, 2022 declines</td></tr></table>
 
 <h2>Better or worse than at past market tops?</h2>
@@ -286,181 +407,856 @@ ONLY the indicators that existed at both dates (direction-adjusted, small differ
 This is the fairest way to compare across eras, because older tops had fewer data series.</div>
 <table><tr><th>Episode</th><th>Market top</th><th>Drawdown</th><th># compared</th><th>Today vs that moment</th><th>Verdict</th></tr>
 <tr><td>1973-74 bear</td><td>1973-01-11</td><td>-48%</td>
-          <td>0</td>
+          <td>39</td>
           <td><div class="stack">
-                <div style="width:0%;background:#1db954" title="better today: 0"></div>
-                <div style="width:0%;background:#5b7a99" title="similar: 0"></div>
-                <div style="width:0%;background:#e53935" title="worse today: 0"></div>
+                <div style="width:23%;background:#1db954" title="better today: 9"></div>
+                <div style="width:21%;background:#5b7a99" title="similar: 8"></div>
+                <div style="width:56%;background:#e53935" title="worse today: 22"></div>
               </div>
-              <span class="muted">0 better &middot; 0 similar &middot; 0 worse</span>
+              <span class="muted">9 better &middot; 8 similar &middot; 22 worse</span>
+              <div class='note'>worst gaps today: Median Unemployment Duration (weeks), Consumer Sentiment (UMich), Capacity Utilization</div></td>
+          <td><span class="chip" style="background:#e53935">TODAY IS WORSE</span></td></tr><tr><td>1980-82 bear</td><td>1980-11-28</td><td>-27%</td>
+          <td>43</td>
+          <td><div class="stack">
+                <div style="width:51%;background:#1db954" title="better today: 22"></div>
+                <div style="width:16%;background:#5b7a99" title="similar: 7"></div>
+                <div style="width:33%;background:#e53935" title="worse today: 14"></div>
+              </div>
+              <span class="muted">22 better &middot; 7 similar &middot; 14 worse</span>
               </td>
-          <td><span class="chip" style="background:#666">N/A</span></td></tr><tr><td>1980-82 bear</td><td>1980-11-28</td><td>-27%</td>
-          <td>0</td>
+          <td><span class="chip" style="background:#1db954">TODAY IS BETTER</span></td></tr><tr><td>1987 Black Monday</td><td>1987-08-25</td><td>-34%</td>
+          <td>49</td>
           <td><div class="stack">
-                <div style="width:0%;background:#1db954" title="better today: 0"></div>
-                <div style="width:0%;background:#5b7a99" title="similar: 0"></div>
-                <div style="width:0%;background:#e53935" title="worse today: 0"></div>
+                <div style="width:33%;background:#1db954" title="better today: 16"></div>
+                <div style="width:22%;background:#5b7a99" title="similar: 11"></div>
+                <div style="width:45%;background:#e53935" title="worse today: 22"></div>
               </div>
-              <span class="muted">0 better &middot; 0 similar &middot; 0 worse</span>
-              </td>
-          <td><span class="chip" style="background:#666">N/A</span></td></tr><tr><td>1987 Black Monday</td><td>1987-08-25</td><td>-34%</td>
-          <td>2</td>
-          <td><div class="stack">
-                <div style="width:50%;background:#1db954" title="better today: 1"></div>
-                <div style="width:0%;background:#5b7a99" title="similar: 0"></div>
-                <div style="width:50%;background:#e53935" title="worse today: 1"></div>
-              </div>
-              <span class="muted">1 better &middot; 0 similar &middot; 1 worse</span>
-              <div class='note'>worst gaps today: S&amp;P 500 (YoY)</div></td>
+              <span class="muted">16 better &middot; 11 similar &middot; 22 worse</span>
+              <div class='note'>worst gaps today: Consumer Sentiment (UMich), Bank Reserves at Fed (YoY), Median Unemployment Duration (weeks)</div></td>
           <td><span class="chip" style="background:#e6c200">ABOUT THE SAME</span></td></tr><tr><td>1990 bear</td><td>1990-07-16</td><td>-20%</td>
-          <td>4</td>
+          <td>54</td>
           <td><div class="stack">
-                <div style="width:100%;background:#1db954" title="better today: 4"></div>
-                <div style="width:0%;background:#5b7a99" title="similar: 0"></div>
-                <div style="width:0%;background:#e53935" title="worse today: 0"></div>
+                <div style="width:54%;background:#1db954" title="better today: 29"></div>
+                <div style="width:26%;background:#5b7a99" title="similar: 14"></div>
+                <div style="width:20%;background:#e53935" title="worse today: 11"></div>
               </div>
-              <span class="muted">4 better &middot; 0 similar &middot; 0 worse</span>
+              <span class="muted">29 better &middot; 14 similar &middot; 11 worse</span>
               </td>
           <td><span class="chip" style="background:#1db954">TODAY IS BETTER</span></td></tr><tr><td>Dot-com crash</td><td>2000-03-24</td><td>-49%</td>
-          <td>7</td>
+          <td>67</td>
           <td><div class="stack">
-                <div style="width:43%;background:#1db954" title="better today: 3"></div>
-                <div style="width:29%;background:#5b7a99" title="similar: 2"></div>
-                <div style="width:29%;background:#e53935" title="worse today: 2"></div>
+                <div style="width:39%;background:#1db954" title="better today: 26"></div>
+                <div style="width:18%;background:#5b7a99" title="similar: 12"></div>
+                <div style="width:43%;background:#e53935" title="worse today: 29"></div>
               </div>
-              <span class="muted">3 better &middot; 2 similar &middot; 2 worse</span>
-              <div class='note'>worst gaps today: Semiconductor Index (YoY, cycle proxy), Nasdaq Composite (YoY)</div></td>
+              <span class="muted">26 better &middot; 12 similar &middot; 29 worse</span>
+              <div class='note'>worst gaps today: Consumer Sentiment (UMich), Employment-Population Ratio, Median Unemployment Duration (weeks)</div></td>
           <td><span class="chip" style="background:#e6c200">ABOUT THE SAME</span></td></tr><tr><td>Financial Crisis</td><td>2007-10-09</td><td>-57%</td>
-          <td>8</td>
+          <td>75</td>
           <td><div class="stack">
-                <div style="width:75%;background:#1db954" title="better today: 6"></div>
-                <div style="width:0%;background:#5b7a99" title="similar: 0"></div>
-                <div style="width:25%;background:#e53935" title="worse today: 2"></div>
+                <div style="width:49%;background:#1db954" title="better today: 37"></div>
+                <div style="width:16%;background:#5b7a99" title="similar: 12"></div>
+                <div style="width:35%;background:#e53935" title="worse today: 26"></div>
               </div>
-              <span class="muted">6 better &middot; 0 similar &middot; 2 worse</span>
-              </td>
-          <td><span class="chip" style="background:#1db954">TODAY IS BETTER</span></td></tr><tr><td>2011 correction</td><td>2011-04-29</td><td>-19%</td>
-          <td>8</td>
+              <span class="muted">37 better &middot; 12 similar &middot; 26 worse</span>
+              <div class='note'>worst gaps today: Broad US Dollar Index (YoY), Employment-Population Ratio, Consumer Sentiment (UMich)</div></td>
+          <td><span class="chip" style="background:#e6c200">ABOUT THE SAME</span></td></tr><tr><td>2011 correction</td><td>2011-04-29</td><td>-19%</td>
+          <td>75</td>
           <td><div class="stack">
-                <div style="width:12%;background:#1db954" title="better today: 1"></div>
-                <div style="width:50%;background:#5b7a99" title="similar: 4"></div>
-                <div style="width:38%;background:#e53935" title="worse today: 3"></div>
+                <div style="width:40%;background:#1db954" title="better today: 30"></div>
+                <div style="width:19%;background:#5b7a99" title="similar: 14"></div>
+                <div style="width:41%;background:#e53935" title="worse today: 31"></div>
               </div>
-              <span class="muted">1 better &middot; 4 similar &middot; 3 worse</span>
-              <div class='note'>worst gaps today: Russell 2000 Small Caps (YoY), S&amp;P 500 (YoY), Dow Jones Industrial (YoY)</div></td>
-          <td><span class="chip" style="background:#e53935">TODAY IS WORSE</span></td></tr><tr><td>Q4-2018 correction</td><td>2018-09-20</td><td>-20%</td>
-          <td>8</td>
+              <span class="muted">30 better &middot; 14 similar &middot; 31 worse</span>
+              <div class='note'>worst gaps today: Core PCE Inflation (YoY), 10-Year Real Yield (TIPS), Yield Curve: 10y minus 2y</div></td>
+          <td><span class="chip" style="background:#e6c200">ABOUT THE SAME</span></td></tr><tr><td>Q4-2018 correction</td><td>2018-09-20</td><td>-20%</td>
+          <td>75</td>
           <td><div class="stack">
-                <div style="width:50%;background:#1db954" title="better today: 4"></div>
-                <div style="width:25%;background:#5b7a99" title="similar: 2"></div>
-                <div style="width:25%;background:#e53935" title="worse today: 2"></div>
+                <div style="width:29%;background:#1db954" title="better today: 22"></div>
+                <div style="width:25%;background:#5b7a99" title="similar: 19"></div>
+                <div style="width:45%;background:#e53935" title="worse today: 34"></div>
               </div>
-              <span class="muted">4 better &middot; 2 similar &middot; 2 worse</span>
-              </td>
-          <td><span class="chip" style="background:#1db954">TODAY IS BETTER</span></td></tr><tr><td>COVID crash</td><td>2020-02-19</td><td>-34%</td>
-          <td>8</td>
+              <span class="muted">22 better &middot; 19 similar &middot; 34 worse</span>
+              <div class='note'>worst gaps today: Consumer Sentiment (UMich), 30-Year Mortgage Rate, Core PCE Inflation (YoY)</div></td>
+          <td><span class="chip" style="background:#e53935">TODAY IS WORSE</span></td></tr><tr><td>COVID crash</td><td>2020-02-19</td><td>-34%</td>
+          <td>75</td>
           <td><div class="stack">
-                <div style="width:75%;background:#1db954" title="better today: 6"></div>
-                <div style="width:25%;background:#5b7a99" title="similar: 2"></div>
-                <div style="width:0%;background:#e53935" title="worse today: 0"></div>
+                <div style="width:31%;background:#1db954" title="better today: 23"></div>
+                <div style="width:32%;background:#5b7a99" title="similar: 24"></div>
+                <div style="width:37%;background:#e53935" title="worse today: 28"></div>
               </div>
-              <span class="muted">6 better &middot; 2 similar &middot; 0 worse</span>
-              </td>
-          <td><span class="chip" style="background:#1db954">TODAY IS BETTER</span></td></tr><tr><td>2022 bear</td><td>2022-01-03</td><td>-25%</td>
-          <td>8</td>
+              <span class="muted">23 better &middot; 24 similar &middot; 28 worse</span>
+              <div class='note'>worst gaps today: 30-Year Mortgage Rate, Consumer Sentiment (UMich), 10-Year Real Yield (TIPS)</div></td>
+          <td><span class="chip" style="background:#e6c200">ABOUT THE SAME</span></td></tr><tr><td>2022 bear</td><td>2022-01-03</td><td>-25%</td>
+          <td>75</td>
           <td><div class="stack">
-                <div style="width:38%;background:#1db954" title="better today: 3"></div>
-                <div style="width:38%;background:#5b7a99" title="similar: 3"></div>
-                <div style="width:25%;background:#e53935" title="worse today: 2"></div>
+                <div style="width:25%;background:#1db954" title="better today: 19"></div>
+                <div style="width:31%;background:#5b7a99" title="similar: 23"></div>
+                <div style="width:44%;background:#e53935" title="worse today: 33"></div>
               </div>
-              <span class="muted">3 better &middot; 3 similar &middot; 2 worse</span>
-              <div class='note'>worst gaps today: Financials Sector ETF (YoY), Dow Jones Industrial (YoY)</div></td>
-          <td><span class="chip" style="background:#e6c200">ABOUT THE SAME</span></td></tr></table>
+              <span class="muted">19 better &middot; 23 similar &middot; 33 worse</span>
+              <div class='note'>worst gaps today: 30-Year Mortgage Rate, 10-Year Real Yield (TIPS), Quits Rate (worker confidence)</div></td>
+          <td><span class="chip" style="background:#e53935">TODAY IS WORSE</span></td></tr></table>
 
 <h2>Then vs now: headline indicators at past market tops</h2>
 <div class="scrollx"><table>
 <tr><th class="sticky">Indicator</th><th>NOW</th><th>1973-74 bear</th><th>1980-82 bear</th><th>1987 Black Monday</th><th>1990 bear</th><th>Dot-com crash</th><th>Financial Crisis</th><th>2011 correction</th><th>Q4-2018 correction</th><th>COVID crash</th><th>2022 bear</th></tr>
-<tr><td class='sticky'>VIX Volatility Index</td><td class='now'><b>16.68</b></td><td>-</td><td>-</td><td>-</td><td>21.11</td><td>24.11</td><td>18.53</td><td>14.75</td><td>12.12</td><td>40.11</td><td>24.83</td></tr><tr><td class='sticky'>S&amp;P 500 (YoY)</td><td class='now'><b>13.26%</b></td><td>-</td><td>-</td><td>30.39%</td><td>-8.22%</td><td>9.12%</td><td>5.75%</td><td>23.48%</td><td>4.25%</td><td>6.10%</td><td>14.77%</td></tr></table></div>
+<tr><td class='sticky'>Unemployment Rate</td><td class='now'><b>4.20%</b></td><td>4.90%</td><td>7.50%</td><td>6.00%</td><td>5.50%</td><td>4.00%</td><td>4.70%</td><td>9.10%</td><td>3.70%</td><td>3.50%</td><td>4.00%</td></tr><tr><td class='sticky'>Yield Curve: 10y minus 3m</td><td class='now'><b>0.88pp</b></td><td>-</td><td>-</td><td>2.35pp</td><td>0.58pp</td><td>0.29pp</td><td>0.61pp</td><td>3.28pp</td><td>0.90pp</td><td>-0.02pp</td><td>1.55pp</td></tr><tr><td class='sticky'>High-Yield Credit Spread (OAS)</td><td class='now'><b>3.27pp</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td class='sticky'>Initial Claims (4-week avg)</td><td class='now'><b>197,750 k</b></td><td>240,000 k</td><td>412,750 k</td><td>326,500 k</td><td>363,750 k</td><td>276,750 k</td><td>312,000 k</td><td>408,750 k</td><td>205,500 k</td><td>207,000 k</td><td>222,000 k</td></tr><tr><td class='sticky'>Chicago Fed Financial Conditions Index</td><td class='now'><b>-0.50 idx</b></td><td>-0.14 idx</td><td>2.88 idx</td><td>-0.01 idx</td><td>-0.14 idx</td><td>-0.11 idx</td><td>0.05 idx</td><td>-0.62 idx</td><td>-0.60 idx</td><td>-0.54 idx</td><td>-0.56 idx</td></tr><tr><td class='sticky'>Industrial Production (YoY)</td><td class='now'><b>2.25%</b></td><td>9.75%</td><td>-1.40%</td><td>6.54%</td><td>2.54%</td><td>4.45%</td><td>2.62%</td><td>3.51%</td><td>4.31%</td><td>-1.42%</td><td>1.32%</td></tr><tr><td class='sticky'>Building Permits (YoY, leading)</td><td class='now'><b>-3.05%</b></td><td>1.47%</td><td>8.39%</td><td>-12.46%</td><td>-15.98%</td><td>-0.84%</td><td>-24.08%</td><td>-8.79%</td><td>3.22%</td><td>13.61%</td><td>3.61%</td></tr><tr><td class='sticky'>Consumer Sentiment (UMich)</td><td class='now'><b>51.70 idx</b></td><td>90.70 idx</td><td>76.70 idx</td><td>94.40 idx</td><td>88.20 idx</td><td>107.1 idx</td><td>80.90 idx</td><td>69.80 idx</td><td>100.1 idx</td><td>101.0 idx</td><td>67.20 idx</td></tr><tr><td class='sticky'>CPI Inflation (YoY)</td><td class='now'><b>3.72%</b></td><td>3.64%</td><td>12.63%</td><td>4.29%</td><td>4.82%</td><td>3.76%</td><td>3.61%</td><td>3.08%</td><td>2.33%</td><td>2.34%</td><td>7.56%</td></tr><tr><td class='sticky'>Fed Funds Effective Rate</td><td class='now'><b>3.88%</b></td><td>5.75%</td><td>18.56%</td><td>6.85%</td><td>8.07%</td><td>5.98%</td><td>4.91%</td><td>0.09%</td><td>1.92%</td><td>1.59%</td><td>0.08%</td></tr><tr><td class='sticky'>VIX Volatility Index</td><td class='now'><b>20.00</b></td><td>-</td><td>-</td><td>-</td><td>21.11</td><td>24.11</td><td>18.53</td><td>14.75</td><td>12.12</td><td>40.11</td><td>24.83</td></tr><tr><td class='sticky'>S&amp;P 500 (YoY)</td><td class='now'><b>11.61%</b></td><td>-</td><td>-</td><td>30.39%</td><td>-8.22%</td><td>9.12%</td><td>5.75%</td><td>23.48%</td><td>4.25%</td><td>6.10%</td><td>14.77%</td></tr><tr><td class='sticky'>Retail Sales (YoY)</td><td class='now'><b>6.29%</b></td><td>-</td><td>-</td><td>-</td><td>-</td><td>9.94%</td><td>4.64%</td><td>6.56%</td><td>3.38%</td><td>4.77%</td><td>13.29%</td></tr><tr><td class='sticky'>Capacity Utilization</td><td class='now'><b>76.85%</b></td><td>87.84%</td><td>81.03%</td><td>81.59%</td><td>82.70%</td><td>82.20%</td><td>80.68%</td><td>75.61%</td><td>79.93%</td><td>76.78%</td><td>78.09%</td></tr><tr><td class='sticky'>Real M2 Money Supply (YoY)</td><td class='now'><b>2.23%</b></td><td>8.94%</td><td>-3.35%</td><td>1.03%</td><td>0.78%</td><td>2.44%</td><td>2.40%</td><td>2.45%</td><td>1.28%</td><td>4.36%</td><td>3.87%</td></tr></table></div>
 
 <h2>Risk by category</h2>
 <div class="cards"><div class="card">
+          <div class="cat-name">Yield Curve &amp; Rates</div>
+          <div class="cat-score" style="color:#e53935">75</div>
+          <div class="bar"><div style="width:75%;background:#e53935"></div></div>
+          <div class="muted">4 scored indicators &middot; weight 12%</div>
+        </div><div class="card">
+          <div class="cat-name">Credit &amp; Financial Stress</div>
+          <div class="cat-score" style="color:#1db954">21</div>
+          <div class="bar"><div style="width:21%;background:#1db954"></div></div>
+          <div class="muted">12 scored indicators &middot; weight 18%</div>
+        </div><div class="card">
+          <div class="cat-name">Banking &amp; Money</div>
+          <div class="cat-score" style="color:#1db954">0</div>
+          <div class="bar"><div style="width:0%;background:#1db954"></div></div>
+          <div class="muted">6 scored indicators &middot; weight 6%</div>
+        </div><div class="card">
+          <div class="cat-name">Labor Market</div>
+          <div class="cat-score" style="color:#1db954">4</div>
+          <div class="bar"><div style="width:4%;background:#1db954"></div></div>
+          <div class="muted">13 scored indicators &middot; weight 18%</div>
+        </div><div class="card">
+          <div class="cat-name">Inflation</div>
+          <div class="cat-score" style="color:#e6c200">33</div>
+          <div class="bar"><div style="width:33%;background:#e6c200"></div></div>
+          <div class="muted">6 scored indicators &middot; weight 6%</div>
+        </div><div class="card">
+          <div class="cat-name">Growth &amp; Activity</div>
+          <div class="cat-score" style="color:#1db954">4</div>
+          <div class="bar"><div style="width:4%;background:#1db954"></div></div>
+          <div class="muted">12 scored indicators &middot; weight 12%</div>
+        </div><div class="card">
+          <div class="cat-name">Housing</div>
+          <div class="cat-score" style="color:#e6c200">29</div>
+          <div class="bar"><div style="width:29%;background:#e6c200"></div></div>
+          <div class="muted">7 scored indicators &middot; weight 8%</div>
+        </div><div class="card">
+          <div class="cat-name">Consumer</div>
+          <div class="cat-score" style="color:#1db954">20</div>
+          <div class="bar"><div style="width:20%;background:#1db954"></div></div>
+          <div class="muted">5 scored indicators &middot; weight 8%</div>
+        </div><div class="card">
+          <div class="cat-name">Fiscal &amp; Corporate</div>
+          <div class="cat-score" style="color:#1db954">0</div>
+          <div class="bar"><div style="width:0%;background:#1db954"></div></div>
+          <div class="muted">3 scored indicators &middot; weight 2%</div>
+        </div><div class="card">
           <div class="cat-name">Markets</div>
-          <div class="cat-score" style="color:#1db954">19</div>
-          <div class="bar"><div style="width:19%;background:#1db954"></div></div>
-          <div class="muted">8 scored indicators &middot; weight 10%</div>
+          <div class="cat-score" style="color:#e6c200">25</div>
+          <div class="bar"><div style="width:25%;background:#e6c200"></div></div>
+          <div class="muted">10 scored indicators &middot; weight 10%</div>
         </div></div>
 
 <h2>All 100 indicators</h2>
 <table>
 <tr><th>Indicator</th><th>Category</th><th>Current</th><th>1y ago</th><th>6m trend</th><th>15y %ile</th><th>As of</th><th>Status</th></tr>
-<tr class='na'><td>3-Month Treasury Yield</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>1-Year Treasury Yield</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>2-Year Treasury Yield</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>10-Year Treasury Yield</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>30-Year Treasury Yield</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Yield Curve: 10y minus 3m</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Yield Curve: 10y minus 2y</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Fed Funds Effective Rate</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Bank Prime Loan Rate</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>30-Year Mortgage Rate</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>10-Year Real Yield (TIPS)</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>10-Year Inflation Breakeven</td><td>Yield Curve &amp; Rates</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>CPI Inflation (YoY)</td><td>Inflation</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Core CPI Inflation (YoY)</td><td>Inflation</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>PCE Inflation (YoY)</td><td>Inflation</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Core PCE Inflation (YoY)</td><td>Inflation</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Producer Prices (YoY)</td><td>Inflation</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>5-Year Inflation Breakeven</td><td>Inflation</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>5y5y Forward Inflation Expectation</td><td>Inflation</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Consumer 1y Inflation Expectations (UMich)</td><td>Inflation</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>High-Yield Credit Spread (OAS)</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Investment-Grade Credit Spread (OAS)</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>CCC &amp; Lower Credit Spread (OAS)</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Baa Corporate vs 10y Treasury Spread</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Chicago Fed Financial Conditions Index</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Adjusted Financial Conditions Index</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>St. Louis Fed Financial Stress Index</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Credit Card Delinquency Rate</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Mortgage Delinquency Rate</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Business Loan Delinquency Rate</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Banks Tightening C&amp;I Loans (large firms, SLOOS)</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Banks Tightening C&amp;I Loans (small firms, SLOOS)</td><td>Credit &amp; Financial Stress</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Commercial &amp; Industrial Loans (YoY)</td><td>Banking &amp; Money</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Total Bank Credit (YoY)</td><td>Banking &amp; Money</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Bank Deposits (YoY)</td><td>Banking &amp; Money</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Bank Reserves at Fed (YoY)</td><td>Banking &amp; Money</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>M2 Money Supply (YoY)</td><td>Banking &amp; Money</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Real M2 Money Supply (YoY)</td><td>Banking &amp; Money</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Fed Balance Sheet (YoY)</td><td>Banking &amp; Money</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Fed Reverse Repo Usage ($B)</td><td>Banking &amp; Money</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Treasury General Account ($B)</td><td>Banking &amp; Money</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Unemployment Rate</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Sahm Rule Recession Indicator</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Underemployment Rate (U-6)</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Initial Jobless Claims</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Initial Claims (4-week avg)</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Payroll Growth (3m avg, k/month)</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Manufacturing Employment (YoY)</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Temp-Help Employment (YoY, leading)</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Job Openings (YoY)</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Quits Rate (worker confidence)</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Median Unemployment Duration (weeks)</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Employment-Population Ratio</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Avg Weekly Hours, Manufacturing (leading)</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Avg Hourly Earnings (YoY)</td><td>Labor Market</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Real GDP (YoY)</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Industrial Production (YoY)</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Capacity Utilization</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Retail Sales (YoY)</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Real Manufacturing &amp; Trade Sales (YoY)</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Durable Goods Orders (YoY)</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Core Capital Goods Orders (YoY)</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Manufacturers&#x27; New Orders (YoY)</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Chicago Fed National Activity Index</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Business Inventories/Sales Ratio</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Freight Transportation Index (YoY)</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Truck Tonnage (YoY)</td><td>Growth &amp; Activity</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Housing Starts (YoY)</td><td>Housing</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Building Permits (YoY, leading)</td><td>Housing</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Single-Family Starts (YoY)</td><td>Housing</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Single-Family Permits (YoY)</td><td>Housing</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>New Home Sales (YoY)</td><td>Housing</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Case-Shiller Home Prices (YoY)</td><td>Housing</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Months&#x27; Supply of New Homes</td><td>Housing</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Consumer Sentiment (UMich)</td><td>Consumer</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Personal Savings Rate</td><td>Consumer</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Consumer Spending (YoY)</td><td>Consumer</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Real Disposable Income (YoY)</td><td>Consumer</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Personal Income (YoY)</td><td>Consumer</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Total Consumer Credit (YoY)</td><td>Consumer</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Revolving Credit / Card Debt (YoY)</td><td>Consumer</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Household Debt Service Ratio</td><td>Consumer</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Federal Debt (YoY)</td><td>Fiscal &amp; Corporate</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Federal Surplus/Deficit (% of GDP)</td><td>Fiscal &amp; Corporate</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Federal Interest Payments (YoY)</td><td>Fiscal &amp; Corporate</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Monthly Federal Surplus/Deficit ($M)</td><td>Fiscal &amp; Corporate</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Corporate Profits (YoY)</td><td>Fiscal &amp; Corporate</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Corporate Profits After Tax (YoY)</td><td>Fiscal &amp; Corporate</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>Broad US Dollar Index (YoY)</td><td>Markets</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr class='na'><td>WTI Crude Oil (YoY)</td><td>Markets</td><td colspan='5' class='muted'>unavailable: JSONDecodeError: Expecting value: line 1 column 1 (char 0)</td><td><span class='chip' style='background:#444'>N/A</span></td></tr><tr>
-          <td>S&amp;P 500 (YoY)</td><td class="muted">Markets</td>
-          <td><b>13.26%</b></td>
-          <td>13.54%</td>
-          <td><span style='color:#e53935'>&#9660; 14.96</span></td><td>44</td>
+<tr>
+          <td>3-Month Treasury Yield</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>4.26%</b></td>
+          <td>3.97%</td>
+          <td><span style='color:#1db954'>&#9650; 0.55</span></td><td>81</td>
+          <td class="muted">2026-10-20</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>1-Year Treasury Yield</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>4.51%</b></td>
+          <td>3.55%</td>
+          <td><span style='color:#1db954'>&#9650; 0.86</span></td><td>88</td>
+          <td class="muted">2026-10-20</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>2-Year Treasury Yield</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>4.79%</b></td>
+          <td>3.46%</td>
+          <td><span style='color:#1db954'>&#9650; 1.07</span></td><td>96</td>
+          <td class="muted">2026-10-20</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>10-Year Treasury Yield</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>5.12%</b></td>
+          <td>4.00%</td>
+          <td><span style='color:#1db954'>&#9650; 0.86</span></td><td>100</td>
+          <td class="muted">2026-10-20</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>30-Year Treasury Yield</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>5.42%</b></td>
+          <td>4.58%</td>
+          <td><span style='color:#1db954'>&#9650; 0.54</span></td><td>100</td>
+          <td class="muted">2026-10-20</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Yield Curve: 10y minus 3m</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>0.88pp</b></td>
+          <td>0.02pp</td>
+          <td><span style='color:#1db954'>&#9650; 0.27</span></td><td>44</td>
+          <td class="muted">2026-10-21</td>
+          <td><span class="chip" style="background:#e53935">ALERT</span>
+              <div class="note">Curve re-steepening AFTER inversion - the pattern seen months before the 2001, 2008 and 2020 downturns</div></td></tr><tr>
+          <td>Yield Curve: 10y minus 2y</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>0.32pp</b></td>
+          <td>0.53pp</td>
+          <td><span style='color:#e53935'>&#9660; 0.20</span></td><td>31</td>
           <td class="muted">2026-10-21</td>
           <td><span class="chip" style="background:#1db954">OK</span>
-              <div class="note">Drawdown from all-time high: 0.0%; price above 200-day average</div></td></tr><tr>
-          <td>Nasdaq Composite (YoY)</td><td class="muted">Markets</td>
-          <td><b>12.55%</b></td>
-          <td>31.11%</td>
-          <td><span style='color:#e53935'>&#9660; 30.13</span></td><td>39</td>
+              </td></tr><tr>
+          <td>Fed Funds Effective Rate</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>3.88%</b></td>
+          <td>4.11%</td>
+          <td><span style='color:#1db954'>&#9650; 0.24</span></td><td>81</td>
+          <td class="muted">2026-10-20</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Bank Prime Loan Rate</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>7.00%</b></td>
+          <td>7.25%</td>
+          <td><span style='color:#1db954'>&#9650; 0.25</span></td><td>81</td>
+          <td class="muted">2026-10-13</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>30-Year Mortgage Rate</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>7.32%</b></td>
+          <td>6.27%</td>
+          <td><span style='color:#e53935'>&#9650; 1.02</span></td><td>99</td>
+          <td class="muted">2026-10-22</td>
+          <td><span class="chip" style="background:#e53935">ALERT</span>
+              </td></tr><tr>
+          <td>10-Year Real Yield (TIPS)</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>2.77%</b></td>
+          <td>1.74%</td>
+          <td><span style='color:#e53935'>&#9650; 0.86</span></td><td>100</td>
+          <td class="muted">2026-10-20</td>
+          <td><span class="chip" style="background:#e53935">ALERT</span>
+              </td></tr><tr>
+          <td>10-Year Inflation Breakeven</td><td class="muted">Yield Curve &amp; Rates</td>
+          <td><b>2.37%</b></td>
+          <td>2.28%</td>
+          <td><span style='color:#8aa'>&#9660; 0.01</span></td><td>84</td>
           <td class="muted">2026-10-21</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>CPI Inflation (YoY)</td><td class="muted">Inflation</td>
+          <td><b>3.72%</b></td>
+          <td>3.02%</td>
+          <td><span style='color:#e53935'>&#9650; 0.43</span></td><td>84</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#e6c200">WATCH</span>
+              </td></tr><tr>
+          <td>Core CPI Inflation (YoY)</td><td class="muted">Inflation</td>
+          <td><b>2.57%</b></td>
+          <td>3.02%</td>
+          <td><span style='color:#1db954'>&#9660; 0.04</span></td><td>67</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>PCE Inflation (YoY)</td><td class="muted">Inflation</td>
+          <td><b>3.42%</b></td>
+          <td>2.69%</td>
+          <td><span style='color:#e53935'>&#9650; 0.69</span></td><td>83</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#e6c200">WATCH</span>
+              </td></tr><tr>
+          <td>Core PCE Inflation (YoY)</td><td class="muted">Inflation</td>
+          <td><b>3.01%</b></td>
+          <td>2.85%</td>
+          <td><span style='color:#e53935'>&#9650; 0.07</span></td><td>77</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Producer Prices (YoY)</td><td class="muted">Inflation</td>
+          <td><b>12.84%</b></td>
+          <td>3.71%</td>
+          <td><span style='color:#e53935'>&#9650; 6.04</span></td><td>90</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#e53935">ALERT</span>
+              </td></tr><tr>
+          <td>5-Year Inflation Breakeven</td><td class="muted">Inflation</td>
+          <td><b>2.40%</b></td>
+          <td>2.30%</td>
+          <td><span style='color:#8aa'>&#9660; 0.20</span></td><td>81</td>
+          <td class="muted">2026-10-21</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>5y5y Forward Inflation Expectation</td><td class="muted">Inflation</td>
+          <td><b>2.34%</b></td>
+          <td>2.26%</td>
+          <td><span style='color:#1db954'>&#9650; 0.18</span></td><td>75</td>
+          <td class="muted">2026-10-21</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Consumer 1y Inflation Expectations (UMich)</td><td class="muted">Inflation</td>
+          <td><b>4.00%</b></td>
+          <td>4.80%</td>
+          <td><span style='color:#1db954'>&#9660; 0.00</span></td><td>78</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>High-Yield Credit Spread (OAS)</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>3.27pp</b></td>
+          <td>2.97pp</td>
+          <td><span style='color:#e53935'>&#9650; 0.42</span></td><td>79</td>
+          <td class="muted">2026-10-21</td>
+          <td><span class="chip" style="background:#e6c200">WATCH</span>
+              <div class="note">Spreads calm (+0.67pp off 12m low); credit market sees low near-term default risk</div></td></tr><tr>
+          <td>Investment-Grade Credit Spread (OAS)</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>0.88pp</b></td>
+          <td>0.79pp</td>
+          <td><span style='color:#e53935'>&#9650; 0.08</span></td><td>59</td>
+          <td class="muted">2026-10-21</td>
+          <td><span class="chip" style="background:#e6c200">WATCH</span>
+              </td></tr><tr>
+          <td>CCC &amp; Lower Credit Spread (OAS)</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>13.07pp</b></td>
+          <td>8.47pp</td>
+          <td><span style='color:#e53935'>&#9650; 3.94</span></td><td>100</td>
+          <td class="muted">2026-10-21</td>
+          <td><span class="chip" style="background:#e53935">ALERT</span>
+              </td></tr><tr>
+          <td>Baa Corporate vs 10y Treasury Spread</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>1.44pp</b></td>
+          <td>1.68pp</td>
+          <td><span style='color:#1db954'>&#9660; 0.28</span></td><td>2</td>
+          <td class="muted">2026-10-20</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Chicago Fed Financial Conditions Index</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>-0.50 idx</b></td>
+          <td>-0.52 idx</td>
+          <td><span style='color:#1db954'>&#9660; 0.02</span></td><td>55</td>
+          <td class="muted">2026-10-16</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              <div class="note">Negative = looser than average; calm</div></td></tr><tr>
+          <td>Adjusted Financial Conditions Index</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>-0.52 idx</b></td>
+          <td>-0.58 idx</td>
+          <td><span style='color:#1db954'>&#9660; 0.05</span></td><td>55</td>
+          <td class="muted">2026-10-16</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              <div class="note">Negative = looser than average; calm</div></td></tr><tr>
+          <td>St. Louis Fed Financial Stress Index</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>-0.63 idx</b></td>
+          <td>-0.48 idx</td>
+          <td><span style='color:#e53935'>&#9650; 0.00</span></td><td>25</td>
+          <td class="muted">2026-10-16</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Credit Card Delinquency Rate</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>2.85%</b></td>
+          <td>3.04%</td>
+          <td><span style='color:#1db954'>&#9660; 0.14</span></td><td>75</td>
+          <td class="muted">2026-04-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Mortgage Delinquency Rate</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>1.86%</b></td>
+          <td>1.78%</td>
+          <td><span style='color:#e53935'>&#9650; 0.08</span></td><td>25</td>
+          <td class="muted">2026-04-01</td>
+          <td><span class="chip" style="background:#e6c200">WATCH</span>
+              </td></tr><tr>
+          <td>Business Loan Delinquency Rate</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>1.27%</b></td>
+          <td>1.29%</td>
+          <td><span style='color:#1db954'>&#9660; 0.06</span></td><td>72</td>
+          <td class="muted">2026-04-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Banks Tightening C&amp;I Loans (large firms, SLOOS)</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>0.00%</b></td>
+          <td>9.50%</td>
+          <td><span style='color:#1db954'>&#9660; 6.50</span></td><td>53</td>
+          <td class="muted">2026-07-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Banks Tightening C&amp;I Loans (small firms, SLOOS)</td><td class="muted">Credit &amp; Financial Stress</td>
+          <td><b>1.80%</b></td>
+          <td>8.20%</td>
+          <td><span style='color:#1db954'>&#9660; 6.50</span></td><td>57</td>
+          <td class="muted">2026-07-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Commercial &amp; Industrial Loans (YoY)</td><td class="muted">Banking &amp; Money</td>
+          <td><b>9.98%</b></td>
+          <td>-3.12%</td>
+          <td><span style='color:#1db954'>&#9650; 4.41</span></td><td>67</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Total Bank Credit (YoY)</td><td class="muted">Banking &amp; Money</td>
+          <td><b>6.21%</b></td>
+          <td>5.15%</td>
+          <td><span style='color:#e53935'>&#9660; 0.63</span></td><td>62</td>
+          <td class="muted">2026-10-07</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Bank Deposits (YoY)</td><td class="muted">Banking &amp; Money</td>
+          <td><b>6.89%</b></td>
+          <td>4.30%</td>
+          <td><span style='color:#1db954'>&#9650; 1.28</span></td><td>68</td>
+          <td class="muted">2026-10-07</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Bank Reserves at Fed (YoY)</td><td class="muted">Banking &amp; Money</td>
+          <td><b>-10.54%</b></td>
+          <td>-1.18%</td>
+          <td><span style='color:#e53935'>&#9660; 1.70</span></td><td>21</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>M2 Money Supply (YoY)</td><td class="muted">Banking &amp; Money</td>
+          <td><b>5.66%</b></td>
+          <td>4.25%</td>
+          <td><span style='color:#1db954'>&#9650; 1.60</span></td><td>46</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Real M2 Money Supply (YoY)</td><td class="muted">Banking &amp; Money</td>
+          <td><b>2.23%</b></td>
+          <td>1.27%</td>
+          <td><span style='color:#1db954'>&#9650; 0.60</span></td><td>37</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Fed Balance Sheet (YoY)</td><td class="muted">Banking &amp; Money</td>
+          <td><b>2.50%</b></td>
+          <td>-6.47%</td>
+          <td><span style='color:#1db954'>&#9650; 2.94</span></td><td>61</td>
+          <td class="muted">2026-10-14</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Fed Reverse Repo Usage ($B)</td><td class="muted">Banking &amp; Money</td>
+          <td><b>0.35 $B</b></td>
+          <td>4.00 $B</td>
+          <td><span style='color:#8aa'>&#9660; 0.19</span></td><td>8</td>
+          <td class="muted">2026-10-22</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Treasury General Account ($B)</td><td class="muted">Banking &amp; Money</td>
+          <td><b>883,373 $B</b></td>
+          <td>807,428 $B</td>
+          <td><span style='color:#1db954'>&#9650; 134,997</span></td><td>89</td>
+          <td class="muted">2026-10-14</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Unemployment Rate</td><td class="muted">Labor Market</td>
+          <td><b>4.20%</b></td>
+          <td>4.40%</td>
+          <td><span style='color:#1db954'>&#9660; 0.10</span></td><td>42</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Sahm Rule Recession Indicator</td><td class="muted">Labor Market</td>
+          <td><b>0.00pp</b></td>
+          <td>0.23pp</td>
+          <td><span style='color:#1db954'>&#9660; 0.20</span></td><td>61</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              <div class="note">Sahm rule not triggered (trigger at 0.50)</div></td></tr><tr>
+          <td>Underemployment Rate (U-6)</td><td class="muted">Labor Market</td>
+          <td><b>7.60%</b></td>
+          <td>8.10%</td>
+          <td><span style='color:#1db954'>&#9660; 0.40</span></td><td>30</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Initial Jobless Claims</td><td class="muted">Labor Market</td>
+          <td><b>194,000 k</b></td>
+          <td>222,000 k</td>
+          <td><span style='color:#1db954'>&#9660; 14,000</span></td><td>1</td>
+          <td class="muted">2026-10-17</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Initial Claims (4-week avg)</td><td class="muted">Labor Market</td>
+          <td><b>197,750 k</b></td>
+          <td>224,750 k</td>
+          <td><span style='color:#1db954'>&#9660; 12,250</span></td><td>0</td>
+          <td class="muted">2026-10-17</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Payroll Growth (3m avg, k/month)</td><td class="muted">Labor Market</td>
+          <td><b>50.67 k/mo</b></td>
+          <td>23.33 k/mo</td>
+          <td><span style='color:#e53935'>&#9660; 22.00</span></td><td>9</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#e6c200">WATCH</span>
+              </td></tr><tr>
+          <td>Manufacturing Employment (YoY)</td><td class="muted">Labor Market</td>
+          <td><b>0.32%</b></td>
+          <td>-1.14%</td>
+          <td><span style='color:#1db954'>&#9650; 0.85</span></td><td>38</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Temp-Help Employment (YoY, leading)</td><td class="muted">Labor Market</td>
+          <td><b>0.61%</b></td>
+          <td>-3.60%</td>
+          <td><span style='color:#1db954'>&#9650; 2.53</span></td><td>46</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Job Openings (YoY)</td><td class="muted">Labor Market</td>
+          <td><b>2.31%</b></td>
+          <td>-7.99%</td>
+          <td><span style='color:#1db954'>&#9650; 4.88</span></td><td>41</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Quits Rate (worker confidence)</td><td class="muted">Labor Market</td>
+          <td><b>1.90%</b></td>
+          <td>2.00%</td>
+          <td><span style='color:#e53935'>&#9660; 0.10</span></td><td>31</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Median Unemployment Duration (weeks)</td><td class="muted">Labor Market</td>
+          <td><b>11.50 wk</b></td>
+          <td>10.10 wk</td>
+          <td><span style='color:#1db954'>&#9660; 0.00</span></td><td>64</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Employment-Population Ratio</td><td class="muted">Labor Market</td>
+          <td><b>59.20%</b></td>
+          <td>59.70%</td>
+          <td><span style='color:#e53935'>&#9660; 0.00</span></td><td>37</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Avg Weekly Hours, Manufacturing (leading)</td><td class="muted">Labor Market</td>
+          <td><b>42.00 hrs</b></td>
+          <td>41.00 hrs</td>
+          <td><span style='color:#1db954'>&#9650; 0.50</span></td><td>91</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Avg Hourly Earnings (YoY)</td><td class="muted">Labor Market</td>
+          <td><b>3.02%</b></td>
+          <td>3.85%</td>
+          <td><span style='color:#8aa'>&#9660; 0.41</span></td><td>48</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Real GDP (YoY)</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>2.19%</b></td>
+          <td>2.42%</td>
+          <td><span style='color:#e53935'>&#9660; 0.41</span></td><td>37</td>
+          <td class="muted">2026-04-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Industrial Production (YoY)</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>2.25%</b></td>
+          <td>1.86%</td>
+          <td><span style='color:#1db954'>&#9650; 1.56</span></td><td>68</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Capacity Utilization</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>76.85%</b></td>
+          <td>76.05%</td>
+          <td><span style='color:#1db954'>&#9650; 1.23</span></td><td>47</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Retail Sales (YoY)</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>6.29%</b></td>
+          <td>3.69%</td>
+          <td><span style='color:#1db954'>&#9650; 2.70</span></td><td>84</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Real Manufacturing &amp; Trade Sales (YoY)</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>2.27%</b></td>
+          <td>3.05%</td>
+          <td><span style='color:#1db954'>&#9650; 0.81</span></td><td>48</td>
+          <td class="muted">2026-07-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Durable Goods Orders (YoY)</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>8.43%</b></td>
+          <td>7.66%</td>
+          <td><span style='color:#e53935'>&#9660; 1.45</span></td><td>75</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Core Capital Goods Orders (YoY)</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>14.11%</b></td>
+          <td>4.16%</td>
+          <td><span style='color:#1db954'>&#9650; 10.13</span></td><td>96</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Manufacturers&#x27; New Orders (YoY)</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>8.51%</b></td>
+          <td>3.74%</td>
+          <td><span style='color:#1db954'>&#9650; 4.26</span></td><td>83</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Chicago Fed National Activity Index</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>-0.04 idx</b></td>
+          <td>-0.36 idx</td>
+          <td><span style='color:#1db954'>&#9650; 0.03</span></td><td>49</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              <div class="note">3m avg 0.01 (recession threshold -0.70)</div></td></tr><tr>
+          <td>Business Inventories/Sales Ratio</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>1.33 x</b></td>
+          <td>1.40 x</td>
+          <td><span style='color:#1db954'>&#9660; 0.05</span></td><td>31</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Freight Transportation Index (YoY)</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>-2.02%</b></td>
+          <td>0.87%</td>
+          <td><span style='color:#e53935'>&#9660; 1.66</span></td><td>7</td>
+          <td class="muted">2026-07-01</td>
+          <td><span class="chip" style="background:#e6c200">WATCH</span>
+              </td></tr><tr>
+          <td>Truck Tonnage (YoY)</td><td class="muted">Growth &amp; Activity</td>
+          <td><b>-0.35%</b></td>
+          <td>0.44%</td>
+          <td><span style='color:#e53935'>&#9660; 0.44</span></td><td>22</td>
+          <td class="muted">2026-07-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Housing Starts (YoY)</td><td class="muted">Housing</td>
+          <td><b>-7.43%</b></td>
+          <td>-2.80%</td>
+          <td><span style='color:#e53935'>&#9660; 20.51</span></td><td>14</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#e6c200">WATCH</span>
+              </td></tr><tr>
+          <td>Building Permits (YoY, leading)</td><td class="muted">Housing</td>
+          <td><b>-3.05%</b></td>
+          <td>1.62%</td>
+          <td><span style='color:#1db954'>&#9650; 5.60</span></td><td>21</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Single-Family Starts (YoY)</td><td class="muted">Housing</td>
+          <td><b>2.63%</b></td>
+          <td>-20.44%</td>
+          <td><span style='color:#e53935'>&#9660; 5.68</span></td><td>39</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Single-Family Permits (YoY)</td><td class="muted">Housing</td>
+          <td><b>-4.84%</b></td>
+          <td>-7.79%</td>
+          <td><span style='color:#1db954'>&#9650; 2.32</span></td><td>20</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#e6c200">WATCH</span>
+              </td></tr><tr>
+          <td>New Home Sales (YoY)</td><td class="muted">Housing</td>
+          <td><b>-2.01%</b></td>
+          <td>1.60%</td>
+          <td><span style='color:#1db954'>&#9650; 11.38</span></td><td>26</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Case-Shiller Home Prices (YoY)</td><td class="muted">Housing</td>
+          <td><b>1.93%</b></td>
+          <td>1.65%</td>
+          <td><span style='color:#1db954'>&#9650; 0.77</span></td><td>17</td>
+          <td class="muted">2026-07-01</td>
+          <td><span class="chip" style="background:#e6c200">WATCH</span>
+              </td></tr><tr>
+          <td>Months&#x27; Supply of New Homes</td><td class="muted">Housing</td>
+          <td><b>8.50 mo</b></td>
+          <td>8.50 mo</td>
+          <td><span style='color:#1db954'>&#9660; 1.40</span></td><td>86</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#e6c200">WATCH</span>
+              </td></tr><tr>
+          <td>Consumer Sentiment (UMich)</td><td class="muted">Consumer</td>
+          <td><b>51.70 idx</b></td>
+          <td>58.20 idx</td>
+          <td><span style='color:#e53935'>&#9660; 4.70</span></td><td>4</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#e53935">ALERT</span>
+              <div class="note">Sentiment at recessionary extreme</div></td></tr><tr>
+          <td>Personal Savings Rate</td><td class="muted">Consumer</td>
+          <td><b>4.10%</b></td>
+          <td>5.20%</td>
+          <td><span style='color:#8aa'>&#9660; 1.50</span></td><td>6</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Consumer Spending (YoY)</td><td class="muted">Consumer</td>
+          <td><b>6.08%</b></td>
+          <td>5.62%</td>
+          <td><span style='color:#1db954'>&#9650; 1.26</span></td><td>83</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Real Disposable Income (YoY)</td><td class="muted">Consumer</td>
+          <td><b>1.30%</b></td>
+          <td>1.73%</td>
+          <td><span style='color:#e53935'>&#9660; 0.74</span></td><td>21</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Personal Income (YoY)</td><td class="muted">Consumer</td>
+          <td><b>4.27%</b></td>
+          <td>5.28%</td>
+          <td><span style='color:#8aa'>&#9660; 0.52</span></td><td>26</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Total Consumer Credit (YoY)</td><td class="muted">Consumer</td>
+          <td><b>2.73%</b></td>
+          <td>0.06%</td>
+          <td><span style='color:#8aa'>&#9660; 0.25</span></td><td>24</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Revolving Credit / Card Debt (YoY)</td><td class="muted">Consumer</td>
+          <td><b>3.37%</b></td>
+          <td>-2.38%</td>
+          <td><span style='color:#e53935'>&#9650; 1.52</span></td><td>49</td>
+          <td class="muted">2026-08-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Household Debt Service Ratio</td><td class="muted">Consumer</td>
+          <td><b>11.11%</b></td>
+          <td>11.12%</td>
+          <td><span style='color:#1db954'>&#9660; 0.12</span></td><td>32</td>
+          <td class="muted">2026-04-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Federal Debt (YoY)</td><td class="muted">Fiscal &amp; Corporate</td>
+          <td><b>8.98%</b></td>
+          <td>3.96%</td>
+          <td><span style='color:#1db954'>&#9650; 2.85</span></td><td>87</td>
+          <td class="muted">2026-04-01</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Federal Surplus/Deficit (% of GDP)</td><td class="muted">Fiscal &amp; Corporate</td>
+          <td><b>-5.77%</b></td>
+          <td>-6.20%</td>
+          <td><span style='color:#1db954'>&#9650; 0.43</span></td><td>-</td>
+          <td class="muted">2025-01-01</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Federal Interest Payments (YoY)</td><td class="muted">Fiscal &amp; Corporate</td>
+          <td><b>6.90%</b></td>
+          <td>9.23%</td>
+          <td><span style='color:#1db954'>&#9660; 1.24</span></td><td>50</td>
+          <td class="muted">2026-04-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Monthly Federal Surplus/Deficit ($M)</td><td class="muted">Fiscal &amp; Corporate</td>
+          <td><b>-26,900 $M</b></td>
+          <td>197,950 $M</td>
+          <td><span style='color:#1db954'>&#9650; 137,200</span></td><td>74</td>
+          <td class="muted">2026-09-01</td>
+          <td><span class="chip" style="background:#5b7a99">INFO</span>
+              </td></tr><tr>
+          <td>Corporate Profits (YoY)</td><td class="muted">Fiscal &amp; Corporate</td>
+          <td><b>26.61%</b></td>
+          <td>-0.84%</td>
+          <td><span style='color:#1db954'>&#9650; 20.07</span></td><td>95</td>
+          <td class="muted">2026-04-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Corporate Profits After Tax (YoY)</td><td class="muted">Fiscal &amp; Corporate</td>
+          <td><b>18.16%</b></td>
+          <td>6.94%</td>
+          <td><span style='color:#1db954'>&#9650; 5.69</span></td><td>93</td>
+          <td class="muted">2026-04-01</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>Broad US Dollar Index (YoY)</td><td class="muted">Markets</td>
+          <td><b>0.61%</b></td>
+          <td>-2.63%</td>
+          <td><span style='color:#e53935'>&#9650; 4.59</span></td><td>37</td>
+          <td class="muted">2026-10-16</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              </td></tr><tr>
+          <td>WTI Crude Oil (YoY)</td><td class="muted">Markets</td>
+          <td><b>84.93%</b></td>
+          <td>-16.39%</td>
+          <td><span style='color:#e53935'>&#9650; 44.99</span></td><td>97</td>
+          <td class="muted">2026-10-20</td>
+          <td><span class="chip" style="background:#e53935">ALERT</span>
+              </td></tr><tr>
+          <td>S&amp;P 500 (YoY)</td><td class="muted">Markets</td>
+          <td><b>11.61%</b></td>
+          <td>13.54%</td>
+          <td><span style='color:#e53935'>&#9660; 16.61</span></td><td>36</td>
+          <td class="muted">2026-10-22</td>
+          <td><span class="chip" style="background:#1db954">OK</span>
+              <div class="note">Drawdown from all-time high: -1.5%; price above 200-day average</div></td></tr><tr>
+          <td>Nasdaq Composite (YoY)</td><td class="muted">Markets</td>
+          <td><b>9.33%</b></td>
+          <td>31.11%</td>
+          <td><span style='color:#e53935'>&#9660; 33.35</span></td><td>31</td>
+          <td class="muted">2026-10-22</td>
           <td><span class="chip" style="background:#e6c200">WATCH</span>
               </td></tr><tr>
           <td>Dow Jones Industrial (YoY)</td><td class="muted">Markets</td>
-          <td><b>11.13%</b></td>
+          <td><b>10.93%</b></td>
           <td>13.89%</td>
-          <td><span style='color:#e53935'>&#9660; 10.96</span></td><td>55</td>
-          <td class="muted">2026-10-21</td>
+          <td><span style='color:#e53935'>&#9660; 11.16</span></td><td>54</td>
+          <td class="muted">2026-10-22</td>
           <td><span class="chip" style="background:#1db954">OK</span>
               </td></tr><tr>
           <td>Russell 2000 Small Caps (YoY)</td><td class="muted">Markets</td>
-          <td><b>11.22%</b></td>
+          <td><b>10.98%</b></td>
           <td>2.70%</td>
-          <td><span style='color:#e53935'>&#9660; 30.06</span></td><td>57</td>
-          <td class="muted">2026-10-21</td>
+          <td><span style='color:#e53935'>&#9660; 30.30</span></td><td>56</td>
+          <td class="muted">2026-10-22</td>
           <td><span class="chip" style="background:#e6c200">WATCH</span>
               </td></tr><tr>
           <td>VIX Volatility Index</td><td class="muted">Markets</td>
-          <td><b>16.68</b></td>
+          <td><b>20.00</b></td>
           <td>17.44</td>
-          <td><span style='color:#1db954'>&#9660; 0.21</span></td><td>53</td>
-          <td class="muted">2026-10-21</td>
+          <td><span style='color:#e53935'>&#9650; 3.11</span></td><td>77</td>
+          <td class="muted">2026-10-22</td>
           <td><span class="chip" style="background:#1db954">OK</span>
               </td></tr><tr>
           <td>Semiconductor Index (YoY, cycle proxy)</td><td class="muted">Markets</td>
-          <td><b>59.17%</b></td>
+          <td><b>48.33%</b></td>
           <td>46.13%</td>
-          <td><span style='color:#e53935'>&#9660; 89.14</span></td><td>90</td>
-          <td class="muted">2026-10-21</td>
+          <td><span style='color:#e53935'>&#9660; 99.97</span></td><td>78</td>
+          <td class="muted">2026-10-22</td>
           <td><span class="chip" style="background:#e6c200">WATCH</span>
               </td></tr><tr>
           <td>Financials Sector ETF (YoY)</td><td class="muted">Markets</td>
-          <td><b>7.01%</b></td>
+          <td><b>7.95%</b></td>
           <td>12.67%</td>
-          <td><span style='color:#1db954'>&#9650; 0.10</span></td><td>44</td>
-          <td class="muted">2026-10-21</td>
+          <td><span style='color:#1db954'>&#9650; 1.04</span></td><td>46</td>
+          <td class="muted">2026-10-22</td>
           <td><span class="chip" style="background:#1db954">OK</span>
               </td></tr><tr>
           <td>Gold (YoY)</td><td class="muted">Markets</td>
-          <td><b>3.60%</b></td>
+          <td><b>1.16%</b></td>
           <td>45.36%</td>
-          <td><span style='color:#8aa'>&#9660; 35.88</span></td><td>49</td>
+          <td><span style='color:#8aa'>&#9660; 38.32</span></td><td>45</td>
           <td class="muted">2026-10-22</td>
           <td><span class="chip" style="background:#5b7a99">INFO</span>
               </td></tr><tr>
           <td>Copper (YoY, growth proxy)</td><td class="muted">Markets</td>
-          <td><b>29.33%</b></td>
+          <td><b>26.06%</b></td>
           <td>17.43%</td>
-          <td><span style='color:#e53935'>&#9660; 0.63</span></td><td>84</td>
+          <td><span style='color:#e53935'>&#9660; 3.90</span></td><td>81</td>
           <td class="muted">2026-10-22</td>
           <td><span class="chip" style="background:#1db954">OK</span>
               </td></tr><tr>
           <td>Bitcoin (YoY, risk appetite)</td><td class="muted">Markets</td>
-          <td><b>-23.16%</b></td>
+          <td><b>-25.90%</b></td>
           <td>56.03%</td>
-          <td><span style='color:#8aa'>&#9660; 4.15</span></td><td>19</td>
+          <td><span style='color:#8aa'>&#9660; 6.90</span></td><td>17</td>
           <td class="muted">2026-10-22</td>
           <td><span class="chip" style="background:#5b7a99">INFO</span>
               </td></tr></table>
@@ -468,14 +1264,14 @@ This is the fairest way to compare across eras, because older tops had fewer dat
 <h2>Run history</h2>
 <div class="vizcard" style="max-width:380px;margin-bottom:12px">
   <div class="vtitle">Composite score, recent runs</div><svg viewBox="0 0 330 150" width="330" height="150" xmlns="http://www.w3.org/2000/svg">
-<line x1="34" y1="120.0" x2="316" y2="120.0" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="123.0" font-size="9" fill="#8b97a6" text-anchor="end">0</text><line x1="34" y1="98.8" x2="316" y2="98.8" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="101.8" font-size="9" fill="#8b97a6" text-anchor="end">20</text><line x1="34" y1="77.6" x2="316" y2="77.6" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="80.6" font-size="9" fill="#8b97a6" text-anchor="end">40</text><line x1="34" y1="56.4" x2="316" y2="56.4" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="59.4" font-size="9" fill="#8b97a6" text-anchor="end">60</text><line x1="34" y1="14.0" x2="316" y2="14.0" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="17.0" font-size="9" fill="#8b97a6" text-anchor="end">100</text><polyline points="34.0,101.1 48.8,101.1 63.7,100.7 78.5,100.7 93.4,100.3 108.2,100.3 123.1,98.0 137.9,98.0 152.7,94.9 167.6,97.5 182.4,97.5 197.3,97.5 212.1,97.5 226.9,97.5 241.8,97.5 256.6,97.5 271.5,96.0 286.3,96.0 301.2,105.1 316.0,105.1" fill="none" stroke="#6ab7ff" stroke-width="2"/><circle cx="34.0" cy="101.1" r="3.4" fill="#1db954"><title>2026-10-12 22:28: 17.8 (GREEN)</title></circle><circle cx="48.8" cy="101.1" r="3.4" fill="#1db954"><title>2026-10-13 02:42: 17.8 (GREEN)</title></circle><circle cx="63.7" cy="100.7" r="3.4" fill="#1db954"><title>2026-10-13 20:38: 18.2 (GREEN)</title></circle><circle cx="78.5" cy="100.7" r="3.4" fill="#1db954"><title>2026-10-14 00:36: 18.2 (GREEN)</title></circle><circle cx="93.4" cy="100.3" r="3.4" fill="#1db954"><title>2026-10-14 19:19: 18.6 (GREEN)</title></circle><circle cx="108.2" cy="100.3" r="3.4" fill="#1db954"><title>2026-10-15 00:05: 18.6 (GREEN)</title></circle><circle cx="123.1" cy="98.0" r="3.4" fill="#e6c200"><title>2026-10-15 19:05: 20.8 (YELLOW)</title></circle><circle cx="137.9" cy="98.0" r="3.4" fill="#e6c200"><title>2026-10-15 23:50: 20.8 (YELLOW)</title></circle><circle cx="152.7" cy="94.9" r="3.4" fill="#e6c200"><title>2026-10-16 18:47: 23.7 (YELLOW)</title></circle><circle cx="167.6" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-16 23:52: 21.2 (YELLOW)</title></circle><circle cx="182.4" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-17 17:51: 21.2 (YELLOW)</title></circle><circle cx="197.3" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-17 23:24: 21.2 (YELLOW)</title></circle><circle cx="212.1" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-18 18:03: 21.2 (YELLOW)</title></circle><circle cx="226.9" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-18 23:38: 21.2 (YELLOW)</title></circle><circle cx="241.8" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-19 20:33: 21.2 (YELLOW)</title></circle><circle cx="256.6" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-20 00:38: 21.2 (YELLOW)</title></circle><circle cx="271.5" cy="96.0" r="3.4" fill="#e6c200"><title>2026-10-20 19:11: 22.6 (YELLOW)</title></circle><circle cx="286.3" cy="96.0" r="3.4" fill="#e6c200"><title>2026-10-21 00:07: 22.6 (YELLOW)</title></circle><circle cx="301.2" cy="105.1" r="3.4" fill="#1db954"><title>2026-10-21 19:16: 14.1 (GREEN)</title></circle><circle cx="316.0" cy="105.1" r="3.4" fill="#1db954"><title>2026-10-22 00:11: 14.1 (GREEN)</title></circle>
-<text x="34" y="142" font-size="9" fill="#8b97a6">2026-10-12</text>
-<text x="316" y="142" font-size="9" fill="#8b97a6" text-anchor="end">2026-10-22 00:11</text>
+<line x1="34" y1="120.0" x2="316" y2="120.0" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="123.0" font-size="9" fill="#8b97a6" text-anchor="end">0</text><line x1="34" y1="98.8" x2="316" y2="98.8" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="101.8" font-size="9" fill="#8b97a6" text-anchor="end">20</text><line x1="34" y1="77.6" x2="316" y2="77.6" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="80.6" font-size="9" fill="#8b97a6" text-anchor="end">40</text><line x1="34" y1="56.4" x2="316" y2="56.4" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="59.4" font-size="9" fill="#8b97a6" text-anchor="end">60</text><line x1="34" y1="14.0" x2="316" y2="14.0" stroke="#2a3140" stroke-width="1" stroke-dasharray="3 4"/><text x="28" y="17.0" font-size="9" fill="#8b97a6" text-anchor="end">100</text><polyline points="34.0,101.1 48.8,100.7 63.7,100.7 78.5,100.3 93.4,100.3 108.2,98.0 123.1,98.0 137.9,94.9 152.7,97.5 167.6,97.5 182.4,97.5 197.3,97.5 212.1,97.5 226.9,97.5 241.8,97.5 256.6,96.0 271.5,96.0 286.3,105.1 301.2,105.1 316.0,95.6" fill="none" stroke="#6ab7ff" stroke-width="2"/><circle cx="34.0" cy="101.1" r="3.4" fill="#1db954"><title>2026-10-13 02:42: 17.8 (GREEN)</title></circle><circle cx="48.8" cy="100.7" r="3.4" fill="#1db954"><title>2026-10-13 20:38: 18.2 (GREEN)</title></circle><circle cx="63.7" cy="100.7" r="3.4" fill="#1db954"><title>2026-10-14 00:36: 18.2 (GREEN)</title></circle><circle cx="78.5" cy="100.3" r="3.4" fill="#1db954"><title>2026-10-14 19:19: 18.6 (GREEN)</title></circle><circle cx="93.4" cy="100.3" r="3.4" fill="#1db954"><title>2026-10-15 00:05: 18.6 (GREEN)</title></circle><circle cx="108.2" cy="98.0" r="3.4" fill="#e6c200"><title>2026-10-15 19:05: 20.8 (YELLOW)</title></circle><circle cx="123.1" cy="98.0" r="3.4" fill="#e6c200"><title>2026-10-15 23:50: 20.8 (YELLOW)</title></circle><circle cx="137.9" cy="94.9" r="3.4" fill="#e6c200"><title>2026-10-16 18:47: 23.7 (YELLOW)</title></circle><circle cx="152.7" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-16 23:52: 21.2 (YELLOW)</title></circle><circle cx="167.6" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-17 17:51: 21.2 (YELLOW)</title></circle><circle cx="182.4" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-17 23:24: 21.2 (YELLOW)</title></circle><circle cx="197.3" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-18 18:03: 21.2 (YELLOW)</title></circle><circle cx="212.1" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-18 23:38: 21.2 (YELLOW)</title></circle><circle cx="226.9" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-19 20:33: 21.2 (YELLOW)</title></circle><circle cx="241.8" cy="97.5" r="3.4" fill="#e6c200"><title>2026-10-20 00:38: 21.2 (YELLOW)</title></circle><circle cx="256.6" cy="96.0" r="3.4" fill="#e6c200"><title>2026-10-20 19:11: 22.6 (YELLOW)</title></circle><circle cx="271.5" cy="96.0" r="3.4" fill="#e6c200"><title>2026-10-21 00:07: 22.6 (YELLOW)</title></circle><circle cx="286.3" cy="105.1" r="3.4" fill="#1db954"><title>2026-10-21 19:16: 14.1 (GREEN)</title></circle><circle cx="301.2" cy="105.1" r="3.4" fill="#1db954"><title>2026-10-22 00:11: 14.1 (GREEN)</title></circle><circle cx="316.0" cy="95.6" r="3.4" fill="#e6c200"><title>2026-10-22 19:11: 23 (YELLOW)</title></circle>
+<text x="34" y="142" font-size="9" fill="#8b97a6">2026-10-13</text>
+<text x="316" y="142" font-size="9" fill="#8b97a6" text-anchor="end">2026-10-22 19:11</text>
 </svg></div>
 <table><tr><th>Run</th><th>Score</th><th>Flag</th><th>Alerts</th><th>Watches</th><th>S&amp;P drawdown</th></tr>
-<tr><td>2026-10-22 00:11</td><td>14.1</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>0</td><td>3</td><td>0.0%</td></tr><tr><td>2026-10-21 19:16</td><td>14.1</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>0</td><td>3</td><td>0.0%</td></tr><tr><td>2026-10-21 00:07</td><td>22.6</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>15</td><td>0.0%</td></tr><tr><td>2026-10-20 19:11</td><td>22.6</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>15</td><td>0.0%</td></tr><tr><td>2026-10-20 00:38</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>0.0%</td></tr><tr><td>2026-10-19 20:33</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>0.0%</td></tr><tr><td>2026-10-18 23:38</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>-0.3%</td></tr><tr><td>2026-10-18 18:03</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>-0.3%</td></tr><tr><td>2026-10-17 23:24</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>-0.3%</td></tr><tr><td>2026-10-17 17:51</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>-0.3%</td></tr><tr><td>2026-10-16 23:52</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>-1.1%</td></tr><tr><td>2026-10-16 18:47</td><td>23.7</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>13</td><td>-1.2%</td></tr><tr><td>2026-10-15 23:50</td><td>20.8</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>5</td><td>13</td><td>0.0%</td></tr><tr><td>2026-10-15 19:05</td><td>20.8</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>5</td><td>13</td><td>0.0%</td></tr><tr><td>2026-10-15 00:05</td><td>18.6</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>5</td><td>13</td><td>-1.1%</td></tr><tr><td>2026-10-14 19:19</td><td>18.6</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>5</td><td>13</td><td>-1.2%</td></tr><tr><td>2026-10-14 00:36</td><td>18.2</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>5</td><td>12</td><td>-0.1%</td></tr><tr><td>2026-10-13 20:38</td><td>18.2</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>5</td><td>12</td><td>-0.1%</td></tr><tr><td>2026-10-13 02:42</td><td>17.8</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>5</td><td>11</td><td>-0.1%</td></tr><tr><td>2026-10-12 22:28</td><td>17.8</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>5</td><td>11</td><td>-0.1%</td></tr></table>
+<tr><td>2026-10-22 19:11</td><td>23.0</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>7</td><td>14</td><td>-1.5%</td></tr><tr><td>2026-10-22 00:11</td><td>14.1</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>0</td><td>3</td><td>0.0%</td></tr><tr><td>2026-10-21 19:16</td><td>14.1</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>0</td><td>3</td><td>0.0%</td></tr><tr><td>2026-10-21 00:07</td><td>22.6</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>15</td><td>0.0%</td></tr><tr><td>2026-10-20 19:11</td><td>22.6</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>15</td><td>0.0%</td></tr><tr><td>2026-10-20 00:38</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>0.0%</td></tr><tr><td>2026-10-19 20:33</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>0.0%</td></tr><tr><td>2026-10-18 23:38</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>-0.3%</td></tr><tr><td>2026-10-18 18:03</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>-0.3%</td></tr><tr><td>2026-10-17 23:24</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>-0.3%</td></tr><tr><td>2026-10-17 17:51</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>-0.3%</td></tr><tr><td>2026-10-16 23:52</td><td>21.2</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>12</td><td>-1.1%</td></tr><tr><td>2026-10-16 18:47</td><td>23.7</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>6</td><td>13</td><td>-1.2%</td></tr><tr><td>2026-10-15 23:50</td><td>20.8</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>5</td><td>13</td><td>0.0%</td></tr><tr><td>2026-10-15 19:05</td><td>20.8</td><td><span class='chip' style='background:#e6c200'>YELLOW</span></td><td>5</td><td>13</td><td>0.0%</td></tr><tr><td>2026-10-15 00:05</td><td>18.6</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>5</td><td>13</td><td>-1.1%</td></tr><tr><td>2026-10-14 19:19</td><td>18.6</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>5</td><td>13</td><td>-1.2%</td></tr><tr><td>2026-10-14 00:36</td><td>18.2</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>5</td><td>12</td><td>-0.1%</td></tr><tr><td>2026-10-13 20:38</td><td>18.2</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>5</td><td>12</td><td>-0.1%</td></tr><tr><td>2026-10-13 02:42</td><td>17.8</td><td><span class='chip' style='background:#1db954'>GREEN</span></td><td>5</td><td>11</td><td>-0.1%</td></tr></table>
 
-<details><summary class='muted'>Data issues this run (90)</summary><ul class='muted'><li>DGS3MO - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DGS1 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DGS2 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DGS10 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DGS30 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>T10Y3M - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>T10Y2Y - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DFF - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DPRIME - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>MORTGAGE30US - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DFII10 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>T10YIE - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>CPIAUCSL - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>CPILFESL - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>PCEPI - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>PCEPILFE - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>PPIACO - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>T5YIE - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>T5YIFR - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>MICH - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>BAMLH0A0HYM2 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>BAMLC0A0CM - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>BAMLH0A3HYC - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>BAA10Y - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>NFCI - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>ANFCI - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>STLFSI4 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DRCCLACBS - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DRSFRMACBS - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DRBLACBS - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DRTSCILM - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DRTSCIS - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>BUSLOANS - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>TOTBKCR - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DPSACBW027SBOG - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>TOTRESNS - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>M2SL - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>M2REAL - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>WALCL - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>RRPONTSYD - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>WTREGEN - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>UNRATE - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>SAHMREALTIME - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>U6RATE - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>ICSA - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>IC4WSA - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>PAYEMS - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>MANEMP - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>TEMPHELPS - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>JTSJOL - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>JTSQUR - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>UEMPMED - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>EMRATIO - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>AWHMAN - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>CES0500000003 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>GDPC1 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>INDPRO - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>TCU - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>RSAFS - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>CMRMTSPL - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DGORDER - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>NEWORDER - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>AMTMNO - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>CFNAI - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>ISRATIO - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>TSIFRGHT - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>TRUCKD11 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>HOUST - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>PERMIT - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>HOUST1F - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>PERMIT1 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>HSN1F - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>CSUSHPINSA - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>MSACSR - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>UMCSENT - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>PSAVERT - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>PCE - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DSPIC96 - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>PI - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>TOTALSL - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>REVOLSL - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>TDSP - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>GFDEBTN - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>FYFSGDA188S - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>A091RC1Q027SBEA - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>MTSDS133FMS - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>CP - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>CPATAX - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DTWEXBGS - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li><li>DCOILWTICO - JSONDecodeError: Expecting value: line 1 column 1 (char 0)</li></ul></details>
+
 <p class="muted" style="margin-top:28px">Sources: Federal Reserve Economic Data (FRED), Yahoo Finance.
 Scoring: each indicator is ranked against its own 15-year history (percentile + 6-month trend), with
 crash-specific threshold rules (Sahm rule, curve inversion, credit-spread widening, claims momentum, drawdown/200-day
